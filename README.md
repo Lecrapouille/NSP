@@ -20,3 +20,7 @@ sudo make install
 ```
 
 Note: compiling with more cores (i.e. `-j8`) may fail the compilation. You can alternate `make -j1` and `make -j8` until it works.
+
+Compiled on:
+- Ubuntu 20 (not compiling with Ubuntu 22).
+- Debian 11.
