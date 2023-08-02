@@ -1496,8 +1496,8 @@ void Write2Vect(const double *vx,const double *vy, int from, int n, char *string
 #define FONTNUMBER 7
 #define FONTMAXSIZE 6
 #define SYMBOLNUMBER 10
-int FontsListPos[FONTNUMBER][FONTMAXSIZE];
-struct SciFontInfo { int ok;
+static int FontsListPos[FONTNUMBER][FONTMAXSIZE];
+static struct SciFontInfo { int ok;
   char fname[20];} FontInfoTabPos[FONTNUMBER];
 
 /* static char *sizePos[] = { "08" ,"10","12","14","18","24"}; */

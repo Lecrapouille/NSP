@@ -3,7 +3,7 @@
 /* Common Block Declarations */
 
 
-struct
+static struct
 {
   int ieh[2];
 } eh0001_;

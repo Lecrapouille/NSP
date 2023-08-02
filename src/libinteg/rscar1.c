@@ -3,7 +3,7 @@
 #define lsa001_1 lsa001_._3
 #define lsr001_1 lsr001_._3
 
-struct
+static struct
 {
   int ieh[2];
 } eh0001_;

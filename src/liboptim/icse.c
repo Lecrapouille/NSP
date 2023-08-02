@@ -312,7 +312,7 @@
 
 /* Common Block Declarations */
 
-struct
+static struct
 {
   double t0, tf, dti, dtf, ermx;
   int iu[5], nuc, nuv, ilin, nti, ntf, ny, nea, itmx, nex, nob, ntob, ntobi,
@@ -321,7 +321,7 @@ struct
 
 #define icsez_1 icsez_
 
-struct
+static struct
 {
   int nitv, nrtv, ndtv;
 } nird_;

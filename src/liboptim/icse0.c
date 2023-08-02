@@ -22,7 +22,7 @@
 
 /* Common Block Declarations */
 
-struct
+static struct
 {
   double t00, tf0, dti0, dtf0, ermx0;
   int iu0[5], nuc0, nuv0, ilin0, nti0, ntf0, ny0, nea0, itmx0, nex0, nob0,

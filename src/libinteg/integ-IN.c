@@ -64,7 +64,7 @@ struct _ode_data
 
 static ode_data ode_d ={ NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,0}; 
 
-extern struct {
+static struct {
   int mesflg, lunit;
 } C2F(eh0001);
 
