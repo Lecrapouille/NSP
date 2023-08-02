@@ -1,0 +1,90 @@
+% -*- mode: latex -*-
+% Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+% Copyright (C) 2008 - INRIA -
+%
+% This file must be used under the terms of the CeCILL.
+% This source file is licensed as described in the file COPYING, which
+% you should have received as part of this distribution.  The terms
+% are also available at
+% http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+%
+\mansection{realtime}
+\begin{mandesc}
+  \short{realtimeinit}{set up time unit for realtime function} \\
+  \short{realtime}{set up dates origin or waits until date} \\
+\end{mandesc}
+\index{realtimeinit}\label{realtimeinit}
+\index{realtime}\label{realtime}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  realtimeinit(time_unit)
+  realtime(t)
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{time\_unit}: a real number. The number of seconds associated to the \verb!realtime! argument
+    \vname{t}: a real number giving a date.
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  These two functions can be used to handle real time in nsp.
+  The function \verb!realtimeinit(time_unit)! defines the time unit
+  associated to the \verb!realtime! argument \verb!t!. A first call to
+  \verb!realtime(t0)! sets the current date to (\verb!t0!). Then,
+  subsequent calls to \verb!realtime(t)! wait till date \verb!t! is
+  reached.
+
+  Note that Gtk events are not managed when function realtime is called.
+\end{mandescription}
+%--example
+\begin{examples}
+
+\noindent A first example
+  \begin{mintednsp}{nsp}
+    realtimeinit(1/2);//sets time unit to half a second
+    realtime(0);//sets current date to 0
+    for k=1:10,realtime(k);printf('current time is '+string(k/2)+'sec .\n');end
+  \end{mintednsp}
+
+\noindent A second example which prints each 2 seconds the elapsed time since
+the call to \verb!tic!
+\begin{mintednsp}{nsp}
+  function showtime()
+    tic();for k=1:10,realtime(k);printf('\r%5.2f',toc());end;printf('\n');
+    printf('Elapsed time %5.2f\n',toc());
+  endfunction
+
+  realtimeinit(2);realtime(0);showtime();
+\end{mintednsp}
+
+\noindent An example with graphic animation
+
+\begin{mintednsp}{nsp}
+xsetech(frect=[-1,-1,1,1]*1.5,fixed=%t,clip=%t,iso=%t,axesflag=0);
+xset('thickness',2);
+xarc(-1,1,2,2,0,360*64,color=3,thickness=2);
+x1=[0;cos(90*%pi/180)];
+y1=[0;sin(90*%pi/180)];
+A=xarrows(x1,y1,arsize=0.2,style=1);
+S=xstring(-0.5,1.2," ",fill=%t,w=1,h=0.25);
+F=get_current_figure[];
+p=5;
+realtimeinit(1/p);//sets time unit to 1/p
+realtime(0);//sets current date to 0
+N=60;
+for k=linspace(1,N,5*N);
+  realtime(k);
+  A.x(2)= cos((90-(p*k*360/60))*%pi/180)
+  A.y(2)= sin((90-(p*k*360/60))*%pi/180)
+  S.text=sprintf("T=%5.2f s.",k/p);
+  F.invalidate[];
+  F.process_updates[];
+  xpause(0,%t); // gtk events are managed here
+end
+\end{mintednsp}
+
+\end{examples}
+%-- see also

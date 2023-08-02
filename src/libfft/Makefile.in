@@ -1,0 +1,29 @@
+SHELL = /bin/sh
+
+include ../../Makefile.incl
+SCIDIR=../..
+SCIDIR1=..\..
+
+LIBRARY = nsp.a
+
+CFLAGS = $(CC_OPTIONS) $(FFTW3_CFLAGS)
+FFLAGS = $(FC_OPTIONS)
+OBJSC  = fft-IN.o
+
+NOTHING=
+
+FFTPACK=zfftb.o cfftb1.o zfftf.o cfftf1.o zffti.o cffti1.o \
+	ezfft1.o dzfftb.o dzfftf.o dzffti.o dfftb.o rfftb1.o \
+	dfftf.o rfftf1.o dffti.o rffti1.o
+
+OBJSF=$(@IN_FFTPACK@)
+
+include ../Make.lib
+
+all:: Makefile.mak
+
+Makefile.mak	: Makefile
+	$(SCIDIR)/scripts/Mak2VCMak Makefile
+
+#--------------dependencies
+fft-IN.o: fft-IN.c ../include/nsp/config.h

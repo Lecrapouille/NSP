@@ -1,0 +1,127 @@
+% -*- mode: latex -*-
+%% Nsp
+%% Copyright (C) 1998-2015 Jean-Philippe Chancelier Enpc/Cermics, Bruno Pinçon Esial/Iecn
+%%
+%% This library is free software; you can redistribute it and/or
+%% modify it under the terms of the GNU General Public
+%% License as published by the Free Software Foundation; either
+%% version 2 of the License, or (at your option) any later version.
+%%
+%% This library is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+%% General Public License for more details.
+%%
+%% You should have received a copy of the GNU General Public
+%% License along with this library; if not, write to the
+%% Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+%% Boston, MA 02111-1307, USA.
+%%
+ 
+
+\mansection{solve}
+\begin{mandesc}
+  \short{solve}{solve a linear system}
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+ X= solve (A,b, mode=str)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A, b}: numerical matrices.
+    \vname{mode}: a string.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+This function solves the linear system $Ax = b$. The resolution is 
+controled by the optional mode parameter~:
+\begin{itemize}
+  \item \verb+"std"+: A is assumed square, LU decomposition is used 
+    through lapack routines \verb+dgetrf+ and \verb+dgetrs+ 
+    (\verb+zgetrf+ and \verb+zgetrs+ in the complex case).
+  \item \verb+"sympos"+: A is symmetric positive definite and lapack routines 
+    \verb+dpotrf+ and \verb+dpotrs+ (\verb+zpotrf+ and \verb+zpotrs+ for hermitian positive definite) are used. 
+  \item \verb+"lo"+: A is assumed lower triangular (i.e only \verb+tril(A)+ is used) and the 
+    system is solved using lapack routines \verb+dtrtrs+ (resp. \verb+ztrtrs+).
+  \item \verb+"loT"+: like for \verb+"lo"+, A is assumed lower triangular but solve $A^T x=b$.
+  \item \verb+"loH"+: like for \verb+"lo"+, A is assumed lower triangular but solve $A^H x=b$.
+  \item \verb+"up"+: A is assumed upper triangular (i.e only \verb+triu(A)+ is used) and the system is 
+    solved using lapack routines \verb+dtrtrs+ (resp. \verb+ztrtrs+).
+  \item \verb+"upT"+: like for \verb+"up"+, A is assumed upper triangular but solve $A^T x=b$.
+  \item \verb+"upH"+: like for \verb+"up"+, A is assumed upper triangular but solve $A^H x=b$.
+  \item \verb+"lsq"+: The system is solved in the least-square sense using 
+    lapack routines using lapack routines \verb+dgelsy+ (resp. \verb+zgelsy+).
+  \item \verb+"\\"+ A previous routine is selected by checking properties of \verb+A+.
+  \item \verb+"sym"+ A is symmetric and lapack routines 
+    \verb+dsytrf+ and \verb+dsytrs+ (\verb+zsytrf+ and \verb+zsytrs+ for symmetric complex) are used. 
+\end{itemize}
+\end{mandescription}
+
+\begin{examples}
+  \paragraph{example 1} simple examples
+  \begin{mintednsp}{nsp}
+    n=10;b=rand(n,2);A=rand(n,n);
+    x=solve(A,b,mode="std"); 
+    if norm(A*x-b) > 1.e-10 then pause;end 
+    // lower triangular
+    x=solve(A,b,mode="lo"); 
+    if norm(tril(A)*x-b)> 1.e-10  then pause;end 
+    // upper triangular 
+    x=solve(A,b,mode="up"); 
+    if norm(triu(A)*x-b)> 1.e-10  then pause;end 
+    // symetric 
+    x=solve(A*A',b,mode="sym"); 
+    if norm(A*A'*x-b)> 1.e-10 then pause;end 
+    // least square 
+    x=solve(A,b,mode="lsq"); 
+    if norm(A*x-b)> 1.e-10 then pause;end 
+    // symmetric positive definite 
+    x=solve(A*A',b,mode="sympos"); 
+    if norm(A*A'*x-b) > 1.e-7 then pause;end 
+    b=rand(n,2);A=rand(n,n);
+    A= A + %i*rand(n,n);
+    // symetric 
+    x=solve(A*A.',b,mode="sym"); 
+    if norm(A*A.'*x-b)> 1.e-7 then pause;end 
+    // hermitian positive definite 
+    x=solve(A*A',b,mode="sympos"); 
+    if norm(A*A'*x-b) > 1.e-7 then pause;end
+  \end{mintednsp}
+
+  \paragraph{example 2} Using solve with factorisations. When you factorize a square 
+  matrix with \manlink{lu}{lu} or \manlink{chol}{chol} (or \manlink{qr}{qr}) you can
+  use the backslash operator \verb+\+ to solve the triangular systems with efficiency
+  (backslash detects the triangular matrix structure and call the good routine) but 
+  using directly \verb+solve+ (with the good option) is faster.
+  \begin{mintednsp}{nsp}
+    n=800;b=rand(n,2);A=randn(n,n);
+    [L,U,p] = lu(A); 
+    // solving the 2 triangular system with backslash
+    tic(); x = U\(L\b(p,:)); toc()
+    norm(A*x-b,1)/norm(b) 
+    // solving the 2 triangular system with solve
+    tic(); x = solve(U, solve(L,b(p,:),mode="lo"), mode="up"); toc()
+    norm(A*x-b,1)/norm(b) 
+    // form a symetric positive definite matrix
+    A = A'*A; // you can use pmult(A,A)
+    C = chol(A); // C'C=A with C upper triangular  
+    // solving the 2 triangular system with backslash
+    tic(); x = C\(C'\b); toc()
+    norm(A*x-b,1)/norm(b) 
+    // solving the 2 triangular system with solve
+    tic(); x = solve(C, solve(C,b,mode="upT"), mode="up"); toc()
+    norm(A*x-b,1)/norm(b)
+  \end{mintednsp}
+
+\end{examples}
+
+% -- Authors
+\begin{authors}
+  interface by Jean-Philippe Chancelier and Bruno Pincon. Internal use of lapack 
+  routines described above.
+\end{authors}

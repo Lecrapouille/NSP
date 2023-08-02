@@ -1,0 +1,7 @@
+*.stamp
+*.back
+.nsp_history
+tmpl
+xml
+nspdoc-unused.txt
+nspdoc-undocumented.txt 

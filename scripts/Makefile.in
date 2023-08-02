@@ -1,0 +1,126 @@
+SHELL = /bin/sh
+
+include ../Path.incl
+include ../Makefile.incl
+
+IP = $(SCIDIR)/Path.incl
+
+SBIN = $(SCIDIR)/bin
+UTIL = $(SCIDIR)/util
+
+XXBPROGRAMS = $(SBIN)/Blatexpr $(SBIN)/Blatexpr2 \
+	$(SBIN)/Blatexprs $(SBIN)/Blpr $(SBIN)/BEpsf \
+	$(UTIL)/Blatdoc $(UTIL)/Blatdocs
+
+PROGRAMS = $(SBIN)/nsp nsp-inst Path.incl @BLPR_SCRIPTS@ \
+	$(SBIN)/nsplibtool nsplibtool-inst
+
+all:: $(PROGRAMS)
+
+CYGDRIVE= -e "s+/cygdrive/\([a-zA-Z]*\)/+\1:/+g" 
+SED_CYGDRIVE= @SED_CYGDRIVE@
+
+# script for local use 
+
+$(SBIN)/nsp: @NSP_SCRIPT@ $(IP) 
+	@$(RM) $(SBIN)/nsp
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" $(SED_CYGDRIVE) \
+		@NSP_SCRIPT@ > nsp;
+	@cp nsp $(SBIN)
+	@chmod 775 $(SBIN)/nsp
+	@$(RM) nsp
+	@echo $(SBIN)/nsp created
+
+# script which uses prefix 
+# DESTDIR is where the software will be installed 
+# it can be different from $(prefix)/lib/nsp when 
+# packaging scripts are used 
+
+DESTDIR=$(prefix)/lib/nsp
+
+nsp-inst: @NSP_SCRIPT@ $(IP)  ../Makefile.incl
+	@$(RM) nsp-inst
+	@sed -e "s+NSP_DIRECTORY+$(DESTDIR)+" $(SED_CYGDRIVE) \
+		@NSP_SCRIPT@ > nsp-inst;
+
+nsp.pc: nsp.pc.g $(IP)  ../Makefile.incl
+	@$(RM) nsp.pc
+	@sed -e "s+NSP_DIRECTORY+$(DESTDIR)+" $(SED_CYGDRIVE) \
+		nsp.pc.g > nsp.pc;
+
+$(SBIN)/nsplibtool: nsplibtool $(IP) 
+	@$(RM) $@
+	@sed 	-e "s+NSP_DIRECTORY+$(SCIDIR)+g"  nsplibtool > $@ 
+	@chmod 775 $@
+	@echo $@ created
+
+# script which uses prefix 
+
+nsplibtool-inst: nsplibtool $(IP) 
+	@$(RM) $@
+	@sed -e "s+NSP_DIRECTORY+$(DESTDIR)+g" nsplibtool > $@ 	
+
+Path.incl: $(IP)  ../Makefile.incl
+	@$(RM) Path.incl
+	@echo "SCIDIR=$(DESTDIR)" > $@ 
+
+$(SBIN)/Blatexpr: Blatexpr.g $(IP)
+	@$(RM) $(SBIN)/Blatexpr
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" Blatexpr.g > Blatexpr;
+	@cp Blatexpr $(SBIN)
+	@chmod 775 $(SBIN)/Blatexpr
+	@$(RM) Blatexpr
+	@echo $(SBIN)/Blatexpr created
+
+$(SBIN)/BEpsf: BEpsf.g $(IP)
+	@$(RM) $(SBIN)/BEpsf
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" BEpsf.g > BEpsf;
+	@cp BEpsf $(SBIN)
+	@chmod 775 $(SBIN)/BEpsf
+	@$(RM) BEpsf
+	@echo $(SBIN)/BEpsf created
+
+$(SBIN)/Blatexpr2: Blatexpr2.g $(IP)
+	@$(RM) $(SBIN)/Blatexpr2
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" Blatexpr2.g > Blatexpr2;
+	@cp Blatexpr2 $(SBIN)
+	@chmod 775 $(SBIN)/Blatexpr2
+	@$(RM) Blatexpr2
+	@echo $(SBIN)/Blatexpr2 created
+
+$(SBIN)/Blatexprs: Blatexprs.g $(IP)
+	@$(RM) $(SBIN)/Blatexprs
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" Blatexprs.g > Blatexprs;
+	@cp Blatexprs $(SBIN)
+	@chmod 775 $(SBIN)/Blatexprs
+	@$(RM) Blatexprs
+	@echo $(SBIN)/Blatexprs created
+
+$(SBIN)/Blpr: Blpr.g $(IP)
+	@$(RM) $(SBIN)/Blpr
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" Blpr.g > Blpr;
+	@cp Blpr $(SBIN)
+	@chmod 775 $(SBIN)/Blpr
+	@$(RM) Blpr
+	@echo $(SBIN)/Blpr created
+
+$(UTIL)/Blatdoc: Blatdoc.g $(IP)
+	@$(RM) $(UTIL)/Blatdoc
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" Blatdoc.g > Blatdoc;
+	@cp Blatdoc $(UTIL)
+	@chmod 775 $(UTIL)/Blatdoc
+	@$(RM) Blatdoc
+	@echo $(UTIL)/Blatdoc created
+
+$(UTIL)/Blatdocs: Blatdocs.g $(IP)
+	@$(RM) $(UTIL)/Blatdocs
+	@sed -e "s+NSP_DIRECTORY+$(SCIDIR)+" Blatdocs.g > Blatdocs;
+	@cp Blatdocs $(UTIL)
+	@chmod 775 $(UTIL)/Blatdocs
+	@$(RM) Blatdocs
+	@echo $(UTIL)/Blatdocs created
+
+distclean::
+	@$(RM) $(PROGRAMS) 
+
+clean::

@@ -1,0 +1,43 @@
+% -*- mode: latex -*-
+
+\mansection{split}
+\begin{mandesc}
+  \short{split}{string splitting}
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+B=split(S [, msep=bool , sep= string]) 
+\end{verbatim}
+\end{calling_sequence}
+
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{S}: a string matrix.
+    \vname{B}: a \verb+mxn+ string matrix, where \verb+m+ is the size 
+    of \verb+S+ considered as a column vector and \verb+n+ is the number 
+    of tokens obtained by splitting each string of \verb+S+.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+splits the strings given in string matrix \verb+S+
+using the optional argument \verb+sep+ as a set of one char separator 
+(default value is \verb+' \t\n'+). The function fails if all the 
+strings given in \verb+S+ cannot be splitted with the same number of tokens. 
+If \verb+msep=%t+ then consecutive char
+separator are accepted as one valid separator. 
+\end{mandescription}
+
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    split('la terre est bleue',sep=' ');
+    split('la terre est   bleue',sep=' ',msep=%t);
+    split('la terre,est; bleue',msep=%t,sep=',; ');
+    split(['A B C','D E F'],sep=' ')
+  \end{mintednsp}
+\end{examples}
+
+% -- see also
+

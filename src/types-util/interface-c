@@ -1,0 +1,70 @@
+/* -*- Mode: C -*- */
+/*-------------------------------------------------------------------
+ * This Software is ( Copyright ENPC 1998 )                          
+ * Jean-Philippe Chancelier Enpc/Cergrene                            
+ *-------------------------------------------------------------------*/
+
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+
+#define  @TYPENAME@_Private 
+#include "nsp/object.h"
+
+#include "nsp/pr-output.h" 
+#include "nsp/interf.h"
+#include "nsp/matutil.h"
+#include "nsp/@TYPEDOWNCASE@.h" 
+
+/* 
+ * interface Nsp@TYPENAME@ 
+ */
+
+int nsp_type_@TYPEDOWNCASE@_id=0;
+NspType@TYPENAME@ *nsp_type_@TYPEDOWNCASE@=NULL;
+
+NspType@TYPENAME@ *new_type_@TYPEDOWNCASE@(type_mode mode)
+{
+  NspType@TYPENAME@ *type = NULL;
+  if ( nsp_type_@TYPEDOWNCASE@ != 0 && mode == T_BASE )
+    {
+      /* initialization performed and T_BASE requested */
+      return nsp_type_@TYPEDOWNCASE@;
+    }
+
+  if ((type =  calloc(1,sizeof(NspType@TYPENAME@)))==NULL) return NULL;
+  type->interface = NULL;
+  type->surtype =(NspTypeBase *) new_type_object(T_DERIVED);
+  if ( type->surtype == NULL) return NULL;
+
+  /* specific methods for @TYPEDOWNCASE@ */
+      
+  type->init = NULL;
+      
+  /* 
+   * @TYPENAME@ interfaces can be added here 
+   * type->interface = (NspTypeBase *) new_type_b();
+   * type->interface->interface = (NspTypeBase *) new_type_C()
+   * ....
+   */
+  
+  if ( nsp_type_@TYPEDOWNCASE@_id == 0 ) 
+    {
+      /* 
+       * the first time we get here we initialize the type id and
+       * an instance of NspType@TYPENAME@ called nsp_type_@TYPEDOWNCASE@
+       */
+      type->id =  nsp_type_@TYPEDOWNCASE@_id = nsp_new_type_id();
+      nsp_type_@TYPEDOWNCASE@ = type;
+      if ( nsp_register_type(nsp_type_@TYPEDOWNCASE@) == FALSE) return NULL;
+      return ( mode == T_BASE ) ? type : new_type_@TYPEDOWNCASE@(mode);
+    }
+  else 
+    {
+      type->id = nsp_type_@TYPEDOWNCASE@_id;
+      return type;
+    }
+}
+
+
+

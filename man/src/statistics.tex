@@ -1,0 +1,85 @@
+\chapter*{random numbers, basic statistics, distribution functions}\addcontentsline{toc}{chapter}{random numbers, basic statistics, distribution functions}
+
+\HCode{<hr>}
+Random numbers generation
+
+\begin{quote}
+\noindent
+\hyperlink{grand}{grand} - random numbers generation\\
+\hyperlink{rand}{rand} - generates random variates from the uniform distribution (shortcut for grand(m,n,"def"))\\
+\hyperlink{randn}{randn} - generates random variates from the normal distribution (shortcut for grand(m,n,"nor",0,1))
+\end{quote}
+
+\HCode{<hr>}
+Statistic functions
+
+\begin{quote}
+\noindent
+\hyperlink{mean}{mean} - arithmetic mean (usual, weighted and trimmed mean)\\
+\hyperlink{median}{median} - median computation\\
+\hyperlink{var}{var} - variance and weighted variance\\
+\hyperlink{std}{std} - standard deviation and weighted standard deviation\\
+\hyperlink{mad}{mad} - median of absolute deviations around the median or mean of absolute deviations around the mean\\
+\hyperlink{cov}{cov} - covariance matrix and weighted covariance matrix\\
+\hyperlink{quantile}{quantile} - sample quantile calculations\\
+\end{quote}
+
+
+
+\HCode{<hr>}
+Distribution functions
+
+Generic functions: 
+\begin{quote}
+\noindent
+\hyperlink{pdf}{pdf} - probability density or mass functions \\
+\hyperlink{cdf}{cdf} - cumulative distribution functions \\
+\hyperlink{icdf}{icdf} - inverse cumulative distribution (aka quantile) functions \\
+\hyperlink{dist_stat}{dist\_stat} - compute mean and standard deviation of some probability distributions \\
+\end{quote}
+
+Specialized functions: 
+\begin{quote}
+\noindent
+\hyperlink{cdfbet}{cdfbet} - beta cdf and invcdf function \\
+\hyperlink{cdfbin}{cdfbin} - binomial cdf and invcdf function \\
+\hyperlink{cdfchi}{cdfchi} - chi square cdf and invcdf function \\
+\hyperlink{cdfchn}{cdfchn} - non central chi square cdf and invcdf function \\
+\hyperlink{cdff}{cdff} - f cdf and invcdf function \\
+\hyperlink{cdffnc}{cdffnc} - non central f cdf and invcdf function \\
+\hyperlink{cdfgam}{cdfgam} - gamma cdf and invcdf function \\
+\hyperlink{cdfnbn}{cdfnbn} - negative binomial cdf and invcdf function \\
+\hyperlink{cdfnor}{cdfnor} - normal cdf and invcdf function \\
+\hyperlink{cdfpoi}{cdfpoi} - poisson cdf and invcdf function \\
+\hyperlink{cdft}{cdft} - student t cdf and invcdf function \\
+\hyperlink{cdftnc}{cdftnc} - non central student t cdf and invcdf function \\
+\end{quote}
+
+
+\input{\mansrc statistics/grand.tex}
+\input{\mansrc statistics/rand.tex}
+\input{\mansrc statistics/randn.tex}
+
+\input{\mansrc statistics/mean.tex}
+\input{\mansrc statistics/median.tex}
+\input{\mansrc statistics/var.tex}
+\input{\mansrc statistics/mad.tex}
+\input{\mansrc statistics/cov.tex}
+\input{\mansrc statistics/quantile.tex}
+
+\input{\mansrc statistics/pdf.tex}
+\input{\mansrc statistics/cdf.tex}
+\input{\mansrc statistics/dist_stat.tex}
+
+\input{\mansrc statistics/cdfbet.tex}
+\input{\mansrc statistics/cdfbin.tex}
+\input{\mansrc statistics/cdfchi.tex}
+\input{\mansrc statistics/cdfchn.tex}
+\input{\mansrc statistics/cdff.tex}
+\input{\mansrc statistics/cdffnc.tex}
+\input{\mansrc statistics/cdfgam.tex}
+\input{\mansrc statistics/cdfnbn.tex}
+\input{\mansrc statistics/cdfnor.tex}
+\input{\mansrc statistics/cdfpoi.tex}
+\input{\mansrc statistics/cdft.tex}
+\input{\mansrc statistics/cdftnc.tex}

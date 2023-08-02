@@ -1,0 +1,442 @@
+% -*- mode: latex -*-
+\mansection{grand}
+\begin{mandesc}
+  \short{grand}{random numbers generation}
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+X=grand(m, n, dist_type [,p1,...,pk])  
+X=grand(Mat, dist_type [,p1,...,pk])  
+X=grand(n, dist_type [,p1,...,pk])  
+S=grand(action [,q1,....,ql])  
+\end{verbatim}
+\end{calling_sequence}
+  %-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{m, n}: integers, size of the wanted matrix \verb!X!
+   \vname{Mat}: a matrix whom only the dimensions (say \verb!m x n!) are used
+   \vname{dist\_type}: a string giving the distribution from which (independants) variates are to be 
+     generated (\verb!"bin"! for binomial, , \verb!"nor"! for normal , \verb!"poi"! for Poisson, etc ...)
+   \vname{p1, ..., pk}: the parameters (reals or integers) required to define the distribution 
+    \verb!dist_type!
+   \vname{X}: the resulting \verb!m x n! random matrix
+   \vname{action}: a string giving the action onto the base generator(s) (\verb!"setgen"! to change the current base 
+     generator,  \verb!"getgen"! to get the current base generator name, \verb!"getsd"! to get the 
+     state (seeds) of the current base generator, etc ...)
+   \vname{q1, ..., ql}: the parameters (generally one string) needed to define the action
+   \vname{S}: output of the action (generally a string or a real column vector)
+  \end{varlist}
+  \end{parameters}
+  
+\begin{mandescription}
+  This function may be used to generate random numbers from various distributions. In this 
+  case you must apply one of the three first forms of the possible
+  calling sequences to get an \verb!m x n! matrix. 
+  The two firsts are equivalent if \verb!Mat! is a \verb!m x n! matrix, 
+  and the third one corresponds to multivariate distributions (e.g. multinomial, multivariate
+  gaussian, etc...) where a sample is a column vector (says of dim \verb!m!)
+  and you get then \verb!n! such random vectors (as an \verb!m x n! matrix). 
+  The last form is used to undertake various manipulations onto the base generators
+  like changing the base generator or changing or retrieving its internal state (seeds), 
+  etc ... These base generators give random integers following a
+  uniform distribution on a large integer interval of the form $[0,n)$
+  (with $n=2^{32}$ in most cases).  Others distributions are got from
+  this one through various transformations.
+
+\end{mandescription}
+
+%-- section-Getting random numbers from a given distribution
+\paragraph{Getting random numbers from a given distribution}
+
+%\begin{description}
+%\item[univariate distributions] Rmk: 
+%\begin{enumerate}
+%\item distribution parameters could be either scalars or vectors or
+%  matrices of same dimensions than the wanted output matrix
+%\item densities or mass functions for most these distributions are
+%  explicited in the \manlink{pdf}{pdf} help page.
+%\end{enumerate}
+
+\begin{enumerate}
+\item {\bf univariate distributions:} 
+
+\begin{quote}
+    For univariate distributions, distribution parameters could be either scalars or vectors or
+    matrices of same dimensions than the wanted output matrix. Densities or mass functions for most 
+    these distributions are explicited in the \manlink{pdf}{pdf} help page.
+\end{quote}
+
+\begin{itemize}
+\item \itemdesc{beta} \verb!X=grand(m,n,"bet",a,b)! generates random variates from 
+  the \hyperlink{betapdf}{beta distribution} with parameters $a$ and $b$ (positive reals).
+
+\item \itemdesc{binomial} 
+  \verb!X=grand(m,n,"bin",n,p)!  generates random variates from the \hyperlink{binpdf}{binomial 
+  distribution} with parameters $n$ (positive integer) and $p$
+  (real in [0,1]).
+
+\item \itemdesc{negative binomial} 
+  \verb!X=grand(m,n,"nbn",r,p)! generates random variates from the \hyperlink{nbnpdf}{negative binomial 
+  distribution} with parameters $r$ (positive real) and $p$ (real 
+  in $(0,1]$).
+  
+\item \itemdesc{Cauchy} 
+  \verb!X=grand(m,n,"cauchy", sigma)! generates random variates from the  \hyperlink{caupdf}{Cauchy distribution} 
+  with (scale) parameter $sigma$ (positive real).
+  
+\item \itemdesc{chi square} 
+  \verb!X=grand(m,n,"chi", nu)! generates random variates from the  \hyperlink{chipdf}{chisquare distribution} 
+  with $nu$ (positive real) degrees of freedom. 
+  
+\item \itemdesc{non central chisquare} 
+  \verb!X=grand(m,n,"nch",nu,xnonc)! generates random variates from the non central chisquare
+  distribution with $nu$ degrees of freedom (real $\ge 1$) and
+  noncentrality parameter $xnonc$ (non negative real).
+  
+\item \itemdesc{exponential} \verb!X=grand(m,n,"exp",tau)! generates random variates from the  \hyperlink{exppdf}{exponential
+  distribution} with mean $\tau$ (non negative real). Caution : usually
+  the exponential distribution 's parameter is $\lambda= 1/\tau$.  
+  
+\item \itemdesc{F variance ratio} 
+  \verb!X=grand(m,n,"f",nu1,nu2)! generates random variates from the \hyperlink{fpdf}{F 
+  (variance ratio) distribution} with $nu1$ (positive real)
+  degrees of freedom in the numerator and $nu2$ (positive real) 
+  degrees of freedom in the denominator. 
+  
+\item \itemdesc{non central F variance ratio} 
+  \verb!X=grand(m,n,"nf",nu1,nu2,xnonc)! generates random variates from the noncentral 
+  F (variance ratio)  distribution with $nu1$ (real $\ge 1$) degrees of freedom 
+  in the numerator, and $nu2$ (positive real) degrees of freedom in the denominator, 
+  and noncentrality parameter $xnonc$ (non negative real). 
+  
+\item \itemdesc{gamma} \verb!X=grand(m,n,"gam",a,b)! generates random variates from the  \hyperlink{gampdf}{gamma 
+  distribution} with shape parameter $a$ (positive real) and rate
+  parameter $b$ (positive real). Caution: often the second parameter
+  is the ``scale'', the inverse of the ``rate''.  
+  
+\item \itemdesc{Gauss Laplace (normal)} 
+  \verb!X=grand(m,n,"nor",mu,sigma)! generates random variates from the \hyperlink{norpdf}{normal 
+  distribution} with mean $\mu$ (real)  and standard deviation $\sigma$
+  (non negative real). 
+  
+\item \itemdesc{geometric} \verb!X=grand(m,n,"geom", p)! generates random variates from the \hyperlink{geompdf}{geometric
+  distribution} with parameter $p$ (real in $(0,1]$): number of Bernoulli trials (with 
+  probability succes of $p$) until a succes is met.
+
+\item \itemdesc{finite discrete distributions} 
+  \verb!X=grand(m,n,"disc",P)! could generates random integers from any
+  finite discrete probability distribution given by the probability
+  vector $P$ ($P(i)$ being the probability to get $X=i$). Rmk: if the 
+  support of the distribution is not $\{1,\dots,length(P)\}$ you have
+  an additionnal step for generate ramdom variates, for example to
+  generate random variate with support  $\{0,1,\dots,length(P)-1\}$
+  simply use \verb!X=grand(m,n,"disc",P)-1!. More generally if $P(i)$ is
+  the probability associated to $val(i)$ then you can use 
+  \verb!ind=grand(m,n,"disc",P); X = val(ind); X.redim[m,n]!. 
+  
+\item \itemdesc{Laplace} 
+  \verb!X=grand(m,n,"lap",a)! generates random variates from the \hyperlink{lappdf}{Laplace 
+  distribution} with (scale) parameter $a$ (positive real).
+  
+\item \itemdesc{logistic} 
+  \verb!X=grand(m,n,"logi",a,b)! generates random variates from the \hyperlink{logipdf}{logistic 
+  distribution} with (location) parameter $a$ (real) and (scale) parameter $b$ (positive real).
+  
+\item \itemdesc{log normal} 
+  \verb!X=grand(m,n,"logn",mu,sigma)! generates random variates from the  \hyperlink{lognpdf}{log normal
+  distribution} with parameter $\mu$ (real) and  $\sigma$ (non negative real).
+  
+\item \itemdesc{Pareto} 
+  \verb!X=grand(m,n,"par",a,b)! generates random variates from the  \hyperlink{parpdf}{Pareto 
+  distribution} with (shape) parameter $a$ (positive real) and (location) parameter $b$ (positive real).
+
+\item \itemdesc{Poisson} \verb!X=grand(m,n,"poi",mu)! generates random
+  variates from the \hyperlink{poipdf}{Poisson distribution} with parameter $\mu$. 
+  
+\item \itemdesc{Rayleigh} 
+  \verb!X=grand(m,n,"ray",sigma)! generates random variates from the  \hyperlink{raypdf}{Rayleigh 
+  distribution} with (scale) parameter $\sigma$ (positive real).
+  
+\item \itemdesc{tail Rayleigh} 
+  \verb!X=grand(m,n,"tray",a, sigma)! generates random variates from the
+  \hyperlink{traypdf}{tail (from $a$) of the Rayleigh distribution} with (scale) parameter 
+  $\sigma$ (positive real). The (tail) parameter $a$ must be a non negative
+  real (for $a=0$ we have the original Rayleigh distribution).
+
+\item \itemdesc{Student's t} 
+  \verb!X=grand(m,n,"t", nu)! generates random variates from the  \hyperlink{tpdf}{t distribution} 
+  with $\nu$ (positive real) degrees of freedom. 
+
+\item \itemdesc{Non central Student's t} 
+  \verb!X=grand(m,n,"nt", nu,delta)! generates random variates from the non central Student t distribution
+  with $\nu$ (positive real) degrees of freedom and non centrality parameter $\delta$. 
+
+\item \itemdesc{uniform (def)} \verb!X=grand(m,n,"def")! generates random variates from the uniform 
+  distribution over $[0,1)$ (1 is never returned).
+
+\item \itemdesc{uniform (unf)} \verb!X=grand(m,n,"unf",a,b)! generates random reals uniformly distributed 
+    in $[a, b]$.
+
+\item \itemdesc{uniform (uin)} \verb!X=grand(m,n,"uin",n1,n2)! generates random integers uniformly 
+      distributed between $n_1$ and $n_2$ (included). $n_1$ and $n_2$ must be integers such that 
+      $n_2-n_1+1 < 2,147,483,561$.
+
+\item \itemdesc{uniform (lgi)} \verb!X=grand(m,n,"lgi")! returns the basic output of the current generator : random integers  
+      following a uniform distribution over : 
+      \begin{itemize}
+      \item \verb![0, 2^32 - 1]! for mt, kiss, fsultra and well1024a
+      \item \verb![0, 2^31 - 2]! for clcg4
+      \item \verb![0, 2147483561]! for clcg2
+      \end{itemize}
+
+\item \itemdesc{uniform (8bits)} \verb!X=grand(m,n,"8bits")! generates random integers uniformly 
+      distributed over $[0,255]$.
+  
+\item \itemdesc{Weibull} 
+  \verb!X=grand(m,n,"wei",a,b)! generates random variates from the  \hyperlink{weipdf}{Weibull 
+  distribution} with (scale) parameter $a$ (positive real) and (shape) parameter $b$ (positive real).
+\end{itemize}
+
+~~~~
+
+\item {\bf multivariate distributions:}
+\begin{itemize}
+\item \itemdesc{multivariate gaussian (multivariate normal)}
+  \verb!X=grand(n,"mn",Mean,Cov)! generates  $n$ multivariate normal random variates ; 
+  $Mean$ must be a $m \times 1$ matrix and $Cov$ a  $m \times m$ 
+  symetric positive definite matrix  ($X$ is then a  $m \times n$
+  matrix).
+
+\item \itemdesc{multinomial} 
+   \verb!X=grand(n,"mul",nb,P)! generates \verb!n! observations from the Multinomial 
+  distribution :  class \verb!nb! events in \verb!m! categories (put \verb!nb!
+  "balls" in \verb!m! "boxes"). \verb!P(i)! is the probability 
+  that an event will be classified into category i. \verb!P! the vector of probabilities
+  is of size  \verb!m-1! (the probability of category \verb!m! being \verb!1-sum(P)!).
+  \verb!X! is of size \verb!m x n!, each column \verb!X(:,j)! being an observation 
+  from multinomial distribution and \verb!X(i,j)! the number of events falling in category 
+  \verb!i! (for the \verb!j! th observation) (\verb!sum(X(:,j)) = nb!).
+  
+\item \itemdesc{uniform on the unit sphere}
+  \verb!X=grand(n,"sph",d)! generate ($n$) random points uniformly
+  distributed on the unit sphere of \verb!R^d!. For a sphere of radius
+  $r$ and center $C$ (a column vector), you can use: 
+  \verb!X = C*ones(1,n) + r*grand(n,"sph",d)!.
+  
+\item \itemdesc{uniform inside the unit sphere}
+  \verb!X=grand(n,"insph",d)! generate ($n$) random points uniformly
+  distributed inside the unit sphere of \verb!R^d!. For a sphere of radius
+  $r$ and center $C$ (a column vector), you can use: 
+  \verb!X = C*ones(1,n) + r*grand(n,"insph",d)!.
+  
+\item \itemdesc{uniform on simplex}
+  \verb!X=grand(n,"simp",dim)! generate ($n$) random points uniformly
+  distributed on the simplex $\{ (x_1,...,x_{dim}): x_i >=0, \sum
+  x_i = 1 \}$. To generate on the simplex with vertices (columnwise) 
+  stacked in the matrix \verb!P = [P_1 | .... | P_(dim+1)]! (the jth column of $P$ 
+  correspond to the j th  vertex), you can use:
+  \verb!coord = grand(n,"simp",dim); X = P*[coord; 1-sum(coord,1)];!.
+ 
+\item \itemdesc{markov} 
+  \verb!X=grand(n,"markov",P,x0)! generates \verb!n! successive states of a Markov chain 
+  described  by the transition matrix \verb!P!. Initial state is  given by 
+  \verb!x0!. If \verb!x0! is a matrix of size \verb!m=size(x0,"*")! 
+  then \verb!X! is a matrix of size \verb!m x n!. \verb!X(i,:)! is the sample 
+  path  obtained from initial state \verb!x0(i)!.
+
+\item \itemdesc{random permutations} \verb!X=grand(n,"prm",vect)! generate $n$ random permutations of the
+  column vector $vect$ (in a uniform way over all possible permutations).
+
+\item \itemdesc{random permutations of $(1,..,m)$}
+  \verb!X=grand(n,"perm",m)! generate $n$ random permutations of the
+  vector $[1;2;...;m]$ (in a uniform way over the all $m!$ possible permutations).
+
+\item \itemdesc{random samples}
+  \verb!X=grand(n,"smpl",p,m)! generate $n$ random samples of size $p$
+  of the vector $[1;2;...;m]$ (that is select $p$ different elements
+  of $\{1,2,...,m\}$) in a uniform way. If you need ordered samples
+  sort the resulting matrix with \verb!X=sort(X,"r","i")!.
+
+\end{itemize}
+
+\end{enumerate}
+
+%-- section-Set/get the current generator and its state
+\paragraph{Set/get the current generator and its state}
+~~\\
+
+You have the possibility to choose between different base 
+generators (which give random integers following the \verb!"lgi"!
+distribution). Each one provides its own sequence which is ultimately 
+periodic. By default, the sequence is started from the same fixed 
+internal state and so gives the same ``random numbers'' each time you 
+start nsp (see here after ``How to set ``randomly'' the initial state'' 
+to change this behavior). The available base generators are:
+\begin{itemize}
+\item \itemdesc{mt}  the Mersenne-Twister of M. Matsumoto and T. Nishimura, period about \verb!2^19937!, 
+  state given by an array of \verb!624! integers (plus an index onto this array); this  
+  is the default generator.
+\item \itemdesc{kiss}  The Keep It Simple Stupid of G. Marsaglia,  period about \verb!2^123!,
+  state given by \verb!4! integers.
+\item \itemdesc{clcg2}  a Combined 2 Linear Congruential Generator of P. L'Ecuyer,
+  period about \verb!2^61!, state given by \verb!2! integers.
+\item \itemdesc{clcg4}  a Combined 4 Linear Congruential Generator of P. L'Ecuyer,
+  period about \verb!2^121!, state given by 4 integers ; this one is 
+  splitted in \verb!101! different virtual (non over-lapping) generators 
+  which may be useful for different tasks (see 'Actions specific to clcg4' and
+  'Test example for clcg4').
+\item \itemdesc{well1024a} from Francois Panneton, Pierre L'Ecuyer and
+  Makoto Matsumoto. Period of about \verb!2^1024!, state given by an array of $32$
+  integers (plus an index onto this array);
+\item \itemdesc{fsultra} a Subtract-with-Borrow generator mixing with a congruential
+  generator of Arif Zaman and George Marsaglia, period more than \verb!10^356!,
+  state given by an array of 37 integers (plus an index onto this array, a flag (0 or 1)
+  and another integer). 
+\end{itemize}
+
+Actions common to all generators are:
+\begin{itemize}
+
+\item \itemdesc{"getgen"}  \verb!S=grand("getgen")! returns the current base generator ( \verb!S! is
+  a string among "mt", "kiss", "clcg2", "clcg4", "well1024a", "fsultra").
+\item \itemdesc{action= "setgen"} \verb!grand("setgen",gen)! sets the current base generator to be \verb!gen!
+  a string among "mt", "kiss", "clcg2", "clcg4", "well1024a", "fsultra" (notes that this call 
+  returns the new current generator, ie gen).
+\item \itemdesc{"getsd"} \verb!S=grand("getsd")! gets the current state of the current base
+  generator ; \verb!S! is given as a column vector (of integers) of dimension \verb!625! 
+  for mt (the first being an index in \verb![1,624]!), \verb!4! for kiss, \verb!2! 
+  for clcg2,  \verb!40! for fsultra, \verb!4! for clcg4 (for this one
+  you get the current state of the current virtual generator), \verb!33! for
+  well1024a (the first being an index in \verb![1,32]!).
+\item \itemdesc{"setsd"} \verb!grand("setsd",S)! sets the state of the current 
+  base generator (the new seeds). $S$ is either a vector describing a
+  complete state or only one integer (in this case a complete state for each
+  generator is got from another random generator). 
+\item \itemdesc{"phr2sd"} \verb!Sd=grand("phr2sd", phrase)! given a \verb!phrase! (character string) generates 
+  a \verb!1 x 2! vector \verb!Sd! which may be used as seeds to change the state of a 
+  base generator (initialy suited for clcg2). 
+\end{itemize}
+
+\paragraph{How to set ``randomly'' the initial state}
+~~\\
+
+  To start the sequence from another point (that the one given by
+ the default internally coded initial state), you can change the initial state using 
+  \verb+grand("setsd",k)+ with a simple positive integer $k$ built from 
+  the current day and time. This could be done this way:
+\begin{mintednsp}{nsp}
+//  To start ``randomly'' only the current generator
+time = localtime(); 
+// sum all entries of time
+k=0; for key = time.__keys',k = k + time.find[key]; end 
+// apply the new state
+grand("setsd",k)
+
+// To start ``randomly'' all the generators
+time = localtime(); 
+// sum all entries of time
+k=0; for key = time.__keys',k = k + time.find[key]; end 
+// apply the new state
+gen = ["mt", "kiss", "clcg2", "clcg4", "well1024a", "fsultra"];
+for g=gen; grand("setgen",g);grand("setsd",k);end
+\end{mintednsp}
+
+
+
+%-- section-Options specific to clcg4
+\paragraph{Options specific to clcg4}
+~~\\
+
+The clcg4 generator may be used as the others generators but it offers the advantage 
+to be splitted in several (\verb!101!) virtual generators with non over-lapping 
+sequences (when you use a classic generator you may change the initial state (seeds) 
+in order to get another sequence but you are not warranty to get a complete  different one). 
+Each virtual generator corresponds to a sequence of \verb!2^72! values which is 
+further split into \verb!V=2^31! segments (or blocks) of length \verb!W=2^41!.
+For a given virtual generator you have the possibility to return at the beginning of the 
+sequence or at the beginning of the current segment or to go directly at the next segment. 
+You may also change the initial state (seed) of the generator \verb!0! with the 
+"setall" option which then change also the initial state of the other virtual generators 
+so as to get synchronisation (ie in function of the new initial state of gen \verb!0! 
+the initial state of gen \verb!1..100! are recomputed so as to get \verb!101! 
+non over-lapping sequences.   
+
+\begin{itemize}
+\item \itemdesc{"setcgn"} \verb!grand("setcgn",G)! sets the current virtual generator for clcg4 (when clcg4
+  is set, this is the virtual (clcg4) generator number \verb!G! which is used);  the virtual clcg4 
+  generators are numbered from \verb!0,1,..,100! (and so \verb!G! must be an integer 
+  in  \verb![0,100]!) ; by default the current virtual generator is \verb!0!.
+\item \itemdesc{"getcgn"} \verb!S=grand("getcgn")! returns the number of the current virtual clcg4 generator.
+\item \itemdesc{"initgn"} \verb!grand("initgn",I)!
+  reinitializes the state of the current virtual generator :
+      \begin{itemize}
+      \item \verb!I = -1! :sets the state to the initial seed
+      \item \verb!I = 0! :sets the state to the beginning of the current segment
+      \item \verb!I = 1! :sets the state to the beginning of the next segment
+      \end{itemize}
+\item \itemdesc{"setall"} \verb!grand("setall",s1,s2,s3,s4)! sets the initial state of generator \verb!0! 
+  to \verb!s1,s2,s3,s4!. The initial seeds of the other generators are set accordingly 
+  to have synchronisation. For constraints on \verb!s1, s2, s3, s4! see the "setsd" action.
+\item \itemdesc{"advnst"} \verb!grand("advnst",K)! advances the state of the current generator by \verb!2^K! values 
+  and  resets the initial seed to that value. 
+\end{itemize}
+
+
+%-- section-Test example for clcg4
+
+\paragraph{Test example for clcg4}
+
+An example of  the  need of the splitting capabilities of clcg4 is as  follows. 
+Two statistical techniques are being compared on  data of  different sizes. The first 
+technique uses   bootstrapping  and is   thought to   be  as accurate using less data   
+than the second method   which  employs only brute force.  For the first method, a data
+set of size uniformly distributed between 25 and 50 will be generated.  Then the data set  
+of the specified size will be generated and analyzed.  The second method will  choose a 
+data set size between 100 and 200, generate the data  and analyze it.  This process will 
+be repeated 1000 times.  For  variance reduction, we  want the  random numbers  used in the 
+two methods to be the  same for each of  the 1000 comparisons.  But method two will  use more
+random  numbers than   method one and  without this package, synchronization might be difficult.  
+With clcg4, it is a snap.  Use generator 0 to obtain  the sample size for  method one and 
+generator 1  to obtain the  data.  Then reset the state to the beginning  of the current  block
+and do the same  for the second method.  This assures that the initial data  for method two is 
+that used by  method  one.  When both  have concluded,  advance the block for both generators.
+
+%-- see also
+
+\begin{manseealso}
+  \manlink{randn}{randn}, \manlink{pdf}{pdf}   
+\end{manseealso}
+
+%-- Authors
+
+\begin{authors}
+
+  Nsp interface by Jean-Philippe Chancelier and Bruno Pincon, codes for
+  various distributions Bruno Pincon, codes for base generators :
+\begin{itemize}
+  \item \itemdesc{mt} 
+  M. Matsumoto and  T. Nishimura.
+  
+  \item \itemdesc{kiss} 
+  The code was given by G. Marsaglia at the end of a thread concerning RNG in C in several 
+  newsgroups (whom sci.math.num-analysis) "My offer of  RNG's for C was an invitation 
+  to dance..." only kiss have been included in Nsp (kiss is made of a combinaison of 
+  severals others which are not visible at the nsp level).
+  
+  \item \itemdesc{clcg2} 
+  The method is from P. L'Ecuyer but the C code is provided at the Luc  Devroye home page 
+  (http://cgm.cs.mcgill.ca/~luc/rng.html).
+  
+  \item \itemdesc{clcg4} 
+  Pierre L'Ecuyer, Terry H.Andres
+  
+  \item \itemdesc{well1024a} 
+  Francois Panneton, Pierre L'Ecuyer, Makoto Matsumoto.
+   
+  \item \itemdesc{fsultra} 
+  Arif Zaman (\verb+arif@stat.fsu.edu+) and George Marsaglia (\verb+geo@stat.fsu.edu+)
+\end{itemize}
+\end{authors}
+

@@ -1,0 +1,188 @@
+;; -*- scheme -*-
+
+(register "graphic-types.defs")
+(register "axes-types.defs")
+(register "objs3d-types.defs")
+
+(define-objectref Figure
+  (in-module "Figure")
+  (parent "Graphic")
+  (c-name "NspFigure")
+  (fields
+   '("char*" "fname")
+   '("char*" "driver")
+   '("int" "id")
+   '("NspMatrix*" "dims")
+   '("NspMatrix*" "viewport_dims")
+   '("gboolean" "wresize")
+   '("NspMatrix*" "position")
+   '("NspList*" "children")
+   '("gboolean" "draw_now" "hidden" "TRUE");;
+   '("NspFigureData*" "gc" )
+   '("void*" "Xgc" "hidden" "NULL")
+   )
+  (gtype-id "Figure")
+)
+
+(define-object FigureData
+  (in-module "Figure")
+  (parent "Object")
+  (c-name "NspFigureData")
+  (fields
+   '("int" "color" "std" "1")
+   '("int" "background" "std" "-1" )
+   '("NspMatrix*" "colormap")
+   '("int" "dashes" "std" "1")
+   '("int" "font" "std" "2")
+   '("int" "font_size" "std" "1")
+   '("int" "foreground" "std" "-1" )
+   '("int" "hidden3d" "std" "4")
+   '("int" "line_mode" "std" "0")
+   '("int" "line_style" "std" "1")
+   '("int" "mark" "std" "0")
+   '("int" "mark_size" "std" "0")
+   '("int" "pattern" "std" "1")
+   '("int" "pixmap" "std" "0")
+   '("int" "thickness" "std" "1")
+   '("int" "use_color" "std" "1")
+   '("gboolean" "auto_clear" "std" "FALSE")
+   '("int" "current_axe" "hidden" "0")
+   '("int" "current_objs3d" "hidden" "0")
+   '("int" "current_axe_or_objs3d" "hidden" "0")
+   '("int" "mtlb_mode" "std" "-1");
+   )
+  (gtype-id "FigureData")
+)
+
+;; 
+
+(define-method connect
+  (of-object "Figure")
+  (c-name "nsp_figure_connect")
+  (return-type "none")
+  )
+
+(define-method unconnect
+  (of-object "Figure")
+  (c-name "nsp_figure_unconnect")
+  (return-type "none")
+  )
+
+(define-method draw_latter
+  (of-object "Figure")
+  (c-name "nsp_figure_draw_latter")
+  (return-type "none")
+  )
+
+(define-method draw_now
+  (of-object "Figure")
+  (c-name "nsp_figure_draw_now")
+  (return-type "none")
+  )
+
+(define-method draw_status
+  (of-object "Figure")
+  (c-name "nsp_figure_draw_status")
+  (return-type "gboolean")
+  )
+
+
+(define-method process_updates
+  (of-object "Figure")
+  (c-name "nsp_figure_process_updates")
+  (return-type "none")
+  )
+
+(define-method set_current
+  (of-object "Figure")
+  (c-name "nsp_set_current_figure")
+  (return-type "none")
+  )
+
+
+;; overwriten 
+
+(define-method extract
+  (of-object "Figure")
+  (c-name "nsp_figure_extract")
+  (return-type "none")
+  )
+
+(define-method start_compound
+  (of-object "Figure")
+  (c-name "nsp_figure_start_compound")
+  (return-type "none")
+  )
+
+(define-method end_compound
+  (of-object "Figure")
+  (c-name "nsp_figure_end_compound")
+  (return-type "none")
+  )
+
+(define-method remove 
+  (of-object "Figure")
+  (c-name "nsp_figure_remove_element")
+  (return-type "none")
+  (parameters
+   '("NspGraphic*" "g")
+   )
+  )
+
+(define-method axes_pt
+  (of-object "Figure")
+  (c-name "nsp_get_point_axes")
+  (return-type "none")
+  (parameters
+   '("int" "x")
+   '("int" "y")
+   )
+  )
+
+(define-function get_current_figure 
+  (c-name "nsp_check_for_current_figure")
+  (return-type "NspFigure*")
+)
+
+(define-function get_figure 
+  (c-name "nsp_get_wid_figure")
+  (parameters
+   '("gint" "wid"))
+  (return-type "NspObject*")
+)
+
+(define-function get_current_axes
+  (c-name "nsp_check_for_current_axes")
+  (return-type "NspAxes*")
+)
+
+(define-function get_current_objs3d
+  (c-name "nsp_check_for_current_objs3d")
+  (return-type "NspObjs3d*")
+  )
+
+(define-function get_current_axes_or_objs3d
+  (c-name "nsp_check_for_current_axes_or_objs3d")
+  (return-type "NspObject*")
+)
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_figure
+  (c-name "nsp_extractelts_figure")
+  (return-type "none")
+)
+(define-function setrowscols_figure
+  (c-name "nsp_setrowscols_figure")
+  (return-type "none")
+)
+
+
+
+
+
+
+
+
+
+

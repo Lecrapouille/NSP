@@ -1,0 +1,160 @@
+<DATA flag="cseq">
+
+  <CALLING_SEQUENCES name='SetString' type='XML'>
+    <CALLING_SEQUENCE>myint8 = SetString(str)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='add_palette' type='XML'>
+    <CALLING_SEQUENCE>add_palette(Title,path)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='buildouttb' type='XML'>
+    <CALLING_SEQUENCE>[outtb]=buildouttb(lnksz,lnktyp)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='callblk' type='XML'>
+    <CALLING_SEQUENCE>[blk]=callblk(blk,flag,time)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='coserror' type='XML'>
+    <CALLING_SEQUENCE>Coserror(errmsg)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='create_gif' type='XML'>
+    <CALLING_SEQUENCE>create_gif([TXT,path])</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='create_palette' type='XML'>
+    <CALLING_SEQUENCE>[routines,IntFunc] = create_palette(Path)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='curblock' type='XML'>
+    <CALLING_SEQUENCE>blk=curblock() </CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='data2sig' type='XML'>
+    <CALLING_SEQUENCE>B=data2sig(A[,step]) </CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='get_scicos_version' type='XML'>
+    <CALLING_SEQUENCE>scicos_ver = get_scicos_version</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='getblocklabel' type='XML'>
+    <CALLING_SEQUENCE>[label]=getblocklabel(blk)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='getscicosparam' type='XML'>
+    <CALLING_SEQUENCE>[dt,data] = getscicosparam(fic)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='getscicosvars' type='XML'>
+    <CALLING_SEQUENCE>[myvar]=getscicosvars(str) </CALLING_SEQUENCE>
+    <CALLING_SEQUENCE>[myvar]=getscicosvars([str1;str2;...]) </CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='lincos' type='XML'>
+    <CALLING_SEQUENCE>sys= lincos(scs_m [,x0,u0 [,param] ])</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+  
+  <CALLING_SEQUENCES name='model2blk' type='XML'>
+    <CALLING_SEQUENCE>[blk] = model2blk(model)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='phase_simulation' type='XML'>
+    <CALLING_SEQUENCE>[psim]=phase_simulation()</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='pointer_xproperty' type='XML'>
+    <CALLING_SEQUENCE>[xprop]=pointer_xproperty </CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos' type='XML'>
+    <CALLING_SEQUENCE>scs_m = scicos([toto])</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_block' type='XML'>
+    <CALLING_SEQUENCE>blk = scicos_block(v1,v2,v3,v4,v5)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_codegeneration' type='XML'>
+    <CALLING_SEQUENCE>[ok,scs_m,%cpr] = scicos_codegeneration(scs_m,Params)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_cpr' type='XML'>
+    <CALLING_SEQUENCE>cpr = scicos_cpr(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_debug' type='XML'>
+    <CALLING_SEQUENCE>scicos_debug(level) </CALLING_SEQUENCE>
+    <CALLING_SEQUENCE>level=scicos_debug() </CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_diagram' type='XML'>
+    <CALLING_SEQUENCE>scs_m = scicos_diagram(v1,v2,v3)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_graphics' type='XML'>
+    <CALLING_SEQUENCE>graphics = scicos_graphics(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_link' type='XML'>
+    <CALLING_SEQUENCE>lnk = scicos_link(v1,v2,v3,v4,v5,v6,v7,v8)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_model' type='XML'>
+    <CALLING_SEQUENCE>model = scicos_model(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v21,v22,v23,v24,v25,v26)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_params' type='XML'>
+    <CALLING_SEQUENCE>params = scicos_params(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_sim' type='XML'>
+    <CALLING_SEQUENCE>sim = scicos_sim(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v21,v22,v23,v24,v25,v26,v27,v28,v29,v30,v31,v32,v33,v34,v35,v36,v37,v38,v39,v40)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_simulate' type='XML'>
+    <CALLING_SEQUENCE>Info=scicos_simulate(scs_m,Info[,%scicos_context][,flag])</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_state' type='XML'>
+    <CALLING_SEQUENCE>state = scicos_state(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicos_time' type='XML'>
+    <CALLING_SEQUENCE>t=scicos_time()</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='scicosim' type='XML'>
+    <CALLING_SEQUENCE>[state,t] = scicosim(state,tcur,tf,sim,str,tol)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='set_blockerror' type='XML'>
+    <CALLING_SEQUENCE>set_blockerror(n)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='set_xproperty' type='XML'>
+    <CALLING_SEQUENCE>set_xproperty(xprop)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='setscicosparam' type='XML'>
+    <CALLING_SEQUENCE>ok = setscicosparam(dt,fic)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='sig2data' type='XML'>
+    <CALLING_SEQUENCE>[x[,t]]=sig2data(B)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='steadycos' type='XML'>
+    <CALLING_SEQUENCE>[X,U,Y,XP]=steadycos(scs_m,X,U,Y,Indx,Indu,Indy [,Indxp [,param ] ]) </CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='var2vec' type='XML'>
+    <CALLING_SEQUENCE>[vec]=var2vec(var)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+
+  <CALLING_SEQUENCES name='vec2var' type='XML'>
+    <CALLING_SEQUENCE>[var]=vec2var(vec)</CALLING_SEQUENCE>
+  </CALLING_SEQUENCES>
+</DATA>

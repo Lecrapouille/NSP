@@ -1,0 +1,33 @@
+Dans do_save_api : terminer le cas des blocs particulier
+     c'est fait mais la meme chose doit etre faite pour
+     ceux de modnum sur le mode de ceux qui sont dans scicos
+
+Dans VMBLOCK: il faut vérifier que les entreés/sorties E sont scalaires
+
+Attention pour certains blocks modelica il faut des needcompile
+
+Attention evaluate_model ou silent_eval ne devraient pas rentrer dans
+les csuper puisque c'est le bloc qui doit faire le boulot.
+
+Attention dans la conversion de scicos vers Modelica
+Il y a un Pb avec STEPFUN qui conduit a un eval de STEP qui ne marche pas
+puisque s1 est pas connu. Il ne faut pas que silent_eval ou eval se propage
+dans les blocks type STEPFUNC
+
+Ce qui suit fait un control L dans un terminal
+print("\033[2J\033[H");
+
+Il y a un probleme dans msys2 pour compiler modnum il faut utiliser la version
+pure msys2 i.e ne pas etre sous win32=%t
+
+Quand on a msys2, on a 2 solution pour compiler avec visual si %win32=%t ou avec msys2 et gcc si %win32=%f
+Quand on fait une distrib il faut pouvoir choisir msys2
+Bref il faut avoir un moyen de dire qu'on veut compiler avec msys2
+
+Il y a un pb avec une lib de gio qui a des refs non résolues
+
+Il faudrait recompiler graphviz pour ne pas avoir de pbs de librairies qui n'ont pas le meme nom en
+msys2 et en cross-compilation
+--> graphviz existe en msys2
+
+jpc

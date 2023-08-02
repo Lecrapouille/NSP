@@ -1,0 +1,100 @@
+SHELL = /bin/sh
+TOP=..
+
+include $(TOP)/Path.incl
+include $(TOP)/Makefile.incl
+
+SUBDIRS=@TOOLBOXES@
+SUBDIRS_CLEAN=@TOOLBOXES@
+
+SILENT=$(findstring -s,$(MFLAGS))
+
+all :: path-incl
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making $@ in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) DIR=$(DIR)$$i/ $@ ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done
+
+# generate Path.incl in SUBDIRS. Then the toolboxes will
+# be compiled using make and not exec builder
+
+path-incl ::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+	 	( if test -f $$i/Path.incl; then ok=0; \
+		  else \
+		    (echo "SCIDIR=../.." > $$i/Path.incl; \
+		     echo "SCIDIR1=..\.." >> $$i/Path.incl ); \
+		  fi ); \
+	done
+
+clean distclean ::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS_CLEAN) ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making $@ in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) DIR=$(DIR)$$i/ $@ ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done
+
+DESTDIR=$(prefix)/lib/nsp
+
+# we do not install simport since executable and libs are installed in main directory
+
+install::
+	@echo "installing toolboxes"
+	@$(TOP)/config/install-sh -d $(DESTDIR)/toolboxes
+	@tar   cf - --exclude CVS --exclude '*.c' --exclude '*.o' --exclude '*.lo' \
+		--exclude '*.f' --exclude 'simport' .  | ( cd $(DESTDIR)/toolboxes ; tar xfp - )
+
+up:
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+		(cd $$i ; echo "making $@ in $(DIR)$$i"; \
+		cvs up ); \
+	done
+
+# This part is for developpers who have access to nsp2_dev
+# install the source of the toolboxes used in released nsp
+
+TOOLBOXES=scicos-4.4 compilers simport codegen-peval distmesh modnum_nsp coselica-0.4.8-nsp coselica-0.7
+
+USER=jpc
+
+up_release:
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(TOOLBOXES) ;\
+	do  ( \
+		make $$i/UP; \
+	); \
+	done
+
+%/UP :
+	@if test -d `dirname $@`/CVS; then \
+		echo "`dirname $@`/CVS exists: updating with cvs up"; \
+		cd `dirname $@`; cvs up -d; \
+        else ( \
+		echo -n "checking out $@ " ;\
+		cvs -Q -d :ext:$(USER)@cermics.enpc.fr:/u/cermics/m/stochopt/cvsroot co nsp2_dev/contribs/`dirname $@` ;\
+		mv nsp2_dev/contribs/`dirname $@` . ;\
+		$(RM) -fr nsp2_dev ;\
+		echo "done" \
+	  ); \
+        fi;
+
+

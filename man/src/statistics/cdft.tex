@@ -1,0 +1,61 @@
+% -*- mode: latex -*-
+\mansection{cdft}
+\begin{mandesc}
+  \short{cdft}{cumulative distribution function Student's T distribution}
+\end{mandesc}
+\index{cdft}\label{cdft}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  [P,Q]=cdft("PQ",T,Df)  
+  [T]=cdft("T",Df,P,Q)  
+  [Df]=cdft("Df",P,Q,T)  
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{P,Q,T,Df}: six real vectors of the same size.
+    \vname{P,Q (Q=1-P)}: the integral from -infinity to t of the t-density. Input range: (0,1].
+      \vname{T}: upper limit of integration of the t-density. Input range: ( -infinity, +infinity). Search range: [ -1E150, 1E150 ]
+      \vname{DF:} degrees of freedom of the t-distribution. Input range: (0 , +infinity). Search range: [1e-300, 1E10]
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  Calculates any one parameter of the T distribution given
+  values for the others. The T distribution is given by~:
+  \begin{equation}
+    \frac{\Gamma(\frac{\nu+1}{2})} {\sqrt{\nu\pi}\,\Gamma(\frac{\nu}{2})} \left(1+\frac{t^2}{\nu} \right)^{-(\frac{\nu+1}{2})} 
+  \end{equation}
+  with $\nu = \mbox{\tt Df}$  and where $\Gamma$ is the Gamma function.
+  Formula  26.5.27  of   Abramowitz   and  Stegun,   Handbook   of
+  Mathematical Functions  (1966) is used to reduce the computation
+  of the cumulative distribution function to that of an incomplete
+  beta.
+  Computation of other parameters involve a seach for a value that
+  produces  the desired  value  of P.   The search relies  on  the
+  monotinicity of P with the other parameter.
+\end{mandescription}
+
+\begin{mintednsp}{nspxxx}
+x=linspace(-10,10,100);
+df = 3;
+y= cdft("PQ",x,df*ones(size(x)));
+function y=f(x)
+  y = gamma((df+1)/2)/( sqrt(df*%pi) *gamma(df/2))*(1+x^2/df)^(-(df+1)/2);
+endfunction;
+
+z=x;
+for i=1:length(x)
+  z(i) = intg(-1000,x(i),f);
+end
+err=max(abs(y-z));
+\end{mintednsp}
+
+
+\begin{authors}
+  Nsp interface by Jean-Philippe Chancelier. Code from DCDFLIB: 
+  Library of Fortran Routines for Cumulative Distribution
+  Functions, Inverses, and Other Parameters (February, 1994)
+  Barry W. Brown, James Lovato and Kathy Russell. The University of Texas.
+\end{authors}

@@ -1,0 +1,925 @@
+
+libbase/demo_actions.sci,678
+function window=21,886
+  function demoaction_build_actions(25,997
+    function demoaction_activate_action(31,1204
+    function demoaction_toggle_action(38,1413
+    function demoaction_radio_action 45,1655
+    function demoaction_recent_action 53,1944
+    function demoaction_toggle_cnp_actions(60,2253
+    function demoaction_show_accel_dialog 80,3066
+    function demoaction_toolbar_style 84,3189
+    function demoaction_toolbar_size_small 93,3495
+    function demoaction_toolbar_size_large 100,3750
+  function demoaction_add_widget(272,12452
+  function demoaction_add_cb 300,13355
+  function demoaction_remove_cb(327,14254
+  function demoaction_popup(345,14787
+
+libbase/demo_application.sci,657
+  function show_action_dialog 11,299
+  function show_action_infobar 22,669
+  function activate_action 37,1150
+  function activate_toggle 41,1264
+  function activate_radio 47,1483
+  function activate_about 52,1647
+  function activate_quit 86,2769
+  function update_statusbar 95,2972
+  function changed_callback(107,3425
+  function mark_set_callback 111,3529
+  function change_theme_state 115,3653
+  function change_titlebar_state 122,3907
+  function change_radio_state 128,4102
+  function clicked_cb 132,4203
+  function startup 136,4272
+  function activate 146,4651
+  function activate_color(211,7033
+  function change_color_state(225,7523
+
+libbase/demo_assistant.sci,338
+function assistant 7,196
+  function y=9,244
+  function on_assistant_apply 24,672
+  function on_assistant_close_cancel 29,857
+  function on_assistant_prepare 34,974
+  function on_entry_changed 48,1551
+  function create_page1 60,1921
+  function create_page2 77,2547
+  function create_page3 89,3032
+  function progress_bar=98,3394
+
+libbase/demo_builder.sci,122
+function window=5,75
+  function quit_activate 12,421
+  function about_activate 17,542
+  function help_activate 25,779
+
+libbase/demo_button_box.sci,46
+function window=5,88
+  function frame=7,132
+
+libbase/demo_buttons.sci,19
+function win=3,12
+
+libbase/demo_cairo.sci,140
+function demo_cairo(3,24
+  function rep=5,47
+  function draw_3circles 9,188
+  function oval_path 33,935
+  function fill_checks 43,1208
+
+libbase/demo_calendar.sci,953
+function demo_calendar(24,1018
+function calendar_select_font 244,9548
+function calendar_set_detail 260,10081
+function str=268,10364
+function calendar_update_details 274,10566
+function y=284,10982
+function calendar_details_changed 290,11219
+function demonstrate_details 300,11584
+function reset_details 312,12038
+function calendar_toggle_details 318,12203
+function expander=326,12395
+function frame=335,12660
+function detail_width_changed 345,12955
+function detail_height_changed 350,13091
+function str=355,13227
+function calendar_set_signal_strings 360,13372
+function calendar_month_changed 369,13684
+function calendar_day_selected 374,13847
+function calendar_day_selected_double_click 379,14010
+function calendar_prev_month 390,14352
+function calendar_next_month(395,14509
+function calendar_prev_year(400,14665
+function calendar_next_year(405,14819
+function calendar_set_flags(410,14973
+function calendar_toggle_flag(420,15281
+
+libbase/demo_check_buttons.sci,23
+  function grid 6,105
+
+libbase/demo_clipboard.sci,361
+function pixbuf 11,361
+function window=26,864
+  function y=28,908
+    function copy_image 35,1112
+    function paste_image 48,1505
+  function drag_begin 64,1971
+  function drag_data_get 69,2126
+  function drag_data_received 74,2302
+  function copy_button_clicked 103,3385
+  function paste_button_clicked 130,4277
+    function paste_received 132,4330
+
+libbase/demo_color_picker.sci,32
+function demo_color_picker 2,1
+
+libbase/demo_color_selection.sci,86
+function window=8,240
+  function y 10,292
+  function change_color_callback 40,1095
+
+libbase/demo_combobox.sci,348
+function window 10,269
+  function pixbuf=24,671
+  function model=31,948
+  function model=44,1412
+  function y=58,1872
+  function y=70,2421
+  function displayed_row_changed 75,2599
+  function combo_changed(325,10920
+function y=409,13500
+function model=416,13721
+function model=493,15098
+  function phylogenic_tree_model_append(541,16410
+
+libbase/demo_css_accordion.sci,23
+function window=5,115
+
+libbase/demo_css_basics.sci,23
+function window=7,166
+
+libbase/demo_css_blendmodes.sci,133
+function window 5,107
+  function update_css_for_blend_mode 9,186
+  function row_activated 20,638
+  function setup_listbox 25,807
+
+libbase/demo_css_multiplebgs.sci,43
+function window 6,173
+  function y=8,225
+
+libbase/demo_css_pixbufs.sci,23
+function window=6,172
+
+libbase/demo_css_shadows.sci,157
+function css_show_parsing_error 5,69
+function css_text_changed 20,579
+function css_apply_css 34,1068
+function window=43,1312
+  function toolbar=45,1358
+
+libbase/demo_cursor.sci,111
+function demo_cursor(5,68
+  function y=7,92
+  function ct_button_press(25,675
+  function set_cursor(35,949
+
+libbase/demo_cursors.sci,119
+function demo_cursors 5,66
+  function section 22,736
+  function add_button 36,1258
+    function set_cursor 55,1991
+
+libbase/demo_dialog.sci,110
+function window=5,107
+  function message_dialog_clicked 7,147
+  function interactive_dialog_clicked 20,599
+
+libbase/demo_dnd.sci,103
+function demo_dnd(7,198
+  function dnd_drag_data_get(9,219
+  function dnd_drag_data_received(16,478
+
+libbase/demo_drawingarea.sci,217
+function demo_drawingarea_draw_brush 17,562
+function window 31,1061
+  function close_window 37,1271
+  function y=64,2002
+  function y=117,3649
+  function y=127,3946
+  function y=144,4565
+  function y=152,4811
+
+libbase/demo_entry_buffer.sci,23
+function window=7,206
+
+libbase/demo_entry_completion.sci,23
+function window=7,126
+
+libbase/demo_entry.sci,177
+function demo_entry 3,13
+  function return_handler(5,37
+  function entry_toggle_frame 13,291
+  function entry_toggle_sensitive 17,408
+  function entry_props_clicked 21,530
+
+libbase/demo_expander.sci,119
+function window=10,243
+  function response_cb 12,286
+  function expander_cb 16,376
+  function do_not_expand 20,495
+
+libbase/demo_file_chooser.sci,801
+function demo_file_chooser(19,753
+  function print_current_folder 24,841
+  function print_selected 29,996
+  function response_cb 37,1182
+  function y=46,1396
+  function filter_changed 57,1734
+  function set_current_folder 61,1827
+  function set_folder_nonexistent_cb 73,2301
+  function set_folder_existing_nonexistent_cb 77,2423
+  function set_filename 81,2556
+  function set_filename_nonexistent_cb 93,2995
+  function set_filename_existing_nonexistent_cb 97,3112
+  function get_selection_cb 101,3243
+  function get_current_name_cb 112,3543
+  function unmap_and_remap_cb 117,3691
+  function kill_dependent 122,3794
+  function notify_multiple_cb 127,3882
+  function conf=132,4034
+  function f_gtk_file_chooser_select_all(281,9083
+  function f_gtk_file_chooser_unselect_all(285,9183
+
+libbase/demo_file_selection.sci,137
+function demo_file_selection 3,22
+  function show_fileops 5,57
+  function select_multiple 14,251
+  function file_selection_ok 19,398
+
+libbase/demo_flipping.sci,132
+function demo_flipping 3,13
+  function flipping_toggled_cb 5,40
+  function set_direction_recurse 13,266
+  function frame=20,464
+
+libbase/demo_flowbox.sci,71
+function window=7,180
+  function button=9,222
+    function y=11,267
+
+libbase/demo_focus.sci,26
+function demo_focus(3,15
+
+libbase/demo_gamma_curve.sci,63
+function 3,17
+  win.set_title[set_title7,151
+  curve 9,209
+
+libbase/demo_gmenumodel.sci,1137
+function g_menu_names(6,144
+function g_variant_names(16,448
+function connect_to_items_changed 66,2548
+function items_changed 81,2970
+function enabled_changed 91,3263
+function toggle_state_changed 97,3435
+function radio_state_changed 106,3715
+function item_activated 119,4063
+function w=130,4419
+function append_items_from_model 183,6365
+function w=226,7571
+function holder=232,7744
+function menu=241,8015
+function menu_model=251,8285
+function activate_action 259,8554
+function activate_toggle 263,8678
+function activate_radio 271,9022
+function action_group=279,9355
+function enabled_cell_func 328,11026
+function state_cell_func 335,11223
+function enabled_cell_toggled 360,12355
+function state_cell_toggled 372,12760
+function state_cell_edited 388,13291
+function tv=399,13643
+  function action_tv_queue_draw(409,13922
+function toggle_sumerian 466,15890
+function action_list_add 480,16283
+function action_list_remove 485,16388
+function toggle_italic 497,16650
+function toggle_speed 518,17322
+function box=553,18304
+function button_clicked 576,19108
+function y=582,19248
+function demo_gmenumodel(587,19339
+
+libbase/demo_gmenumodel_simple.sci,308
+function demo_gmenumodel_simple(3,33
+  function g_menu_names(5,68
+  function g_variant_names(16,404
+  function action_group=47,1726
+    function activate_action 50,1815
+    function activate_toggle 54,1951
+    function activate_radio 62,2327
+  function button_clicked 111,4230
+  function y=117,4377
+
+libbase/demo_handle_box.sci,72
+function demo_handle_box 4,18
+  function handle_box_child_signal 6,48
+
+libbase/demo_headerbar.sci,24
+function window=12,348
+
+libbase/demo_hypertext.sci,262
+function demo_hypertext_show_page 8,266
+  function insert_link 12,458
+function demo_hypertext_follow_if_link 59,2501
+function window=71,2784
+  function y=89,3250
+  function y=104,3686
+  function y=135,4671
+    function set_cursor_if_appropriate 137,4726
+
+libbase/demo_iconview_edit.sci,138
+function window=7,227
+  function fill_store 9,275
+  function store 18,487
+  function set_cell_color 22,583
+  function edited 37,1221
+
+libbase/demo_iconview.sci,213
+function demo_iconview_fill_store 7,193
+function window=37,1066
+  function item_activated 39,1109
+function up_clicked 55,1610
+function home_clicked 68,2016
+  function store 123,3811
+    function y 125,3857
+
+libbase/demo_idle.sci,500
+function 1,0
+  dialog.set_title[set_title5,112
+  label 6,145
+  function 12,314
+    count 15,396
+    args(1).set_data[set_data16,419
+    args(2).set_text[set_text17,459
+  function 21,557
+      dialog.set_data[set_data35,951
+  dialog.set_data[set_data42,1144
+  dialog.set_data[set_data43,1183
+  dialog.set_data[set_data44,1215
+  dialog.add_button[add_button46,1251
+  dialog.add_button[add_button47,1283
+  dialog.add_button[add_button48,1315
+  dialog.show_all[show_all49,1346
+
+libbase/demo_images.sci,106
+function window 15,551
+  function demo_add_image(18,641
+  function toggle_sensitivity_callback(64,2371
+
+libbase/demo_infobar.sci,62
+function demo_infobar(5,88
+  function on_bar_response(7,122
+
+libbase/demo_links.sci,76
+function window=7,170
+  function y=9,211
+    function response_cb 10,258
+
+libbase/demo_listbox.sci,76
+function window 7,132
+  function y 9,176
+  function row_activated 13,301
+
+libbase/demo_list_store_1.sci,57
+function window=7,188
+  function fixed_toggled 56,1548
+
+libbase/demo_list_store_2.sci,166
+function demo_list_store_2(7,186
+  function demo_liststore_from_mat 9,216
+  function demo_liststore_from_smat 51,1525
+  function demo_liststore_from_bmat 92,2952
+
+libbase/demo_main_window.sci,95
+function demo_main_window(2,1
+function destroy(99,3271
+function button_destroy_win(104,3376
+
+libbase/demo_markup.sci,23
+function window 8,245
+
+libbase/demo_menus.sci,29
+function demo_menus(22,1049
+
+libbase/demo_messagedialog.sci,65
+function messagedialog(3,19
+function demo_messagedialog(12,226
+
+libbase/demo_modelbutton.sci,56
+function window=15,501
+  function tool_clicked 17,547
+
+libbase/demo_notebook.sci,117
+function demo_notebook(2,1
+  function next_page(4,27
+  function prev_page(8,97
+  function rotate_notebook(12,167
+
+libbase/demo_overlay2.sci,56
+function window 6,122
+  function margin_changed 8,167
+
+libbase/demo_overlay.sci,52
+function window 9,234
+  function do_number 11,278
+
+libbase/demo_panes.sci,94
+function demo_panes 14,427
+  function toggle_resize 16,451
+  function toggle_shrink 29,837
+
+libbase/demo_pickers.sci,29
+function demo_pickers(6,159
+
+libbase/demo_pixbufs.sci,68
+function window 17,519
+  function y=43,1223
+  function y 51,1419
+
+libbase/demo_popover.sci,222
+function toggle_changed_cb 7,212
+function popover=12,317
+function popover=20,521
+function entry_size_allocate_cb 41,1121
+function entry_icon_press_cb 50,1393
+function day_selected_cb 58,1632
+function window 73,2111
+
+libbase/demo_progressbar.sci,322
+function demo_progressbar(4,75
+  function y=6,104
+  function toggle_show_text 21,499
+  function adjust_step 33,793
+  function toggle_activity_mode 39,963
+  function toggle_inverted_mode 45,1136
+  function entry_changed 50,1258
+  function destroy_timeout 82,2352
+  function progressbar_toggle_orientation(104,2962
+
+libbase/demo_radio_buttons.sci,34
+function demo_radio_buttons(4,73
+
+libbase/demo_range_controls.sci,84
+function demo_range_controls(3,23
+  function y=5,55
+  function show_value(22,621
+
+libbase/demo_reparent.sci,63
+function demo_reparent(3,14
+  function reparent_label(22,540
+
+libbase/demo_revealer.sci,118
+function demo_revealer(6,123
+  function b 8,149
+    function change_direction 10,184
+  function on_destroy 35,852
+
+libbase/demo_rulers.sci,27
+function demo_rulers(5,40
+
+libbase/demo_scale.sci,23
+function window=8,184
+
+libbase/demo_scrolled_windows.sci,58
+function demo_scrolled_windows(3,22
+  function y=28,822
+
+libbase/demo_search_entry2.sci,240
+function window=8,260
+  function search_changed_cb 11,311
+  function changed_cb 17,483
+  function y=22,600
+  function search_changed 26,707
+  function next_match 30,802
+  function previous_match 34,889
+  function stop_search 38,984
+
+libbase/demo_search_entry.sci,555
+function show_find_button 9,229
+function show_cancel_button 13,311
+function y=17,391
+function search_progress_done 22,497
+function y 26,585
+function y 33,763
+function start_search 38,953
+function stop_search 44,1181
+function clear_entry 49,1294
+function search_by_name 53,1359
+function search_by_description 63,1592
+function search_by_file 73,1847
+function menu=83,2092
+function icon_press_cb 101,2604
+function activate_cb 107,2799
+function search_entry_destroyed 114,2930
+function entry_populate_popup 127,3213
+function window=148,3764
+
+libbase/demo_sidebar.sci,29
+function demo_sidebar(8,300
+
+libbase/demo_sizegroup.sci,95
+function demo_sizegroup 15,663
+  function add_row 34,1255
+function toggle_grouping 103,3638
+
+libbase/demo_spinbutton.sci,1635
+function 8,238
+  spin(1).set_snap_to_ticks[set_snap_to_ticks14,430
+function 17,494
+function 21,593
+function 25,696
+  label 27,764
+    digits 31,881
+    buf=32,916
+  label.set_text[set_text34,979
+function 37,1015
+  window.hide[hide43,1203
+  window.destroy[destroy44,1220
+function 48,1273
+function 54,1393
+  window.connect[connect57,1509
+  window.set_title[set_title58,1561
+  main_vbox 60,1600
+  main_vbox.set_border_width[set_border_width61,1648
+  window.add[add62,1683
+  frame 63,1709
+  main_vbox.pack_start[pack_start64,1758
+  vbox 66,1791
+  vbox.set_border_width[set_border_width67,1834
+  frame.add[add68,1863
+  hbox 72,1916
+  vbox2 75,2020
+  label 78,2123
+  adj 82,2255
+  spinner 83,2363
+  vbox2 89,2566
+  label 92,2668
+  adj 96,2801
+  spinner 97,2910
+  vbox2 102,3120
+  label 105,3222
+  adj 109,3354
+  spinner 110,3470
+  frame 117,3712
+  vbox 120,3821
+  vbox.set_border_width[set_border_width121,3864
+  frame.add[add122,3893
+  hbox 124,3914
+  vbox2 127,4018
+  label 130,4121
+  adj 134,4255
+  spinner1 135,4373
+  vbox2 140,4575
+  label 143,4680
+  adj 147,4814
+  spinner2 148,4909
+  adj.connect[connect150,5007
+  hbox 153,5142
+  button 156,5246
+  button.connect[connect157,5304
+  button 161,5449
+  button.connect[connect162,5513
+  val_label 166,5660
+  hbox 168,5698
+  button 171,5803
+  button.set_data[set_data173,5906
+  button.connect[connect174,5947
+  button 177,6065
+  button.set_data[set_data178,6115
+  button.connect[connect179,6156
+  val_label.set_text[set_text183,6337
+  hbox 185,6365
+  button 188,6476
+  button.connect[connect189,6517
+
+libbase/demo_spinner.sci,91
+function window 6,85
+  function on_play_clicked 8,129
+  function on_stop_clicked 15,281
+
+libbase/demo_stack.sci,27
+function demo_stack(8,205
+
+libbase/demo_statusbar.sci,520
+function 3,17
+  dialog.set_title[set_title7,124
+  statusbar 9,164
+  vbox.add[add11,233
+  c 13,275
+  statusbar.set_data[set_data15,351
+  function 17,392
+  function 21,479
+    statusbar.set_data[set_data23,577
+    statusbar.push[push24,625
+  dialog.add_button[add_button27,695
+  dialog.add_button[add_button28,725
+  dialog.add_button[add_button29,756
+  dialog.show[show30,788
+     case 3 then;37,971
+     case 3 then; dialog.destroy[destroy37,971
+     case 3 then; dialog.destroy[];break;37,971
+
+libbase/demo_sunny.sci,262
+function app=2,1
+  function new_window 4,28
+  function activate 33,764
+  function open 38,878
+  function show_about 44,1012
+  function quit_app 57,1387
+  function new_activated 67,1627
+  function populate_action_group(72,1742
+  function startup 91,2317
+
+libbase/demo_textmask.sci,43
+function window 7,119
+  function y=9,164
+
+libbase/demo_textscroll.sci,156
+function window 7,178
+function y=11,267
+function y=46,1287
+function y 86,2458
+  function remove_timeout 111,3529
+  function create_text_view 115,3617
+
+libbase/demo_textview.sci,288
+function demo_textview 13,282
+  function create_tags 43,1177
+  function insert_text 102,4412
+  function small_insert(201,12250
+  function attach_widgets(207,12603
+    function easter_egg_callback 209,12641
+      function recursive_attach_view 211,12696
+    function rep=246,13962
+
+libbase/demo_theming_style_classes.sci,44
+function demo_theming_style_classes 11,320
+
+libbase/demo_timeout.sci,29
+function demo_timeout(6,158
+
+libbase/demo_toggle_buttons.sci,62
+function 3,21
+  win.set_title[set_title6,122
+  box1 8,184
+
+libbase/demo_toolbar.sci,476
+function demo_toolbar(3,12
+    function item_toggled(7,91
+    function set_render_func(22,563
+  function change_orientation 73,2292
+  function change_show_arrow 99,3096
+  function set_toolbar_style_toggled 111,3463
+  function change_toolbar_style 139,4399
+  function set_icon_size_toggled 150,4711
+  function icon_size_history_changed 177,5612
+  function rtl_toggled 376,11434
+  function y=396,11970
+  function y=403,12154
+  function toolbar_drag_leave 412,12477
+
+libbase/demo_toolpalette.sci,629
+function canvas_item_draw 24,695
+function y=38,1005
+function palette_drop_item 63,1607
+function palette_drop_group 84,2362
+function palette_drag_data_received 93,2602
+function passive_canvas_drag_data_received 116,3428
+function y 143,4328
+function interactive_canvas_drag_data_received 168,5228
+function y=210,6575
+function interactive_canvas_drag_leave 219,6920
+function on_combo_orientation_changed 227,7105
+function on_combo_style_changed 245,7623
+function window 262,7979
+function load_icon_items 405,13036
+function load_toggle_items 436,13959
+function load_special_items 453,14390
+  function item 455,14429
+
+libbase/demo_tooltips.sci,279
+function demo_tooltips(24,1050
+  function y=26,1077
+  function y=32,1297
+    function y=33,1378
+  function y=44,1664
+  function y=64,2329
+  function model 78,2866
+  function selection_changed_cb 88,3072
+  function y=92,3182
+  function y=107,3576
+  function y=122,4039
+
+libbase/demo_transparent.sci,79
+function window 5,123
+  function y 7,171
+    function draw_shadow_box 9,245
+
+libbase/demo_tree_store_1.sci,34
+function demo_tree_store_1(8,292
+
+libbase/demo_tree_store_2.sci,235
+function window=8,292
+  function setup_default_icon 14,457
+  function tree_view=36,1281
+    function message(38,1318
+    function row_activated_cb 47,1540
+    function selection_cb(63,2248
+    function tree_model_append(71,2550
+
+libbase/demo_treeview_editable.sci,197
+function demo_treeview_editable(3,29
+  function add_item(5,67
+  function remove_item(10,185
+  function cell_edited 25,600
+  function add_columns 40,1046
+    function editable_toggled 59,1756
+
+libbase/main_demo_gtk3.sci,578
+function main_demo_gtk3(3,2
+  function window_closed_cb 6,51
+  function run_example_for_row 16,369
+  function load_file 49,1343
+  function selection_cb 94,3173
+  function populate_model 107,3608
+  function row_activated_cb 221,10734
+  function add_data_tab 229,10963
+    function scrolled_window=231,10999
+  function activate_quit 280,12856
+  function activate_about 287,13073
+  function startup 334,15008
+  function activate 344,15285
+    function activate_run 346,15316
+    function start_cb 390,16872
+    function end_cb 398,17094
+      function y=410,17410
+
+libplus/demo_display_screen.sci,102
+function screen_display_check 3,26
+      function hide(25,955
+function demo_display_screen 48,1666
+
+libplus/demo_dyn_graph.sci,155
+function demo_dyn_graph(1,0
+function demo_dyn_graph_value_changed(77,2248
+function demo_dyn_graph_toggled(83,2481
+function demo_dyn_graph_draw(93,2738
+
+libplus/demo_filter.sci,26
+function demo_filter(2,1
+
+libplus/demo_gtk2_plus.sci,92
+function demo_gtk2_plus(2,1
+function destroy(74,2164
+function button_destroy_win(79,2269
+
+libplus/demo_image_from_drawable.sci,94
+function take_snapshot 4,92
+function ret=26,1186
+function demo_image_from_drawable(44,1765
+
+libplus/demo_images1.sci,121
+function demo_add_image(1,0
+function demo_images1(17,495
+function demo_images2(58,2005
+function demo_images3(99,3532
+
+libplus/demo_item_factory.sci,96
+function demo_item_factory 3,27
+  function gtk_ifactory_cb 5,59
+  function dump_accels 8,213
+
+libplus/demo_labels.sci,191
+function sensitivity_toggled 5,58
+function button=10,163
+function set_selectable_recursive(17,420
+function selectable_toggled 30,763
+function button=34,878
+function demo_labels 41,1104
+
+libplus/demo_menus1.sci,101
+function menuitem_response(5,21
+function w=9,119
+function y=45,1147
+function demo_menus1(56,1433
+
+libplus/demo_nsp_graphic_widget.sci,262
+function 2,1
+      y=10,211
+  dialog 14,246
+  dialog.set_title[set_title15,274
+  dialog_vbox 16,304
+  label 17,347
+  id1=19,481
+  dialog.add_button[add_button21,551
+  dialog.show_all[show_all22,583
+  response 23,604
+  dialog.destroy[destroy24,631
+
+libplus/demo_stock_browser.sci,322
+function macro=4,71
+function ids1=15,302
+function best_size=54,1394
+function selection_changed 70,1758
+function macro_set_func_text(90,2540
+function macro_set_func_pixbuf(96,2744
+function id_set_func 102,2952
+function accel_set_func 108,3144
+function label_set_func 114,3347
+function demo_stock_browser 120,3558
+
+wip/demo_event_axes.sci,344
+function info=34,1084
+function axes_info_free 53,1454
+function y 57,1501
+function data 66,1788
+function event_data_free 73,1996
+function update_axes_from_event 81,2172
+function y 147,3857
+function render_arrow 153,3999
+function draw_axes_info 168,4324
+function draw_device_info 216,5644
+function y=251,6455
+function window 287,7343
+
+wip/demo_font_features.sci,160
+function update 7,170
+function reset 42,1023
+function switch_to_entry 56,1342
+function switch_to_label 61,1457
+function y=67,1580
+function window 78,1830
+
+wip/demo_gestures.sci,240
+function swipe_gesture_swept 7,189
+function long_press_gesture_pressed 13,391
+function long_press_gesture_end 18,526
+function rotation_angle_changed 23,659
+function zoom_scale_changed 27,759
+function y=31,848
+function window 83,2384
+
+wip/demo_gtksourceview.sci,2096
+function error_dialog 156,8227
+function y 169,8522
+function remove_all_marks 206,9612
+function language=211,9728
+function language 237,10490
+function language 243,10626
+function res 272,11394
+function y=311,12428
+function success 331,13102
+function smat 346,13598
+function execute_cb 374,14364
+function execute_selection_cb 422,15759
+function execute_tag_error(438,16202
+function numbers_toggled_cb 454,16731
+function marks_toggled_cb 462,16934
+function margin_toggled_cb 470,17143
+function hl_bracket_toggled_cb 478,17345
+function hl_line_toggled_cb 488,17616
+function draw_spaces_toggled_cb 496,17834
+function wrap_lines_toggled_cb 507,18112
+function auto_indent_toggled_cb 517,18365
+function insert_spaces_toggled_cb 526,18571
+function silent_execute_toggled_cb 535,18807
+function tabs_toggled_cb 543,18979
+function indent_toggled_cb 553,19191
+function smart_home_end_toggled_cb 563,19418
+function forward_string_cb 575,19685
+function backward_string_cb 592,20152
+function y 623,20960
+function do_search_replace 685,22805
+function find_cb 722,23834
+function replace_cb 726,23922
+function open_file_cb 730,24013
+function begin_print 760,24823
+function y 767,25044
+function draw_page 781,25547
+function end_print 815,26663
+function print_file_cb 824,26921
+function y 875,28526
+function result 910,29347
+function y 972,31050
+function save_as_cb 1009,32138
+function save_cb 1015,32319
+function y=1027,32596
+function close_cb 1054,33361
+function update_cursor_position 1080,34006
+function move_cursor_cb 1114,34829
+function y 1119,35007
+function line_mark_activated 1142,35747
+function drag_data_received_cb 1158,36307
+function text 1165,36516
+function add_source_mark_pixbufs 1174,36849
+function button_ok_clicked(1186,37240
+function button_cancel_clicked(1190,37327
+function window 1199,37578
+function window=1343,42670
+function nsp_edit(1402,44395
+function mat 1418,44845
+function nsp_sourceview_cleanup(1438,45368
+function test_schemes(1447,45572
+function nsp=1491,46827
+function view_set_title 1499,47047
+function name 1513,47430
+
+wip/demo_rotated_text.sci,107
+function fancy_shape_renderer 12,346
+function attrs 34,977
+function y=61,1761
+function window 113,3762

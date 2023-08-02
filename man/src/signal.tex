@@ -1,0 +1,187 @@
+\chapter*{Signal Processing Toolbox}\addcontentsline{toc}{chapter}{Signal Processing Toolbox}
+
+\begin{quote}
+\noindent
+\hyperlink{fft}{fft} - {fast Fourier transform} \\
+\hyperlink{ifft}{ifft} - {inverse fast Fourier transform} \\
+\hyperlink{fftshift}{fftshift} - {reorder the Fourier coefficients computed by fft} \\
+\hyperlink{ifftshift}{ifftshift} - {inverse operation} \\
+\hyperlink{rot90}{rot90} - {rotate a matrix by increment of 90 degrees} \\
+\hyperlink{fliplr}{fliplr} - {reverse the columns of a matrix} \\
+\hyperlink{flipud}{flipud} - {reverse the rows of a matrix} \\
+\end{quote}
+
+\input{\mansrc signal/fft.tex}
+\input{\mansrc signal/fftshift.tex}
+\input{\mansrc signal/rotflip.tex}
+
+\section*{Filters}\addcontentsline{toc}{section}{Filters}
+
+\begin{quote}
+\noindent
+\hyperlink{analpf}{analpf} - analog low-pass filter \\
+\hyperlink{buttmag}{buttmag} - squared magnitude response of a Butterworth filter \\
+\hyperlink{casc}{casc} - creates cascade realization of filter \\
+\hyperlink{cheb1mag}{cheb1mag} - square magnitude response of a type 1 Chebyshev filter \\
+\hyperlink{cheb2mag}{cheb2mag} - square magnitude response of a type 1 Chebyshev filter \\
+\hyperlink{chepol}{chepol} - recursive implementation of Chebychev polynomial \\
+\hyperlink{convol}{convol} - convolution of 2 discrete series \\
+\hyperlink{ell1 mag}{ell1 mag} - squared magnitude of an elliptic filter \\
+\hyperlink{eqfir}{eqfir} - minimax multi-band, linear phase, FIR filter \\
+\hyperlink{eqiir}{eqiir} - design of iir filter \\
+\hyperlink{faurre}{faurre} - optimal lqg filter. \\
+\hyperlink{lindquist}{lindquist} - optimal lqg filter lindquist algorithm \\
+\hyperlink{ffilt}{ffilt} - FIR low-pass,high-pass, band-pass, or stop-band filter \\
+\hyperlink{filter}{filter} - compute the filter model \\
+\hyperlink{find_freq}{find\_freq} - parameter compatibility for elliptic filter design \\
+\hyperlink{findm}{findm} - for elliptic filter design \\
+\hyperlink{frmag}{frmag} - magnitude of the frequency responses of FIR and IIR filters. \\
+\hyperlink{fsfirlin}{fsfirlin} - design of FIR, linear phase (frequency sampling technique) \\
+\hyperlink{fwiir}{fwiir} - optimum design of IIR filters in cascade realization, \\
+\hyperlink{iir}{iir} - designs an iir digital filter using analog filter designs. \\
+\hyperlink{iirgroup}{iirgroup} - group delay of iir filter \\
+\hyperlink{iirlp}{iirlp} - Lp IIR filters optimization \\
+\hyperlink{group}{group} - calculate the group delay of a digital filter \\
+\hyperlink{optfir}{optfir} - optimal design of linear phase filters using linear programming \\
+\hyperlink{remezb}{remezb} - minimax approximation of a frequency domain magnitude response. \\
+\hyperlink{kalm}{kalm} - Kalman update and error variance \\
+\hyperlink{lev}{lev} - resolve the Yule-Walker equations - \\
+\hyperlink{levin}{levin} - solve recursively Toeplitz system (normal equations) \\
+\hyperlink{srfaur}{srfaur} - square-root algorithm for the algebraic Riccati equation. \\
+\hyperlink{srkf}{srkf} - square-root Kalman filter algorithm \\
+\hyperlink{sskf}{sskf} - steady-state Kalman filter \\
+\hyperlink{system}{system} - generates the next observation given the old state \\
+\hyperlink{trans}{trans} - transformation of standardized low-pass filter into low-pass, high-pass, band-pass, stop-band. \\
+\hyperlink{wfir}{wfir} - linear-phase windowed FIR low-pass, band-pass, high-pass, stop-band \\
+\hyperlink{wiener}{wiener} - Wiener estimate (forward-backward Kalman filter formulation) \\
+\hyperlink{wigner}{wigner} - time-frequency wigner spectrum of a signal. \\
+\hyperlink{window}{window} - calculate symmetric window \\
+\hyperlink{zpbutt}{zpbutt} - Butterworth analog filter \\
+\hyperlink{zpch1}{zpch1} - poles of a type 1 Chebyshev analog filter \\
+\hyperlink{zpch2}{zpch2} - poles and zeros of a type 2 Chebyshev analog filter \\
+\hyperlink{zpell}{zpell} - poles and zeros of prototype lowpass elliptic filter
+\end{quote}{quote}
+
+\section*{Spectral estimation}{Spectral estimation} 
+\addcontentsline{toc}{section}{Spectral estimation}
+
+\begin{quote}{quote}
+\noindent
+\hyperlink{corr}{corr} - correlation coefficients \\
+\hyperlink{cspect}{cspect} - spectral estimation using the modified periodogram method. \\
+\hyperlink{czt}{czt} - chirp z-transform algorithm \\
+\hyperlink{intdec}{intdec} - change the sampling rate of a 1D or 2D signal \\
+\hyperlink{mese}{mese} - calculate the maximum entropy spectral estimate \\
+\hyperlink{pspect}{pspect} - auto and cross-spectral estimate \\
+\hyperlink{wigner}{wigner} - Wigner-Ville time/frequency spectral estimation 
+\end{quote}{quote}
+
+\section*{Transforms}{Transforms}
+\addcontentsline{toc}{section}{Transforms}
+\begin{quote}{quote}
+\noindent
+\hyperlink{dft}{dft} - discrete Fourier transform \\
+\hyperlink{fft}{fft} - fast flourier transform \\
+\hyperlink{hilb}{hilb} - Hilbert transform centred around the origin. \\
+\hyperlink{hank}{hank} - hankel matrix of the covariance sequence of a vector process \\
+\hyperlink{mfft}{mfft} - fft for a multi-dimensional signal  
+\end{quote}{quote}
+
+\section*{Identification}{Identification}
+\addcontentsline{toc}{section}{Identification}
+\begin{quote}{quote}
+\noindent
+\hyperlink{lattn,lattp}{lattn,lattp} - recursive solution of normal equations \\
+\hyperlink{phc}{phc} - State space realisation by the principal hankel component  approximation method, \\
+\hyperlink{rpem}{rpem} - identification by the recursive prediction error method 
+\end{quote}{quote}
+
+
+\section*{Miscellaneous}{Miscellaneous}
+\addcontentsline{toc}{section}{Miscellaneous}
+\begin{quote}{quote}
+\noindent
+\hyperlink{lgfft}{lgfft} - computes p = ceil (log\_2(x)) \\
+\hyperlink{sinc}{sinc} - calculate the function sin(2*pi*fl*t)/(pi*t) \\
+\hyperlink{sincd}{sincd} - calculates the function Sin(N*x)/Sin(x) \\
+%\hyperlink{\%k}{\%k} - Jacobi's complete elliptic integral \\
+%\hyperlink{\%asn}{\%asn} - .TP the elliptic integral - \\
+%\hyperlink{\%sn}{\%sn} - Jacobi 's elliptic function with parameter m \\
+\hyperlink{bilt}{bilt} - bilinear transform or biquadratic transform. \\
+\hyperlink{jmat}{jmat} - permutes block rows or block columns of a matrix  
+\end{quote}
+
+\input{\mansrc signal/analpf.tex}
+\input{\mansrc signal/buttmag.tex}
+\input{\mansrc signal/casc.tex}
+\input{\mansrc signal/cepstrum.tex}
+\input{\mansrc signal/cheb1mag.tex}
+\input{\mansrc signal/cheb2mag.tex}
+\input{\mansrc signal/chepol.tex}
+\input{\mansrc signal/convol.tex}
+\input{\mansrc signal/corr.tex}
+\input{\mansrc signal/cspect.tex}
+\input{\mansrc signal/czt.tex}
+\input{\mansrc signal/dft.tex}
+\input{\mansrc signal/ell1mag.tex}
+\input{\mansrc signal/eqfir.tex}
+\input{\mansrc signal/eqiir.tex}
+\input{\mansrc signal/faurre.tex}
+\input{\mansrc signal/ffilt.tex}
+\input{\mansrc signal/filter.tex}
+\input{\mansrc signal/find_freq.tex}
+\input{\mansrc signal/findm.tex}
+\input{\mansrc signal/frfit.tex}
+
+\input{\mansrc signal/frmag.tex}
+\input{\mansrc signal/fsfirlin.tex}
+\input{\mansrc signal/group.tex}
+\input{\mansrc signal/hank.tex}
+\input{\mansrc signal/hilb.tex}
+\input{\mansrc signal/iirgroup.tex}
+\input{\mansrc signal/iirlp.tex}
+\input{\mansrc signal/iir.tex}
+\input{\mansrc signal/intdec.tex}
+\input{\mansrc signal/jmat.tex}
+\input{\mansrc signal/kalm.tex}
+\input{\mansrc signal/lattn.tex}
+\input{\mansrc signal/lattp.tex}
+\input{\mansrc signal/levin.tex}
+\input{\mansrc signal/lev.tex}
+\input{\mansrc signal/lgfft.tex}
+
+\input{\mansrc signal/lindquist.tex}
+\input{\mansrc signal/mese.tex}
+
+\input{\mansrc signal/mfft.tex}
+\input{\mansrc signal/mrfit.tex}
+
+%\input{\mansrc signal/percentasn.tex}
+%\input{\mansrc signal/percentk.tex}
+%\input{\mansrc signal/percentsn.tex}
+
+\input{\mansrc signal/phc.tex}
+\input{\mansrc signal/pspect.tex}
+\input{\mansrc signal/remezb.tex}
+
+\input{\mansrc signal/remez.tex}
+\input{\mansrc signal/rpem.tex}
+\input{\mansrc signal/Signal.tex}
+\input{\mansrc signal/sincd.tex}
+
+\input{\mansrc signal/sinc.tex}
+\input{\mansrc signal/srfaur.tex}
+\input{\mansrc signal/srkf.tex}
+\input{\mansrc signal/sskf.tex}
+\input{\mansrc signal/system.tex}
+\input{\mansrc signal/trans.tex}
+\input{\mansrc signal/wfir.tex}
+\input{\mansrc signal/wiener.tex}
+\input{\mansrc signal/wigner.tex}
+\input{\mansrc signal/window.tex}
+\input{\mansrc signal/yulewalk.tex}
+\input{\mansrc signal/zpbutt.tex}
+\input{\mansrc signal/zpch1.tex}
+\input{\mansrc signal/zpch2.tex}
+\input{\mansrc signal/zpell.tex}
+

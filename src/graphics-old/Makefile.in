@@ -1,0 +1,537 @@
+SHELL = /bin/sh
+SCIDIR=../..
+
+LIBRARY = graphics.a
+
+# periGif.o 
+
+OBJSC = Graphics-IN.o  Contour.o Plo3d.o  Axes.o Champ.o Plo2d.o \
+	Plo2d1.o Plo2d2.o Plo2d3.o Plo2d4.o Plo2dEch.o Rec.o Gray.o \
+	RecLoad.o RecSave.o Tests.o Actions.o Xcall1.o Plo3dObj.o \
+	windows.o periGtk.o periPos.o periFig.o perigen.o \
+	click.o @PERICAIRO@ @PERIGLEXT@
+
+OBJSF = 
+
+include ../../Makefile.incl
+
+GTKFLAGS= -DG_DISABLE_DEPRECATED  \
+	-DGDK_PIXBUF_DISABLE_DEPRECATED \
+	-DGDK_DISABLE_DEPRECATED \
+	-DGTK_DISABLE_DEPRECATED \
+	-DPANGO_DISABLE_DEPRECATED
+
+CFLAGS = $(CC_OPTIONS) $(XFLAGS) @WINXFLAGS@
+
+FFLAGS = $(FC_OPTIONS)
+
+include ../Make.lib
+
+# with gcc compiler, do not inline "floor" function in "Format.c"
+
+Format.o: Format.c
+	@echo compiling $<
+	@$(CC) $(CFLAGS) @NOINLINE@ -c $< -o $@
+
+#--- dependencies generated with gcc ----
+
+Xcall1.o: new_graphics.h ../include/nsp/graphics-old/Graphics.h \
+
+Actions.o: Actions.c ../include/nsp/math.h \
+  ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/machine.h ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/command.h
+
+Alloc.o: Alloc.c ../include/nsp/math.h \
+  ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/machine.h ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Axes.o: Axes.c ../include/nsp/math.h \
+  ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/machine.h ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Champ.o: Champ.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+clip.o: clip.c ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h ../include/nsp/sciio.h \
+  ../include/nsp/math.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Contour.o: Contour.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+dsearch.o: dsearch.c ../include/nsp/matrix-in.h \
+  ../include/nsp/interf.h ../include/nsp/object.h \
+  ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/string.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/sciio.h ../include/nsp/user-prefs.h \
+  ../include/nsp/tokenizer.h ../include/nsp/plisttoken.h \
+  ../include/nsp/file.h ../include/nsp/xdr.h \
+  ../include/nsp/matrix.h ../include/nsp/bmatrix.h \
+  ../include/nsp/smatrix.h ../include/nsp/imatrix.h \
+  ../include/nsp/sprowmatrix.h ../include/nsp/triplet.h \
+  ../include/nsp/spcolmatrix.h ../include/nsp/pmatrix.h \
+  ../include/nsp/plist.h ../include/nsp/list.h \
+  ../include/nsp/hash.h ../include/nsp/function.h \
+  ../include/nsp/ivect.h ../include/nsp/mod.h \
+  ../include/nsp/me.h ../include/nsp/lmo.h \
+  ../include/nsp/rect.h ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h ../include/nsp/block.h \
+  ../include/nsp/gframe.h ../include/nsp/grint.h \
+  ../include/nsp/connector.h ../include/nsp/link.h \
+  ../include/nsp/none.h ../include/nsp/type.h \
+  ../include/nsp/module.h ../include/nsp/modulelt.h \
+  ../include/nsp/classa.h ../include/nsp/classb.h \
+  ../include/nsp/classaref.h ../include/nsp/classbref.h \
+  ../include/nsp/cells.h ../include/nsp/matint.h \
+  ../include/nsp/serial.h ../include/nsp/bhash.h \
+  ../include/nsp/smatrix-in.h ../include/nsp/bmatrix-in.h \
+  ../interp/Eval.h ../include/nsp/datas.h \
+  ../include/nsp/accelerated_tab.h ../include/nsp/interf.h \
+  ../include/nsp/gsort-p.h
+
+Format.o: Format.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Graphics-IN.o: new_graphics.h Graphics-IN.c ../include/nsp/matrix-in.h \
+  ../include/nsp/interf.h ../include/nsp/object.h \
+  ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/string.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/sciio.h ../include/nsp/user-prefs.h \
+  ../include/nsp/tokenizer.h ../include/nsp/plisttoken.h \
+  ../include/nsp/file.h ../include/nsp/xdr.h \
+  ../include/nsp/matrix.h ../include/nsp/bmatrix.h \
+  ../include/nsp/smatrix.h ../include/nsp/imatrix.h \
+  ../include/nsp/sprowmatrix.h ../include/nsp/triplet.h \
+  ../include/nsp/spcolmatrix.h ../include/nsp/pmatrix.h \
+  ../include/nsp/plist.h ../include/nsp/list.h \
+  ../include/nsp/hash.h ../include/nsp/function.h \
+  ../include/nsp/ivect.h ../include/nsp/mod.h \
+  ../include/nsp/me.h ../include/nsp/lmo.h \
+  ../include/nsp/rect.h ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h ../include/nsp/block.h \
+  ../include/nsp/gframe.h ../include/nsp/grint.h \
+  ../include/nsp/connector.h ../include/nsp/link.h \
+  ../include/nsp/none.h ../include/nsp/type.h \
+  ../include/nsp/module.h ../include/nsp/modulelt.h \
+  ../include/nsp/classa.h ../include/nsp/classb.h \
+  ../include/nsp/classaref.h ../include/nsp/classbref.h \
+  ../include/nsp/cells.h ../include/nsp/matint.h \
+  ../include/nsp/serial.h ../include/nsp/bhash.h \
+  ../include/nsp/bmatrix-in.h ../include/nsp/parse.h \
+  ../include/nsp/gsort-p.h ../include/nsp/gtk/gobject.h \
+  ../include/nsp/gtk/gdkimage.h \
+  ../include/nsp/gtk/gdkpixbuf.h
+
+Gray.o: Gray.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Math.o: Math.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+periCairoNew.o: periCairoNew.c periGtkstd.c \
+  ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/periGtk.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h \
+  ../include/nsp/command.h perigtk/events.c perigtk/init.c \
+  perigtk/fonts_pango_cairo.c perigtk/peridraw_cairo_new.c
+
+periGtk.o: periGtk.c periGtkstd.c \
+  ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/periGtk.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h \
+  ../include/nsp/command.h perigtk/events.c perigtk/init.c \
+  perigtk/fonts_pango_cairo.c perigtk/peridraw_cairo_new.c
+
+periGL.o: periGL.c periGtkstd.c \
+  ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/periGtk.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h \
+  ../include/nsp/command.h perigtk/events.c perigtk/init.c \
+  perigtk/fonts_pango_cairo.c perigtk/peridraw_cairo_new.c
+
+
+periFig.o: periFig.c ../include/nsp/sciio.h \
+  ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/periFig.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h \
+  ../include/nsp/math.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h \
+  ../include/nsp/command.h \
+  ../include/nsp/math.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/periGtk.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h \
+  ../include/nsp/command.h perigtk/events.c perigtk/init.c \
+  perigtk/fonts_pango_ft2_gl.c perigtk/peridraw_gl.c \
+  ../include/nsp/math.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/periGtk.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h \
+  ../include/nsp/command.h perigtk/events.c perigtk/init.c \
+  perigtk/fonts_pango_gdk.c perigtk/peridraw_gdk.c perigtk/points.c
+
+periPos.o: periPos.c ../include/nsp/sciio.h \
+  ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/periPos.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/version.h ../include/nsp/graphics-old/color.h 
+
+Plo2d1.o: Plo2d1.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Plo2d2.o: Plo2d2.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Plo2d3.o: Plo2d3.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Plo2d4.o: Plo2d4.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+Plo2d.o: Plo2d.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphic.h ../include/nsp/object.h \
+  ../include/nsp/string.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/file.h ../include/nsp/xdr.h \
+  ../include/nsp/matrix.h ../include/nsp/bmatrix.h \
+  ../include/nsp/smatrix.h ../include/nsp/imatrix.h \
+  ../include/nsp/mpmatrix.h ../include/nsp/sprowmatrix.h \
+  ../include/nsp/triplet.h ../include/nsp/spcolmatrix.h \
+  ../include/nsp/pmatrix.h ../include/nsp/plist.h \
+  ../include/nsp/list.h ../include/nsp/hash.h \
+  ../include/nsp/function.h ../include/nsp/ivect.h \
+  ../include/nsp/mod.h ../include/nsp/me.h \
+  ../include/nsp/lmo.h ../include/nsp/rect.h \
+  ../include/nsp/block.h ../include/nsp/gframe.h \
+  ../include/nsp/grint.h ../include/nsp/connector.h \
+  ../include/nsp/link.h ../include/nsp/none.h \
+  ../include/nsp/type.h ../include/nsp/module.h \
+  ../include/nsp/modulelt.h ../include/nsp/classa.h \
+  ../include/nsp/classb.h ../include/nsp/classaref.h \
+  ../include/nsp/classbref.h ../include/nsp/cells.h \
+  ../include/nsp/matint.h ../include/nsp/serial.h \
+  ../include/nsp/bhash.h ../include/nsp/axes.h \
+  ../include/nsp/curve.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/gsort-p.h ../include/nsp/string.h \
+  ../include/nsp/object.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/file.h ../include/nsp/xdr.h \
+  ../include/nsp/matrix.h ../include/nsp/bmatrix.h \
+  ../include/nsp/smatrix.h ../include/nsp/imatrix.h \
+  ../include/nsp/mpmatrix.h ../include/nsp/sprowmatrix.h \
+  ../include/nsp/triplet.h ../include/nsp/spcolmatrix.h \
+  ../include/nsp/pmatrix.h ../include/nsp/plist.h \
+  ../include/nsp/list.h ../include/nsp/hash.h \
+  ../include/nsp/function.h ../include/nsp/ivect.h \
+  ../include/nsp/mod.h ../include/nsp/me.h \
+  ../include/nsp/lmo.h ../include/nsp/rect.h \
+  ../include/nsp/block.h ../include/nsp/gframe.h \
+  ../include/nsp/grint.h ../include/nsp/connector.h \
+  ../include/nsp/link.h ../include/nsp/none.h \
+  ../include/nsp/type.h ../include/nsp/module.h \
+  ../include/nsp/modulelt.h ../include/nsp/classa.h \
+  ../include/nsp/classb.h ../include/nsp/classaref.h \
+  ../include/nsp/classbref.h ../include/nsp/cells.h \
+  ../include/nsp/matint.h ../include/nsp/serial.h \
+  ../include/nsp/bhash.h ../include/nsp/graphics-old/periGtk.h \
+  ../include/nsp/graphics-old/Graphics.h
+
+Plo3dObj.o: Plo3dObj.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h ../include/nsp/interf.h \
+  ../include/nsp/object.h ../include/nsp/string.h \
+  ../include/nsp/index.h ../include/nsp/object-inlined.h \
+  ../include/nsp/hobj.h ../include/nsp/file.h \
+  ../include/nsp/xdr.h ../include/nsp/matrix.h \
+  ../include/nsp/bmatrix.h ../include/nsp/smatrix.h \
+  ../include/nsp/sprowmatrix.h ../include/nsp/triplet.h \
+  ../include/nsp/spcolmatrix.h ../include/nsp/pmatrix.h \
+  ../include/nsp/plist.h ../include/nsp/list.h \
+  ../include/nsp/hash.h ../include/nsp/function.h \
+  ../include/nsp/ivect.h ../include/nsp/mod.h \
+  ../include/nsp/me.h ../include/nsp/lmo.h \
+  ../include/nsp/rect.h ../include/nsp/block.h \
+  ../include/nsp/gframe.h ../include/nsp/grint.h \
+  ../include/nsp/connector.h ../include/nsp/link.h \
+  ../include/nsp/none.h ../include/nsp/type.h \
+  ../include/nsp/module.h ../include/nsp/modulelt.h \
+  ../include/nsp/classa.h ../include/nsp/classb.h \
+  ../include/nsp/classaref.h ../include/nsp/classbref.h \
+  ../include/nsp/cells.h ../include/nsp/matint.h \
+  ../include/nsp/serial.h ../include/nsp/bhash.h Plo3dObj.h
+
+Rec.o: Rec.c ../include/nsp/math.h ../include/nsp/machine.h \
+  ../include/nsp/config.h ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/graphics-old/Rec_private.h \
+  ../include/nsp/graphics-old/Rec.h ../include/nsp/object.h \
+  ../include/nsp/string.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/file.h ../include/nsp/xdr.h \
+  ../include/nsp/matrix.h ../include/nsp/bmatrix.h \
+  ../include/nsp/smatrix.h ../include/nsp/imatrix.h \
+  ../include/nsp/sprowmatrix.h ../include/nsp/triplet.h \
+  ../include/nsp/spcolmatrix.h ../include/nsp/pmatrix.h \
+  ../include/nsp/plist.h ../include/nsp/list.h \
+  ../include/nsp/hash.h ../include/nsp/function.h \
+  ../include/nsp/ivect.h ../include/nsp/mod.h \
+  ../include/nsp/me.h ../include/nsp/lmo.h \
+  ../include/nsp/rect.h ../include/nsp/block.h \
+  ../include/nsp/gframe.h ../include/nsp/grint.h \
+  ../include/nsp/connector.h ../include/nsp/link.h \
+  ../include/nsp/none.h ../include/nsp/type.h \
+  ../include/nsp/module.h ../include/nsp/modulelt.h \
+  ../include/nsp/classa.h ../include/nsp/classb.h \
+  ../include/nsp/classaref.h ../include/nsp/classbref.h \
+  ../include/nsp/cells.h ../include/nsp/matint.h \
+  ../include/nsp/serial.h ../include/nsp/bhash.h \
+  ../include/nsp/graphic.h
+
+RecLoad.o: RecLoad.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h ../include/nsp/xdr.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/graphics-old/Rec.h ../include/nsp/object.h \
+  ../include/nsp/string.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/file.h ../include/nsp/matrix.h \
+  ../include/nsp/bmatrix.h ../include/nsp/smatrix.h \
+  ../include/nsp/sprowmatrix.h ../include/nsp/triplet.h \
+  ../include/nsp/spcolmatrix.h ../include/nsp/pmatrix.h \
+  ../include/nsp/plist.h ../include/nsp/list.h \
+  ../include/nsp/hash.h ../include/nsp/function.h \
+  ../include/nsp/ivect.h ../include/nsp/mod.h \
+  ../include/nsp/me.h ../include/nsp/lmo.h \
+  ../include/nsp/rect.h ../include/nsp/block.h \
+  ../include/nsp/gframe.h ../include/nsp/grint.h \
+  ../include/nsp/connector.h ../include/nsp/link.h \
+  ../include/nsp/none.h ../include/nsp/type.h \
+  ../include/nsp/module.h ../include/nsp/modulelt.h \
+  ../include/nsp/classa.h ../include/nsp/classb.h \
+  ../include/nsp/classaref.h ../include/nsp/classbref.h \
+  ../include/nsp/cells.h ../include/nsp/matint.h \
+  ../include/nsp/serial.h ../include/nsp/bhash.h
+
+RecSave.o: RecSave.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/graphics-old/Rec.h ../include/nsp/object.h \
+  ../include/nsp/string.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/file.h ../include/nsp/xdr.h \
+  ../include/nsp/matrix.h ../include/nsp/bmatrix.h \
+  ../include/nsp/smatrix.h ../include/nsp/imatrix.h \
+  ../include/nsp/sprowmatrix.h ../include/nsp/triplet.h \
+  ../include/nsp/spcolmatrix.h ../include/nsp/pmatrix.h \
+  ../include/nsp/plist.h ../include/nsp/list.h \
+  ../include/nsp/hash.h ../include/nsp/function.h \
+  ../include/nsp/ivect.h ../include/nsp/mod.h \
+  ../include/nsp/me.h ../include/nsp/lmo.h \
+  ../include/nsp/rect.h ../include/nsp/block.h \
+  ../include/nsp/gframe.h ../include/nsp/grint.h \
+  ../include/nsp/connector.h ../include/nsp/link.h \
+  ../include/nsp/none.h ../include/nsp/type.h \
+  ../include/nsp/module.h ../include/nsp/modulelt.h \
+  ../include/nsp/classa.h ../include/nsp/classb.h \
+  ../include/nsp/classaref.h ../include/nsp/classbref.h \
+  ../include/nsp/cells.h ../include/nsp/matint.h \
+  ../include/nsp/serial.h ../include/nsp/bhash.h
+
+Tests.o: Tests.c ../include/nsp/math.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h
+
+windows.o: windows.c ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/machine.h ../include/nsp/config.h \
+  ../include/nsp/package_undef.h ../include/nsp/sciio.h \
+  ../include/nsp/math.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h \
+  ../include/nsp/graphics-old/perigen.h \
+  ../include/nsp/config.h \
+  ../include/nsp/package_undef.h ../include/nsp/sciio.h \
+  ../include/nsp/user-prefs.h ../include/nsp/tokenizer.h \
+  ../include/nsp/plisttoken.h ../include/nsp/object.h \
+  ../include/nsp/string.h ../include/nsp/index.h \
+  ../include/nsp/object-inlined.h ../include/nsp/hobj.h \
+  ../include/nsp/file.h ../include/nsp/xdr.h \
+  ../include/nsp/matrix.h ../include/nsp/bmatrix.h \
+  ../include/nsp/smatrix.h ../include/nsp/imatrix.h \
+  ../include/nsp/mpmatrix.h ../include/nsp/sprowmatrix.h \
+  ../include/nsp/triplet.h ../include/nsp/spcolmatrix.h \
+  ../include/nsp/pmatrix.h ../include/nsp/plist.h \
+  ../include/nsp/list.h ../include/nsp/hash.h \
+  ../include/nsp/function.h ../include/nsp/ivect.h \
+  ../include/nsp/mod.h ../include/nsp/me.h \
+  ../include/nsp/lmo.h ../include/nsp/rect.h \
+  ../include/nsp/graphics-old/Graphics.h \
+  ../include/nsp/graphics-old/perigen.h ../include/nsp/block.h \
+  ../include/nsp/gframe.h ../include/nsp/grint.h \
+  ../include/nsp/connector.h ../include/nsp/link.h \
+  ../include/nsp/none.h ../include/nsp/type.h \
+  ../include/nsp/module.h ../include/nsp/modulelt.h \
+  ../include/nsp/classa.h ../include/nsp/classb.h \
+  ../include/nsp/classaref.h ../include/nsp/classbref.h \
+  ../include/nsp/cells.h ../include/nsp/matint.h \
+  ../include/nsp/serial.h ../include/nsp/bhash.h 
+
+

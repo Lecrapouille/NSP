@@ -1,0 +1,122 @@
+;; -*- scheme -*-
+
+(include "ast-types.defs")
+
+(define-method get_str
+  (of-object "Ast")
+  (c-name "ast_get_str")
+  (return-type "string")
+)
+
+(define-method set_str
+  (of-object "Ast")
+  (c-name "ast_set_str")
+  (parameters
+   '("string" "str")
+   )
+  (return-type "none")
+)
+
+;; method get op is used to get the id of 
+;; the ast node which is an integer. This 
+;; is not supposed to be used at user level 
+
+(define-method get_op
+  (of-object "Ast")
+  (c-name "ast_get_op")
+  (return-type "int")
+)
+
+;; 
+
+
+(define-method get_codename
+  (of-object "Ast")
+  (c-name "ast_get_codename")
+  (return-type "int")
+)
+
+(define-method get_opname
+  (of-object "Ast")
+  (c-name "ast_get_opname")
+  (return-type "int")
+)
+
+(define-method is
+  (of-object "Ast")
+  (c-name "ast_is")
+  (return-type "int")
+)
+
+(define-method get_obj
+  (of-object "Ast")
+  (c-name "ast_get_obj")
+  (return-type "int")
+)
+
+(define-method get_user_data
+  (of-object "Ast")
+  (c-name "ast_get_user_data")
+  (return-type "NspObject*")
+)
+
+(define-method set_user_data
+  (of-object "Ast")
+  (parameters
+   '("NspObject*" "ud")
+   )
+  (c-name "ast_set_user_data")
+  (return-type "void")
+)
+
+
+(define-method get_args
+  (of-object "Ast")
+  (c-name "ast_get_args")
+  (return-type "NspList*")
+)
+
+(define-method set_args
+  (of-object "Ast")
+  (c-name "set_args")
+  (parameters
+   '("NspList*" "args")
+  )
+)
+
+(define-method get_arity
+  (of-object "Ast")
+  (c-name "ast_get_arity")
+  (return-type "int")
+)
+
+(define-method get_line
+  (of-object "Ast")
+  (c-name "ast_get_line")
+  (return-type "int")
+)
+
+(define-method sprint
+  (of-object "Ast")
+  (c-name "ast_sprint")
+  (return-type "NspSMatrix*")
+)
+
+(define-method fprint
+  (of-object "Ast")
+  (c-name "ast_fprint")
+  (return-type "NspSMatrix*")
+)
+
+(define-method print
+  (of-object "Ast")
+  (c-name "ast_print")
+  (return-type "NspSMatrix*")
+)
+
+(define-method print_length
+  (of-object "Ast")
+  (c-name "ast_print_length")
+  (return-type "int")
+)
+

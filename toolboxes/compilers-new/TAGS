@@ -1,0 +1,42 @@
+
+modelicac/src/xMLCodeGeneration.ml,0
+
+modelicac/src/symbolicExpression.ml,0
+
+modelicac/src/squareSparseMatrix.ml,0
+
+modelicac/src/scicosOptimizingCompiler.ml,0
+
+modelicac/src/scicosCodeGeneration.ml,0
+
+modelicac/src/precompilation-new.ml,0
+
+modelicac/src/precompilation.ml,0
+
+modelicac/src/parseTree.ml,0
+
+modelicac/src/parser.ml,0
+
+modelicac/src/parse.ml,0
+
+modelicac/src/optimizingCompiler.ml,0
+
+modelicac/src/optimization.ml,0
+
+modelicac/src/linenum.ml,0
+
+modelicac/src/lexer.ml,0
+
+modelicac/src/instantiation.ml,0
+
+modelicac/src/hungarianMethod.ml,0
+
+modelicac/src/graphNodeSet.ml,0
+
+modelicac/src/compilation-new.ml,0
+
+modelicac/src/compilation.ml,0
+
+modelicac/src/causalityGraph.ml,0
+
+modelicac/src/bipartiteGraph.ml,0

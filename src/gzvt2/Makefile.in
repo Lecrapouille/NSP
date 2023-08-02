@@ -1,0 +1,16 @@
+include ../../Makefile.incl
+
+CFLAGS=-I../include `$(PKG_CONFIG) @VTE_PKG@ --cflags --libs` \
+	-Wno-deprecated-declarations
+
+all	::  ../../bin/zterm
+
+../../bin/zterm :  @VTE_FILE@
+	@echo compiling @VTE_FILE@
+	@$(CC) -o ../../bin/zterm @VTE_FILE@ $(CFLAGS)
+
+distclean::
+	@$(RM) -f ../../bin/zterm
+
+clean::
+

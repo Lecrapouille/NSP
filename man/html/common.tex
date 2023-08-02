@@ -1,0 +1,91 @@
+\usepackage{a4wide}
+%\usepackage[french]{babel}
+\usepackage[dvips]{epsfig} 
+\usepackage[latin1]{inputenc}
+\usepackage{verbatim}
+\usepackage{moreverb}
+\usepackage{alltt}
+\usepackage{makeidx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{fancyvrb}
+\ifdefined\HCode
+ \usepackage[tex4ht]{hyperref}
+\else 
+ \usepackage[dvips]{hyperref}
+\fi
+\usepackage{xcolor}
+\usepackage{mintednsp}
+\usepackage{upquote}
+\usepackage{nsp}
+\newenvironment{mansection}[1]{\newpage\section*{#1}} %\hypertarget{#1}{}}
+
+\def\mansrc{../../src/}
+
+\ifdefined\HCode 
+\else 
+\def\HCode#1{}
+\def\Hnewline{}
+\fi
+
+
+%\newenvironment{mansectionunder}[2]{\newpage\section*{#1}\hypertarget{#2}{}}
+
+\newenvironment{mandesc}{%
+  \ifdefined\HCode\begin{flushleft} \HCode{<div class="manref">}\fi}{\ifdefined\HCode\HCode{</div>}\end{flushleft}\fi}
+
+% \def\short#1#2{%
+%   \index{#1}\label{#1}%
+%   \addcontentsline{toc}{section}{\texttt{#1}\mansep #2} \texttt{#1} \mansep #2}%
+
+\def\short#1#2{%
+  \index{#1}\ifdefined\hypertarget\hypertarget{#1}{}\fi
+  \texttt{#1} \mansep #2}%
+
+% \def\shortunder#1#2#3{%
+%   \index{#1}\label{#2}%
+%   \addcontentsline{toc}{section}{\texttt{#1}\mansep #3} \texttt{#1} \mansep #3}%
+
+\def\shortunder#1#2#3{%
+  \index{#1}\ifdefined\hypertarget\hypertarget{#2}{}\fi
+  \texttt{#1} \mansep #3}%
+
+\newenvironment{calling_sequence}{\paragraph{Calling sequence}}{}
+\newenvironment{parameters}{\paragraph{Parameters}}{}
+\newenvironment{mandescription}{\paragraph{Description}\hfill\par\noindent}{} 
+\newenvironment{manseealso}{\paragraph{See also}}{}
+\newenvironment{examples}{\paragraph{Examples}}{}
+\newenvironment{authors}{\paragraph{Authors}}{}
+\newenvironment{secbiblio}{\paragraph{Bibliography}}{}
+
+\def\vname#1{\item \texttt{#1}}
+
+\newenvironment{varlist}{%
+  \begin{itemize}}{\end{itemize}}
+
+\def\coloritem#1{\item \ifdefined\HCode\HCode{<span class="bitem">}#1{\HCode{</span>}}\else #1\fi}%
+
+\newenvironment{nbitemize}{%
+  \begin{itemize}}{\end{itemize}}
+
+\def\manlink#1#2{\hyperlink{#2}{#1}\quad}
+
+\newenvironment{programold}%
+ {\ifdefined\HCode\HCode{<div class="programlisting">}\fi\verbatim}%
+ {\endverbatim\ifdefined\HCode\HCode{</div>}\fi}
+
+\def\itemdesc#1{\ifdefined\HCode\HCode{<div class="itemdesc">}\fi#1{\ifdefined\HCode\HCode{</div>}\fi}}%
+
+\newenvironment{program}%
+ {\ifdefined\HCode\HCode{<div class="programlisting"><pre>}\fi}%
+ {\ifdefined\HCode\HCode{</pre></div>}\fi}
+
+\def\R{\mathbb R}
+\def\N{\mathbb N}
+\def\mansep{ -- \hfill}
+
+%% similar to mintednsp but with a different name 
+%% used for code not to be tested in tests 
+\newmintednsp{nsp}{}
+
+

@@ -1,0 +1,194 @@
+% -*- mode: latex -*-
+
+\mansection{linear\_interpn}
+
+\begin{mandesc}
+  \shortunder{linear\_interpn}{linear_interpn}{n dimensional linear interpolation}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+   \begin{verbatim}
+       vp = linear_interpn(xp1,xp2,..,xpn, x1, ..., xn, v)
+       vp = linear_interpn(xp1,xp2,..,xpn, x1, ..., xn, v, outmode=str_outmode)
+       vp = linear_interpn(xp1,xp2,..,xpn, x1, ..., xn, v, str_outmode])
+   \end{verbatim}
+\end{calling_sequence}
+
+%-- Parameters
+
+\begin{parameters}
+  \begin{varlist}
+   \vname{xp1, xp2, ;.., xpn}: real vectors (or matrices) of same size
+   \vname{x1 ,x2, ..., xn}:  strictly increasing row vectors (with at least 2 components)
+               defining the n dimensional interpolation grid
+   \vname{v}: vector (case n=1), matrix (case n=2,3,...) with the
+               values of the underlying interpolated function at the grid points.
+   \vname{str\_out\_mode}: (optional) string defining the evaluation outside the grid (extrapolation)
+   \vname{vp}:  vector or matrix of same size than \verb!xp1, ..., xpn!
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+
+  Computes values at the points of coordinates defined
+  by the vector (or matrices) \verb!xp1, xp2, ..., xpn!, by n-linear
+  interpolation from the $n$ dimensional grid defined by the n vectors 
+  \verb!x1 ,x2, ..., xn! and the values \verb!v! at the grid points 
+  ($v(i_1,i_2,...,i_n)$ being the value at the point
+  $(x1(i_1),x2(i_2), ..., xn(i_n))$) (see {\bf remark} for using
+  this function for $n \ge 3$).
+  The \verb!outmode! parameter set the evaluation rule for
+  extrapolation that is when \verb+(xp1(i),xp2(i),...,xpn(i))+ is 
+  outside the grid boundary. The different choices are:
+  \begin{itemize}
+       \item \itemdesc{"by\_zero"}: an extrapolation by zero is done
+       \item \itemdesc{"by\_nan"}: extrapolation by Nan
+       \item \itemdesc{"C0"}: the extrapolation is the linear
+         interpolation of $proj(P)$ the nearest point from P located on the grid boundary.
+       \item \itemdesc{"natural"}: the extrapolation is done by using the nearest n-linear patch from the point.
+       \item \itemdesc{"periodic"}: the n-linear interpolant is extended by periodicity. 
+  \end{itemize}
+
+\end{mandescription}
+ 
+\paragraph{Remark}
+  Currently nsp don't provide matrix with more than 2 dimensions. To
+  use this function for trilinear interpolation and more, you must 
+  ``simulate'' such n-dimensional matrices in the following way:
+  assume that there are $ni$ elements along dimension $i$ then :
+  \begin{verbatim}
+      v(i1,i2,i3) = v(i_1 + n1*((i2-1) + n2*(i3-1)))
+ or   v(i1,i2,i3) = v(i_1, i2 + n2*(i3-1))\end{verbatim}
+  to simulate 3d matrix and :
+  \begin{verbatim}
+      v(i1,i2,i3,i4) = v(i_1 + n1*((i2-1) + n2*((i3-1) + n3*(i4-1))))
+ or   v(i1,i2,i3,i4) = v(i_1, i2 + n2*((i3-1)+ n3*(i4-1)))\end{verbatim}
+ to simulate 4d matrix, and so on.
+
+% --example 
+
+\begin{examples}
+\paragraph{example 1}  1d linear interpolation
+\begin{mintednsp}{nsp}
+xclear();
+x = linspace(0,2*%pi,11);
+y = sin(x);
+xx = linspace(-2*%pi,4*%pi,400)';
+yy = linear_interpn(xx, x, y, outmode="periodic");
+xbasc()
+plot2d(xx,yy,style=2)
+plot2d(x,y,style=-9, strf="000")
+xtitle("linear interpolation of sin(x) with 11 interpolation points")
+\end{mintednsp}
+
+\paragraph{example 2} bilinear interpolation
+\begin{mintednsp}{nsp}
+xclear()
+n = 8;
+x = linspace(0,2*%pi,n); y = x;
+z = 2*sin(x')*sin(y);
+xx = linspace(0,2*%pi, 40);
+[xp,yp] = ndgrid(xx,xx);
+zp = linear_interpn(xp,yp, x, y, z);
+xbasc()
+plot3d(xx, xx, zp, flag=[2 6 4])
+[xg,yg] = ndgrid(x,x);
+param3d1(xg,yg, z, style=-9*ones(1,n), flag=[0 0])
+xtitle("Bilinear interpolation of 2sin(x)sin(y)")
+xselect()
+\end{mintednsp}
+
+\paragraph{example 3} bilinear interpolation and experimentation with all the out\_mode features
+\begin{mintednsp}{nsp}
+xclear();
+nx = 20; ny = 30;
+x = linspace(0,1,nx);
+y = linspace(0,2, ny);
+[X,Y] = ndgrid(x,y);
+z = 0.4*cos(2*%pi*X).*cos(%pi*Y);
+nxp = 60 ; nyp = 120;
+xp = linspace(-0.5,1.5, nxp);
+yp = linspace(-0.5,2.5, nyp);
+[XP,YP] = ndgrid(xp,yp);
+zp1 = linear_interpn(XP, YP, x, y, z, outmode="natural");
+zp2 = linear_interpn(XP, YP, x, y, z, outmode="periodic");
+zp3 = linear_interpn(XP, YP, x, y, z, outmode="C0");
+zp4 = linear_interpn(XP, YP, x, y, z, outmode="by_zero");
+zp5 = linear_interpn(XP, YP, x, y, z, outmode="by_nan");
+xbasc()
+subplot(2,3,1)
+   plot3d(x, y, z, leg="x@y@z", flag = [2 4 4])
+   xtitle("initial function 0.4 cos(2 pi x) cos(pi y)")
+subplot(2,3,2)
+   plot3d(xp, yp, zp1, leg="x@y@z", flag = [2 4 4])
+   xtitle("Natural")
+subplot(2,3,3)
+   plot3d(xp, yp, zp2, leg="x@y@z", flag = [2 4 4])
+   xtitle("Periodic")
+subplot(2,3,4)
+   plot3d(xp, yp, zp3, leg="x@y@z", flag = [2 4 4])
+   xtitle("C0")
+subplot(2,3,5)
+   plot3d(xp, yp, zp4, leg="x@y@z", flag = [2 4 4])
+   xtitle("by_zero")
+subplot(2,3,6)
+   plot3d(xp, yp, zp5, leg="x@y@z", flag = [2 4 4])
+   xtitle("by_nan")
+xselect()
+\end{mintednsp}
+
+
+\paragraph{example 4 : trilinear interpolation}
+
+\begin{mintednsp}{nsp}
+xclear();
+function v=f(x,y,z)
+   v=(x-0.5).^2 + (y-0.5).^3 + (z-0.5).^2
+endfunction
+func =  "v=(x-0.5).^2 + (y-0.5).^3 + (z-0.5).^2";
+n = 5; 
+x = linspace(0,1,n); y=x; z=x;
+[X,Y,Z] = ndgrid(x,y,z);
+V = f(X,Y,Z);
+// compute (and display) the linear interpolant on some slices
+m = 41;
+dir = ["z="  "z="  "z="  "x="  "y="];
+val = [ 0.1   0.5   0.9   0.5   0.5];
+ebox = [0 1 0 1 0 1];
+
+XF=[]; YF=[]; ZF=[]; VF=[];
+for i = 1:length(val)
+   [X,Y,Z] = slice_parallelepiped(dir(i), val(i), ebox, m, m, m);
+   Vm = linear_interpn(X,Y,Z, x, y, z, V);
+   [xf,yf,zf,vf] = nf3d(X,Y,Z,Vm,1);
+   XF = [XF xf]; YF = [YF yf]; ZF = [ZF zf]; VF = [VF vf]; 
+end
+nb_col = 128;
+vmin = min(VF); vmax = max(VF);
+color = bsearch(VF,linspace(vmin,vmax,nb_col+1));
+xbasc();
+xset("colormap",jetcolormap(nb_col));
+xset("hidden3d",-1)
+plot3d(XF, YF, ZF,colors=-color, flag=[-1 6 4])
+colorbar(vmin,vmax)
+xset("font size",3)
+xtitle("tri-linear interpolation of "+func)
+xset("font size",1)
+xselect()
+\end{mintednsp}
+ 
+\end{examples}
+
+% -- see also
+
+\begin{manseealso}
+\manlink{splin}{splin} \manlink{splin2d}{splin2d}
+\end{manseealso}
+
+  %-- Author
+
+\begin{authors}
+  B. Pincon
+\end{authors}
+

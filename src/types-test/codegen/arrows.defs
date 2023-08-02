@@ -1,0 +1,15 @@
+;; -*- scheme -*-
+
+(include "arrows-types.defs")
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_arrows
+  (c-name "nsp_extractelts_arrows")
+  (return-type "none")
+)
+(define-function setrowscols_arrows
+  (c-name "nsp_setrowscols_arrows")
+  (return-type "none")
+)
+

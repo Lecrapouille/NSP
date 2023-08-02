@@ -1,0 +1,47 @@
+% -*- mode: latex -*-
+
+\mansection{catenate}
+\begin{mandesc}
+  \short{catenate}{string concatenation}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+B=catenate(A,[row='sep',col='sep',sep='sep'])
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{a,b}: string matrices.
+    \vname{row,col,sep}: optional arguments whose value are strings.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription} 
+  if \verb+col+ or \verb+row+ are omitted then \verb+catenate+
+  returns a string built from the concatenation of all the 
+  elements of \verb+A+. \\
+  if \verb+sep+ is given, its value 
+  is used as a separator in concatenation. \\
+  When \verb+col+ or \verb+row+  are given, the value of \verb+sep+
+  is ignored. A column (resp. row) concatenation is 
+  performed if \verb+col+ (resp. \verb+row+) is given using the optional
+  argument value as separator. If both \verb+col+ and \verb+row+ 
+  are given a column and row concatenation is performed. 
+\end{mandescription}
+  
+\begin{examples}
+  \begin{mintednsp}{nspxxx}
+A = string([1,2;3,4]);
+    catenate(A)
+    catenate(A,sep="-")
+    catenate(A,col="-",row="|") 
+  \end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+  \manlink{concat}{concat}
+  \manlink{Smat}{Smat}  
+\end{manseealso}

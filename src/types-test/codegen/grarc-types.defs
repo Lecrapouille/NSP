@@ -1,0 +1,24 @@
+;; -*- scheme -*-
+
+(define-objectref GrArc
+  (in-module "GrArc")
+  (parent "Graphic")
+  (c-name "NspGrArc")
+  (fields
+    '("double" "x")
+    '("double" "y")
+    '("double" "w")
+    '("double" "h")
+    '("double" "a1")
+    '("double" "a2")
+    '("int" "fill_color" "std" "-1")
+    '("int" "thickness")
+    '("int" "color")
+    '("double" "angle" "std" "0" )
+    )
+  (gtype-id "GrArc")
+)
+
+
+
+

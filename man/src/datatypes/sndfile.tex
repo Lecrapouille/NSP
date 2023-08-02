@@ -1,0 +1,107 @@
+% -*- mode: latex -*-
+
+\mansection{SndFile}
+\begin{mandesc}
+  \short{SndFile}{SndFile data type}
+\end{mandesc}
+
+% -- Calling sequence section
+%\begin{calling_sequence}
+\subsection*{Constructor}
+\begin{verbatim}
+L = sndfile(file, mode=,frames=,samplerate=,channels=,format=,sections=,seekable=)
+\end{verbatim}
+%\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{file}: a path name to a file containing sample sounds. 
+    \vname{mode}: the argument \verb+mode+ is a string beginning  with  one  of  the  following  sequences
+    \begin{itemize}
+      \item \verb+"r"+: opens text file for reading. The stream is positioned at the beginning of the  file.
+      \item \verb+"w"+: truncates  file  to  zero  length  or create text file for writing.  The stream is
+        positioned at the beginning of the file.
+      \item \verb+"a"+: opens for appending (writing at end of file).  The file is created if it does not 
+	exist.  The stream is positioned at the end of the file.
+    \end{itemize}
+    The mode string can also include the letter \verb+b+ as a last character. 
+    Adding the \verb+b+ is used if you do I/O to a binary file 
+    (but note that the  \verb+b+ is ignored on all POSIX conforming systems, including Linux).
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+The \emph{SndFile} data type is used for file I/O operations.
+\end{mandescription}
+
+\paragraph{Operations on SndFile objects}
+\itemdesc{attributes}
+\begin{itemize}
+  \vname{frames}: number of frames in the sound file. 
+  \vname{samplerate}: signal sample rate.
+  \vname{channels}: number of channels. 
+  \vname{format}:  format of sound file. 
+  \vname{sections}: number of sections.
+  \vname{seekable}: returns a boolean if the file seekable ? 
+\end{itemize}
+\itemdesc{methods}
+\begin{itemize}
+  \vname{F.close[]}: closes sound file. 
+  \vname{F.error[]}: gets error code of last error raised. 
+  \vname{F.strerror[]}: gets error message of last error raised
+  \vname{F.error_number[err]}: get error message associated to error number.
+  \vname{A=F.read[n]}:  reads \verb+n+ frames from sound file and returns the 
+  result in a numeric matrix of size \verb+mxn+ where \verb+m+ is the 
+  number of channels of file
+  \vname{F.seek[n,tag]}: sets the file position indicator for the stream pointed
+       to by stream.  The new position, measured in bytes, is obtained  by  adding
+       offset  bytes \verb+n+  to  the  position  specified by \verb+tag+. 
+        \verb+tag+ can be set to \verb+"set"+, or \verb+"cur"+, or \verb+"end"+, 
+	the offset is relative to the start of the
+       file, the current position indicator, or end-of-file, respectively.
+  \vname{F.write[A]}: write data in sound file from numerical matrix \verb+A+. 
+  the number of rows of \verb+A+ must be equal to number of channels of file.
+\end{itemize}
+
+\itemdesc{related functions}
+\begin{itemize}
+  \vname{sndfile}; opens a sound file. 
+  \vname{play}: plays a matrix which can be extract from the sound file, see the example below and the \manlink{play}{play} help page.
+  \vname{playfile}: a sound file can be directly played using this function, see \manlink{playfile}{playfile} help page.
+\end{itemize}
+
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    // write a sound file
+    rate=22050;n=3;t=linspace(0,n,n*rate);
+    x1=sin(2*%pi*220*t);
+    x2=sin(2*%pi*440*t);
+    x3=sin(2*%pi*660*t);
+    x=x1+0.5*x2+0.25*x3;
+    F=sndfile('test.wav',mode='w',samplerate=22050,channels=1);
+    F.write[x];
+    F.close[];
+
+    // read the sound file
+    F=sndfile('test.wav',mode='r');
+    F.format
+    F.channels
+    n=F.frames
+    y = F.read[n];
+    splrt = F.samplerate
+    F.close[]
+
+    // play 
+    play(y, samplerate=splrt, sync=%t)
+  \end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+  Jean-Philippe Chancelier 
+\end{authors}
+

@@ -1,0 +1,15 @@
+;; -*- scheme -*-
+
+(include "surf-types.defs")
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_surf
+  (c-name "nsp_extractelts_surf")
+  (return-type "none")
+)
+(define-function setrowscols_surf
+  (c-name "nsp_setrowscols_surf")
+  (return-type "none")
+)
+

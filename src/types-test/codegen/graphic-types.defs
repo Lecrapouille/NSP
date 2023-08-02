@@ -1,0 +1,19 @@
+;; -*- scheme -*-
+
+(define-objectref Graphic
+  (in-module "Graphic")
+  (parent "Object")
+  (c-name "NspGraphic")
+  (fields
+   '("gboolean" "hilited" "std" "FALSE") 
+   '("gboolean" "show" "std" "TRUE")   
+   '("void*" "Fig" "hidden" "NULL");; take care that this is a nsp_figure 
+   '("void*" "Axe" "hidden" "NULL");; take care that this is a nsp_axes
+   )
+  (gtype-id "Graphic")
+)
+
+
+
+
+

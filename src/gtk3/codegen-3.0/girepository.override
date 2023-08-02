@@ -1,0 +1,169 @@
+/* -*- Mode: C -*- */
+
+%%
+headers
+#include <girepository.h>
+#include <nsp/nsp.h>
+#include <nsp/gtk/gboxed.h>
+#include <nsp/gtk/gobject.h>
+#include <nsp/gtk/gobject-util.h>
+#include <nsp/gtk/girepository.h>
+#define NspGIBaseInfo_Private
+#include <nsp/gtk/gibaseinfo.h>
+
+static const char *nsp_gi_info_str (GIBaseInfo *info);
+static int nsp_gi_info_check(GIBaseInfo *info, GIInfoType info_type_check);
+
+%%
+modulename atk
+
+%%
+import gobject.GObject as GObject
+
+%%
+ignore-glob
+  *_get_type
+
+%%
+override GIRepository.g_irepository_enumerate_versions
+
+static int _wrap_g_irepository_enumerate_versions
+(NspGIRepository *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {string,t_end};
+  char *namespace;
+  GList *ret, *tmp;
+  NspList *nsp_list;
+  if ( GetArgs(stack,rhs,opt,T,&namespace) == FAIL) return RET_BUG;
+  ret = g_irepository_enumerate_versions(G_IREPOSITORY(self->obj), namespace);
+  NSP_LIST_FROM_GLIST(ret,nsp_new_string_obj("lel",tmp->data,-1),g_list_free);
+}
+
+%%
+override GIRepository.g_irepository_get_loaded_namespaces
+
+static int _wrap_g_irepository_get_loaded_namespaces
+(NspGIRepository *self,Stack stack,int rhs,int opt,int lhs)
+{
+  char **namespaces;
+  /* GIBaseInfo *info; */
+  CheckRhs(0,0);
+  namespaces = g_irepository_get_loaded_namespaces (G_IREPOSITORY(self->obj));
+  NspSMatrix*Res= nsp_smatrix_create_from_table(namespaces);
+  MoveObj(stack,1,NSP_OBJECT(Res));
+  return 1;
+}
+
+%%
+override g_irepository_require
+
+static int _wrap_g_irepository_require
+(NspGIRepository *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {string,string,t_end};
+  char *namespace, *version;
+  GIRepositoryLoadFlags flags = 0;
+  GError *error= NULL;
+  if ( GetArgs(stack,rhs,opt,T,&namespace,&version) == FAIL) return RET_BUG;
+  /* optional argument lazy
+   * if true flags |= G_IREPOSITORY_LOAD_FLAG_LAZY;
+   */
+  g_irepository_require (G_IREPOSITORY(self->obj), namespace, version, flags, &error);
+  if (error != NULL) {
+    Scierror("Error: %s\n",error->message);
+    g_error_free (error);
+    return RET_BUG;
+  }
+  return 0;
+}
+
+%%
+override GIRepository.g_irepository_get_n_infos
+
+static int _wrap_g_irepository_get_n_infos
+(NspGIRepository *self,Stack stack,int rhs,int opt,int lhs)
+{
+  gssize n_infos;
+  /* NspObject *infos;  */
+  gssize i;
+  int_types T[] = {string,t_end};
+  char *namespace;
+  if ( GetArgs(stack,rhs,opt,T,&namespace) == FAIL) return RET_BUG;
+  n_infos = g_irepository_get_n_infos (G_IREPOSITORY(self->obj), namespace);
+  if (n_infos < 0)
+    {
+      Scierror("Error: Namespace %s is not loaded",namespace);
+      return RET_BUG;
+    }
+  Sciprintf("Found %d infos\n",n_infos);
+  for (i = 0; i < n_infos; i++)
+    {
+      GIBaseInfo *info;
+      info = g_irepository_get_info(G_IREPOSITORY(self->obj), namespace, i);
+      if (info != NULL)
+	{
+	  GIBaseInfo *container;
+	  Sciprintf("object %d is %s\n",i, g_base_info_get_name (info));
+	  container = g_base_info_get_container (info);
+	  if ( container != NULL)
+	    Sciprintf("  container is %s\n", g_base_info_get_name (container));
+	  else
+	    Sciprintf("  no container for %s\n", g_base_info_get_name (info));
+	  Sciprintf("%s\n",nsp_gi_info_str (info));
+	}
+    }
+  return 0;
+}
+
+/*
+ * g_base_info_get_namespace (self->info);
+ * GIBaseInfo *info = g_base_info_get_container (self->info);
+ * g_base_info_get_namespace(self->info);
+ */
+
+%%
+override g_base_info_get_attributes
+
+
+static int _wrap_g_base_info_get_attributes(NspGIBaseInfo *self,Stack stack,int rhs,int opt,int lhs)
+{
+  GIAttributeIter iter = { 0, };
+  char *name;
+  char *value;
+  CheckRhs(0,0);
+  Sciprintf("attributes start \n");
+  
+  GIBaseInfo *info = NSP_GBOXED_GET(self, GIBaseInfo);
+  if (info != NULL)
+    {
+      Sciprintf("for object %s of type %s\n",g_base_info_get_name (info),nsp_gi_info_str (info));
+    }
+  while (g_base_info_iterate_attributes (NSP_GBOXED_GET(self, GIBaseInfo), &iter, &name, &value))
+    {
+      Sciprintf("attribute name: %s value: %s\n", name, value);
+    }
+  Sciprintf("attributes end \n");
+  return 0;
+}
+
+%%
+last
+
+static const char *nsp_gi_info_str (GIBaseInfo *info)
+{
+  GIInfoType info_type;
+  info_type = g_base_info_get_type (info);
+  return g_info_type_to_string (info_type);
+}
+
+static int nsp_gi_info_check(GIBaseInfo *info, GIInfoType info_type_check)
+{
+  GIInfoType info_type = g_base_info_get_type (info);
+  if ( info_type != info_type_check )
+    {
+      Scierror("Error: expecting info type to be %s\n", g_info_type_to_string (info_type));
+      return FAIL;
+    }
+  return OK;
+}
+

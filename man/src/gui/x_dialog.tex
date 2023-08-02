@@ -1,0 +1,36 @@
+% -*- mode: latex -*-
+
+\mansection{x\_dialog}
+\begin{mandesc}
+  \shortunder{x\_dialog}{x_dialog}{gtk dialog}\\ % @mandesc@
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+  \begin{verbatim}
+    result=x_dialog(labels,valueini)   
+  \end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{labels}: column vector of strings, comment for dialog
+    \vname{valueini}: n column vector of strings, initial value suggested
+    \vname{result}: response : n column vector of strings if returned with "Ok" button or [] if returned with "Cancel" button
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  opens a gtk dialog window.
+\end{mandescription}
+%--example 
+\begin{examples}
+\begin{mintednsp}{nsp}
+gain=evstr(x_dialog('value of gain ?','0.235'))
+x_dialog(['Method';'enter sampling period'],'1')
+m=evstr(x_dialog('enter a  3x3 matrix ',['[0 0 0';'0 0 0';'0 0 0]']))
+\end{mintednsp}
+\end{examples}
+%-- see also
+\begin{manseealso}
+  \manlink{x\_mdialog}{x_mdialog} \manlink{x\_matrix}{x_matrix} \manlink{evstr}{evstr} \manlink{execstr}{execstr}  
+\end{manseealso}
+

@@ -1,0 +1,131 @@
+
+demo_font_features.sci,118
+function update 22,379
+function reset 82,1848
+function switch_to_entry 101,2249
+function switch_to_label 107,2374
+
+demo_listbox.sci,560
+function gtk_message_finalize 87,2322
+function gtk_message_class_init 98,2557
+function gtk_message_init 104,2701
+function gtk_message_parse 108,2764
+function gtk_message_row_update 156,3925
+function gtk_message_row_expand 197,5519
+function expand_clicked 211,5898
+function reshare_clicked 217,6015
+function favorite_clicked 227,6187
+function gtk_message_row_state_flags_changed 236,6361
+function gtk_message_row_finalize 250,6828
+function gtk_message_row_class_init 257,7000
+function gtk_message_row_init 285,8773
+function row_activated 310,9251
+
+demo_listbox_simple.sci,76
+function window 7,132
+  function y 9,183
+  function row_activated 13,308
+
+demo_rotated_text.sci,38
+function fancy_shape_renderer 17,424
+
+demo_textmask.sci,95
+draw_text 11,182
+do_textmask 57,1648
+      window.set_size_request[set_size_request66,1822
+
+demo_textview.sci,197
+function create_tags 9,263
+function insert_text 63,3010
+function y=262,13078
+function attach_widgets 273,13262
+function recursive_attach_view 413,16631
+function easter_egg_callback 433,17121
+
+event_axes.sci,344
+function info=34,1084
+function axes_info_free 53,1454
+function y 57,1501
+function data 66,1788
+function event_data_free 73,1996
+function update_axes_from_event 81,2172
+function y 147,3855
+function render_arrow 153,3997
+function draw_axes_info 168,4322
+function draw_device_info 216,5642
+function y=251,6453
+function window 287,7341
+
+gestures.sci,240
+function swipe_gesture_swept 7,189
+function long_press_gesture_pressed 13,391
+function long_press_gesture_end 18,526
+function rotation_angle_changed 23,659
+function zoom_scale_changed 27,759
+function y=31,848
+function window 83,2384
+
+gtksourceview.sci,2096
+function error_dialog 156,8127
+function y 169,8422
+function remove_all_marks 206,9512
+function language=211,9628
+function language 237,10390
+function language 243,10526
+function res 272,11294
+function y=311,12328
+function success 331,13000
+function smat 346,13496
+function execute_cb 374,14258
+function execute_selection_cb 422,15651
+function execute_tag_error(438,16094
+function numbers_toggled_cb 454,16621
+function marks_toggled_cb 462,16822
+function margin_toggled_cb 470,17029
+function hl_bracket_toggled_cb 478,17229
+function hl_line_toggled_cb 488,17498
+function draw_spaces_toggled_cb 496,17714
+function wrap_lines_toggled_cb 507,17992
+function auto_indent_toggled_cb 517,18243
+function insert_spaces_toggled_cb 526,18447
+function silent_execute_toggled_cb 535,18681
+function tabs_toggled_cb 543,18851
+function indent_toggled_cb 553,19061
+function smart_home_end_toggled_cb 563,19286
+function forward_string_cb 575,19551
+function backward_string_cb 592,20018
+function y 623,20822
+function do_search_replace 685,22667
+function find_cb 722,23690
+function replace_cb 726,23778
+function open_file_cb 730,23869
+function begin_print 760,24679
+function y 767,24900
+function draw_page 781,25403
+function end_print 815,26519
+function print_file_cb 824,26777
+function y 875,28382
+function result 910,29199
+function y 972,30886
+function save_as_cb 1009,31972
+function save_cb 1015,32153
+function y=1027,32430
+function close_cb 1054,33193
+function update_cursor_position 1080,33832
+function move_cursor_cb 1114,34655
+function y 1119,34833
+function line_mark_activated 1142,35573
+function drag_data_received_cb 1158,36133
+function text 1165,36342
+function add_source_mark_pixbufs 1174,36675
+function button_ok_clicked(1186,37066
+function button_cancel_clicked(1190,37153
+function window 1199,37404
+function window=1343,42488
+function nsp_edit(1402,44213
+function mat 1418,44663
+function nsp_sourceview_cleanup(1438,45186
+function test_schemes(1447,45390
+function nsp=1491,46643
+function view_set_title 1499,46863
+function name 1513,47246

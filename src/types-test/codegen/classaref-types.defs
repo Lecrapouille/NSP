@@ -1,0 +1,31 @@
+;; -*- scheme -*-
+
+(define-struct hfoo
+  (in-module "Block")
+  (parent "Graphic")
+  (c-name "hfoo")
+  (fields
+   '("int" "a" )
+   '("NspMatrix*" "val")
+   )
+  (gtype-id "hfoo")
+)
+
+
+(define-objectref ClassARef
+  (in-module "ClassARef")
+  (parent "Object")
+  (c-name "NspClassARef")
+  (fields
+   '("int" "cla_color")
+   '("int" "cla_thickness")
+   '("NspMatrix*" "cla_val")
+   '("NspBMatrix*" "cla_bval")
+   '("NspList*" "cla_lval")
+   ;;'("hfoo*" "zz" "hidden")
+   ;;'("hfoo" "xx" "hidden" )
+   )
+  (gtype-id "ClassARef")
+)
+
+

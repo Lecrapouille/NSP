@@ -1,0 +1,117 @@
+% -*- mode: latex -*-
+% Copyright Lelong
+\mansection{plot2d}
+\begin{mandesc}
+  \short{plot2d}{two dimensional plot}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+ plot2d(x,y,options)
+ plot2d(x,f,options)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{x}: abscissa vector or matrix. It can be empty and in that case
+    \verb+x=[1:length(y)]+ is used.
+    \vname{y}: vector or matrix of numbers. When \verb!y! is a matrix,
+    each column of the matrix describes a curve. When \verb!y! is a row or
+    column vector then \verb!y! describes a curve.
+    The matrix \verb!x! can be emty, can have the same dimension as \verb!y!
+    or can be a vector of \verb!length(size(y,'r'))! when \verb!y! is a matrix.
+    \vname{f}: a nsp function.
+    \vname{axesflag}: optional named argument which specify how axes are drawn. Its is
+    an integer between \verb+0+ and \verb+5+:
+    \begin{varlist}
+    \item \verb+0+ : no axes are drawn.
+    \item \verb+1+ : axes are drawn with the y axis on the left.
+    \item \verb+2+ : a box is drawn around the plot.
+    \item \verb+3+ : axes are drawn with the y axis on the right.
+    \item \verb+4+ : axes are drawn centred in the middle of the plotting window
+    \item \verb+5+ : axes are drawn so to cross at the point \verb+(0,0)+.
+    \end{varlist}
+    \vname{style}: optional argument which gives the color to use for each curve or
+    the mark. It can be replaced by the following optional arguments which are
+    vectors giving one value for each curve.
+    \begin{varlist}
+    \vname{line_color}: a vector giving the color to be used for each curve (\verb!-1! means use the
+    default color, \verb!-2! means do not draw whith colored line).
+    \vname{line_thickness}: the thickness to be used for each curve.
+    \vname{mark}:  a vector giving the mark to be used for each curve (\verb!-1! means use the
+    default mark, \verb!-2! means do not draw whith marks).
+    \vname{mark_color}:  a vector giving the mark color to be used for each curve (\verb!-1! means use the
+    default  color).
+    \vname{mark_size}: a vector giving the size to be used for each mark (\verb!-1! means use the
+    default size).
+    \end{varlist}
+    \vname{leg}: optional named argument which must be a string of the form
+    \verb!'leg1@leg2@...'! where \verb!legi! is the legend associated with the i-th curve.
+    \vname{leg_pos}: optional named argument used with \verb!leg! to specify the legend position.
+    It can be one of the strings \verb!'dr'! (down right corner), \verb!'ur'! (up right corner), \verb!'dl'! (down left corner), \verb!'ul'!  (up left corner),
+    \verb!urm! (up right margin), \verb!drm! (down right margin).
+    \vname{logflag}: a string of length two (\verb!'nn'!, or \verb!'nl'!, or \verb!'ln'! or
+    \verb!'ll'!) where \verb!n! stands for normal and \verb!l! stands for log.
+    \vname{nax}: a vector \verb![stx,tx,sty,ty]! which is used when
+    \verb!auto_axis! is false. It gives the number of intervals \verb!tx! and
+    \verb!ty! and subintervals \verb!stx! and \verb!sty! used for drawing x-axis
+    and y-axis.
+    \vname{rect}: optional named argument, sets the bounds of the plot. It is a vector of length four
+    \verb+[xmin, ymin, xmax, ymax]+.
+    \vname{strf}: deprecated replaced by specifying \verb!rect!, \verb!axesflag!.
+    \vname{auto_axis}: a boolean if true axes are graduated in automatic mode if
+    false \verb!nax! is used.
+    \vname{iso}: when true iso mode is used.
+    \vname{mode}: a string which can be \verb!"std"!, or \verb!"stairs"!, or \verb!"stem"!,
+    or \verb!"arrow"!, or \verb!"fill"!, or \verb!"stairs_fill"!. It give the drawing mode
+    used for curves.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  plot2d plots a set of two dimensional curves.
+
+  If \verb+y+ is a matrix, each column of \verb+y+ is plotted against vector
+  \verb+x+.
+
+  If \verb+x+ is empty and \verb+y+ is a vector, \verb+plot2d([], y, opt_arg)+ is
+  equivalent to \verb|plot2d((1:size(y,'*')), y, opt_arg)|.
+
+  If \verb+x+ is empty and \verb+y+ is a matrix, \verb+plot2d([], y, opt_arg)+ is
+  equivalent to \verb|plot2d((1:size(y,'r')), y, opt_arg)|.
+\end{mandescription}
+
+\begin{examples}
+
+\noindent A simple example
+
+\begin{mintednsp}{nsp}
+x=-%pi:0.01:%pi;
+plot2d(x, sin(x));
+\end{mintednsp}
+
+\noindent multiple plots
+
+\begin{mintednsp}{nsp}
+x=-%pi:0.01:%pi;
+plot2d(x, [sin(x)', cos(x)'], leg='sin@cos', style=[3,4], leg_pos='ul');
+\end{mintednsp}
+
+\noindent using \verb!rect!
+
+\begin{mintednsp}{nsp}
+x=-3:0.01:3;
+xtitle('density of the normal distribution')
+plot2d(x, exp(-x.*x/2)/sqrt(2*%pi), rect=[-3,0,3,1]);
+\end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+  \manlink{xtitle}{xtitle}
+\end{manseealso}
+% -- Authors
+\begin{authors}
+  J.-Ph. C.
+\end{authors}

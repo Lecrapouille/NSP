@@ -1,0 +1,207 @@
+% -*- mode: latex -*-
+
+\mansection{Cells}
+\begin{mandesc}
+  \short{Cells}{matrix of nsp objects data type}
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+A={a11, a12, ..., a1n;
+   a21, a22, ..., a2n;
+   ...
+   am1, am2, ...; amn}
+A = cell(m, n)   // preallocation
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{a11 ...}: nsp objects
+    \vname{m, n}: integers (dimensions of the cells array)
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+
+The \emph{Cells} data type is used to create matrix of nsp objects. 
+In the current implementation, cell arrays are two dimensional arrays. 
+
+column cell vectors are considered as \verb!m x 1! matrices and row cell vectors
+as \verb!1 x n! matrices.
+
+Internally \emph{Cells} type are stored by default as a unidimensional array of \emph{Objects},
+It is therefore always possible to access elements with one index assuming a column order 
+storage. 
+\end{mandescription}
+
+\paragraph{Operations on Cells}
+\itemdesc{Cells methods}
+\begin{itemize}
+\item \verb+[bool,i,j]=C.has[Obj]+ returns true if \verb+Obj+ is present in the cell array \verb+C+ and if requested also returns indices. 
+  Presence is checked via the equal operator i.e true is returned if \verb+C{i,j}.equal[Obj]+.
+\end{itemize}
+\itemdesc{Methods from the matint interface}
+\begin{itemize}
+\item \verb+A.redim[m,n]+ reshape matrix to size \verb+m+x\verb+n+. \verb+m+ or \verb+n+ can be set to \verb+-1+ 
+\item \verb+A.concatr[B]+ \verb+A = [A,B]+
+\item \verb+A.concatd[B]+ \verb+A = [A;B]+
+\item \verb+A.perm_elem[p,q,dim]+ permute values, rows (\verb+dim=1+) or columns (\verb+dim=2+).
+\item \verb+A.set_diag[B [,k]]+ sets the \verb+k+-th diagonal of cell array \verb+A+ to \verb+B+.
+\item \verb+A.enlarge[m,n]+ sets the size of \verb+A+ to \verb+(Max(m,size(A,'r')),Max(n,size(A,'c')))+ and fill 
+  added elements with default value.
+\end{itemize}
+
+\itemdesc{Extraction, insertion, deletion}
+For \emph{Cells} data type, operations performed with \verb+{.}+ operate on the stored objects whereas 
+operation performes with \verb+(.)+ operate on \emph{Cells} data type. For example, if \verb+C={5,6}+, 
+\verb+C(1,1)+ will return a \verb+1x1+ \emph{Cells} whereas  \verb+C{1,1}+ will return the numeric matrix \verb+5+. 
+
+In the sequel, \verb+I+ and \verb+J+ are matrices giving indices. Thus, \verb+I+ and \verb+J+ are 
+numeric or boolean matrices the can also be set to \verb+:+ in that case they stand for the whole 
+element, or row ,or column indices of the matrix. 
+
+\begin{itemize}
+\item \verb+A(I,J)+ is a new cell array build from \verb+A+ with entries in \verb+I+ and \verb+J+. 
+\item \verb+A(I,:)+ is a new cell array build from \verb+A+ with row indices in \verb+I+.
+\item \verb+A(:,J)+ is a new cell array build from \verb+A+ with column indices in \verb+I+.
+\item \verb+A(:,:)+ is \verb+A+
+\item \verb+A(:)+ is a new cell array obtained by stacking the columns of \verb+A+.
+\item Note that a unique indices vector can be used using the column order storage.
+\end{itemize}
+
+\begin{itemize}
+\item \verb+A(I,J)=B+ is only valid if \verb+B+ is of \emph{Cells} type. 
+  it inserts cell array \verb+B+ into cell array \verb+A+ in rows \verb+I+ and columns \verb!J!.
+  The dimensions of \verb!B! must match with dimensions of a \verb+length(I)xlength(J)+ cell array 
+  (which means that \verb!B! can be a \verb!1x1! cell array or be of dimension \verb+length(I)xlength(J)+. 
+\item A special case appears when \verb!B! is an empty cell array. In that case the sub cell array of 
+  \verb!A! specified by \verb+IxJ+ is removed and the matrix is reshaped to a column array when the deletion 
+  operation is not consistent with original dimension. For example \verb+A(:,J)={}+ removes the columns 
+  of \verb+A+ with indices in \verb+J+. \verb!A(3,3)={}! removes element \verb!(3,3)! and reshape
+  the array to a column array.
+\end{itemize}
+
+\begin{itemize}
+\item \verb+A{I,J}=...+ fills the entries of cell array \verb+A+ in rows \verb+I+ and columns \verb!J! 
+  with the right hand side values of the affectation sign. The values are of course stored using the 
+  column order storage. The size of the cell array \verb+A+ can grow according to rows and columns indices. 
+  For example if \verb+A={1,5}+ and we use \verb+A{2:3,1:2}=(1,2,3,4)+ then \verb!A! will be a \verb!3x2! cell 
+  array.
+\item \verb+A{I,J}+ returns \verb+length(I)xlength(J)+ objects on the calling stack extracted from 
+  \verb!A!. For example if \verb+A={[1,2],[5;6]}+ then \verb+[x,y]=A{1:2}+ will store \verb+[1,2]+ in 
+  \verb+x+ and \verb+[5;6]+ in \verb+y+.
+\verb Insertion and extraction can of course be recursively called on the cell array elements by chaining 
+  operator \verb+{.}+ or \verb+(.)+ as for example in \verb!A={4,5};A{2}(3,4)=45!. 
+%Note that 
+% in nsp the path to an element of a recursive object can also be specified using a list. For example 
+% if \verb+A={1,{5,6}}+ then \verb+A{2}{1}(3,3)=56+ can also be performed by \verb+A{list(2,1)}(3,3)=56+.
+\end{itemize}
+
+\itemdesc{Empty cells}
+Empty cells are \emph{Cells} with zero rows or zero columns. Operations with empty cells
+are compatible with linear algebra operations. 
+
+\itemdesc{For loop control}
+Let \verb+A+ be a \emph{Cells} object~:
+\begin{verbatim}
+     for col=A
+       ....
+     end
+\end{verbatim} 
+is a loop with $size(A,2)$ iterations, the loop 
+variable  \verb+col+ being set to the ith column of \verb+A+ at the \verb!i!-th iteration.
+
+\itemdesc{Some functions}
+\begin{itemize}
+   \item \verb+unique(C)+ eliminate redundancies (in the equal sense) in cell array elements. 
+   \item \verb+ce2m(C,indice=i,notm=val1,noti=val2)+ converts a cell array to numeric matrix
+     with the following conventions if a \verb+C+ entry is not a numeric matrix then \verb!val1! is inserted 
+     (default value \verb!%nan!). If \verb+C+ entry is a numeric matrix then entry \verb!i! of the matrix 
+     is extracted (default value \verb!1!) and if index \verb!i! does not exists then \verb!val2! is inserted.
+     \index{ce2m}\label{ce2m}
+   \item \verb+C=m2ce(M [,rows,cols])+ converts a matrix to a cell array \verb+rows+ and \verb+cols+ giving the 
+     partition of the matrix. When \verb+rows+ and \verb+cols+ are not given the matrix is partitioned into \verb!1x1! 
+     matrices.
+     \index{m2ce}\label{m2ce}
+   \item \verb+map(C,f [,args])+ maps the function \verb!f! to each element of the cell array \verb!C! returning 
+     a new cell array.
+     \index{map}\label{map}
+\end{itemize}
+
+\begin{examples}
+\begin{itemize}
+\item Creation, extraction, insertion with \verb+{.}+:
+\begin{mintednsp}{nsp}
+  M=rand(4,4);
+  A={8,9,M,"nsp"};  
+  b=A{1} 	
+  [a,b]=A{[1,3]};
+  A{1:2}=(M,78) ; 
+  A{:} = (4,5,6,7); 
+  A={8,9;M,"nsp"};  
+  A{1:2,1}=(56,67);
+  A{1:2,1:2}=(1,2,3,4);
+  A{3}=8;
+\end{mintednsp}
+
+\item Using \verb+{.}+ to provide a sequence of arguments to a function
+\begin{mintednsp}{nsp} 
+  function y=f(varargin);y=length(varargin);endfunction;
+  A={8,9,M,"nsp"}; // creation 
+  f(A{:})
+\end{mintednsp}
+\item Creation, extraction, insertion with \verb+(.)+:
+\begin{mintednsp}{nsp}
+  A={}; 
+  A([1,3]) = {7,8} // affectation 
+  A([1:3]) // extraction of a sub cell array
+  A(1,2) = {89};  // same result as A{1,2} = 89;
+  A={1,2;3,4}
+  { A{:,1}}   // 1x2 
+  A(:,1)      // 2x1 
+\end{mintednsp}
+
+\item using \verb+map+:
+\begin{mintednsp}{nsp}
+  A={7,8,rand(4,6),'foo'}; 
+  function y=len(x);y=length(x);endfunction;
+  Res=map(A,len);
+  function y=plus_val(x,args);y=x+args(1);endfunction;
+  Res=map({7,8,rand(2,2)},plus_val,list(45))
+\end{mintednsp}
+
+\item using \verb!ce2m! and \verb!m2ce!
+
+\begin{mintednsp}{nsp}
+  A=testmatrix('magic',5);
+  C=m2ce(A,[1,2,5],[1,3,6]);
+
+  A=1:10;
+  C=m2ce(A,[1,2],1:11);
+  
+  C=cell(1,10);
+  for i=1:10 
+    C{i}=rand(1,2);
+  end 
+  A1=ce2m(C);
+  B1=ce2m(C,indice=5); 
+  C{1} = 'magic'
+  A1=ce2m(C,notm=%inf);
+  
+  A1=ce2m(C,indice=100,noti=67,notm=%inf);
+\end{mintednsp}
+
+\end{itemize}
+
+\end{examples}
+
+% -- Authors
+\begin{authors}
+  Jean-Philippe Chancelier
+\end{authors}
+
+
+
+
+

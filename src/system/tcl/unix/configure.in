@@ -1,0 +1,1774 @@
+dnl Process this file with autoconf to produce a configure script.
+## Copyright INRIA/Enpc 
+
+AC_REVISION($Revision: 1.2 $)dnl
+AC_INIT(Makefile)
+SCIDIR=`pwd`
+AC_CONFIG_AUX_DIR(../../../../config)
+AC_CONFIG_HEADER(config.h)
+
+dnl Get system type
+dnl use "config.guess" and "config.sub" from directory "config"
+AC_CANONICAL_HOST
+
+# default prefix
+ac_default_prefix=/usr
+
+#################################
+## all the --with-* argument help
+#################################
+
+AC_ARG_ENABLE(debug,
+   [  --enable-debug          compile with "-g" option and do not optimize ])
+
+AC_ARG_WITH(gcc,
+    [  --with-gcc              use gcc C compiler ])
+
+AC_ARG_WITH(g77,
+    [  --with-g77              use g77 Fortran compiler ])
+
+AC_ARG_WITH(gnu,
+    [  --with-gnu              use gcc C compiler and g77 Fortran compiler ])
+
+AC_ARG_WITH(f2c,
+    [  --with-f2c              use f2c C compiler on Linux systems ])
+
+AC_ARG_WITH(pvm,
+    [  --without-pvm           do not compile with PVM library ])
+
+AC_ARG_WITH(tk,
+    [  --with-tk               add tcl-tk support ])
+
+AC_ARG_WITH(gtkglext,
+    [  --without-gtkglext      do not use Gtkglext widget for graphics ])
+
+AC_ARG_WITH(addedf2c,
+    [  --with-addedf2c         build a local f2c (src/f2c)])
+
+AC_ARG_WITH(maxpluslib,
+    [  --with-maxpluslib       add maxplus lib ])
+
+###############################
+## keep track of debug option
+###############################
+
+ENABLE_DEBUG= 
+
+if test "$enable_debug" = yes; then 
+   ENABLE_DEBUG="(enable debug)"   
+fi 
+
+########################
+## removing and cleaning
+########################
+
+RM='rm -f'
+FILES_TO_CLEAN='*.CKP *.ln *.BAK *.bak core errs ,* *~ *.a .emacs_* tags TAGS make.log MakeOut .*~ *.trace so_locations *.orig *.cos *.obj' 
+
+##################
+## making archives
+# this is done by the libtool part 
+# AR='ar cq'
+
+######################
+## use GNU compilers ?
+######################
+
+if test "$with_gnu" = yes; then
+  AC_CHECK_PROG(GCC,gcc,yes,no)
+  if test "$GCC" = no; then
+    AC_MSG_ERROR([Unable to configure: gcc compiler not found])
+  fi
+  AC_CHECK_PROG(G77,g77,yes,no)
+  if test "$G77" = no; then
+    AC_MSG_ERROR([Unable to configure: g77 compiler not found])
+  fi
+else
+  if test "$with_gcc" = yes; then
+    AC_CHECK_PROG(GCC,gcc,yes,no)
+    if test "$GCC" = no; then
+      AC_MSG_ERROR([Unable to configure: gcc compiler not found])
+    fi
+  fi
+  if test "$with_g77" = yes; then
+    AC_CHECK_PROG(G77,g77,yes,no)
+    if test "$G77" = no; then
+      AC_MSG_ERROR([Unable to configure: g77 compiler not found])
+    fi
+  fi
+fi
+
+##################################################
+## Fortran libraries required for creating fortran
+## shared libraries.  In particular this is needed
+## for the lapack examples when using f2c.  This
+## will set the FLIBS variable.
+##################################################
+AC_F77_LIBRARY_LDFLAGS
+
+
+#############################################
+## Compilers and options according to machine
+#############################################
+
+# use for making scripts in script directory
+#   different for MIPS Ultrix
+SCILAB_GS=sh
+# scilab script file in script directory: default is "scilab.g" for UNIX
+#   for gcwin32 use "scilab-gcwin32.g"
+SCILABSCRIPT=scilab.g
+# Fortran program in src/sun: default is "fgetarg.f" 
+#   for HPUX use "fgetarg-hpux.f"
+FGETARG=fgetarg
+# For old Hp computer (9.x), used in "src/sun/Makefile.in"
+#   for choosing the good file between link_std.c and link_SYSV.c
+HPPA_OLD=
+# Scilab main file: default is "mainsci.o" for UNIX
+MAIN='mainsci.o'
+# for graphics: default is X11
+#   different for Win32
+PERIFILE=periX11.o
+# specific scilab dirs for graphics: default is "xsci" for X11
+#   different for Win32
+GUILIB=xsci 
+# specific for gnome/gtk version 
+GZVT=
+# specific scilab dirs for xdr:  default is void for X11
+#   xdr for Win32
+XDRLIB=
+XDRLIBNAME=
+# objects files in src/menus: default is XOBJS for UNIX
+#   for Win32 use WOBJS
+MENUSOBJS=XOBJS
+# use other malloc (in "src/sun" directory) for some 64 bits machines
+MALLOC=
+# USE_CDEC directives for Dec Alpha
+FC_USE_CDEC=DEC
+# want to build Scilab f2c too 
+if test "$with_addedf2c" = yes; then
+  F2C_SUBDIR=f2c/src
+else
+  F2C_SUBDIR=
+fi
+# on windows target generating scripts for 
+# printing is useless 
+BLPR_SCRIPTS='$(BPROGRAMS)'
+# on windows target when generating script 
+# cygdrive/xxx must be replaced by xxx:/ 
+# for mingw32 
+SED_CYGDRIVE=
+# subset of examples which are supposed to work 
+EXAMPLES_TESTS='$(SUBDIRS1) $(SUBDIRS2)'
+# special stuff for cygwin in impdir 
+IMPPREF=S
+IMPENV= 
+# strip executable (not to be done on darwin) 
+STRIP=strip
+
+#########################
+## libtool 
+#########################
+
+echo "configuration of libtool"
+
+AM_PROG_LIBTOOL
+
+echo "end of configuration of libtool"
+
+#########################
+# setting parameters according to system types
+#########################
+
+case "$host" in
+# Dec Alpha OSF 4
+  alpha*-dec-osf4.*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS='-std -O -ieee_with_inexact'
+    CC_LDFLAGS='-ieee_with_inexact'
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,f77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran f77 compiler not found])
+      fi
+    fi
+    FC='f77'
+    FC_OPTIONS='-O -fpe3'
+    FC_OPTIONS_O0='-fpe3'
+    FC_LDFLAGS=
+    FC_USE_CDEC='   '
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-std -g -ieee_with_inexact'
+      FC_OPTIONS='-g -fpe3'
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+    MAKEFILE_TARGET=Makefile.alpha
+    ;;
+# Dec Alpha not OSF 4 (NO LONGER SUPPORTED)
+  alpha*-dec-osf*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS='-O -ieee_with_inexact'
+    CC_LDFLAGS='-ieee_with_inexact'
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,f77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran f77 compiler not found])
+      fi
+    fi
+    FC='f77'
+    FC_OPTIONS='-O -fpe3 -switch nosqrt_recip'
+    FC_OPTIONS_O0='-fpe3 -switch nosqrt_recip'
+    FC_LDFLAGS=
+    FC_USE_CDEC='   '
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -ieee_with_inexact'
+      FC_OPTIONS='-g -fpe3 -switch nosqrt_recip'
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+    MAKEFILE_TARGET=Makefile.alpha
+    ;;
+# IBM AIX RS 6000 (NO LONGER SUPPORTED)
+  rs6000-*-*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS='-Daix -DSYSV'
+    CC_LDFLAGS=
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,f77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran f77 compiler not found])
+      fi
+    fi
+    FC=f77
+    FC_OPTIONS='-qcharlen=4096'
+    FC_OPTIONS_O0='-qcharlen=4096'
+    FC_LDFLAGS=
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -Daix -DSYSV'
+      FC_OPTIONS='-g -qcharlen=4096'
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+    MAKEFILE_TARGET=Makefile.aix
+    ;;
+# Linux sparc
+  sparc-*-linux-gnu)
+    LIEEELIB=
+    AC_CHECK_LIB(ieee,main,
+      [LIEEELIB=-lieee])
+    GCC=yes
+    CC=gcc
+    CC_OPTIONS='-O -Dlinux '
+    CC_LDFLAGS=$LIEEELIB
+    # find Fortran compiler
+    # g77 already asked and found: good
+    if test "$G77" = yes; then
+      FC=g77
+    # option with-f2c
+    elif test "$with_f2c" = yes; then
+      AC_CHECK_PROG(F2C,f2c,yes,no)
+      if test "$F2C" = no; then
+        AC_MSG_ERROR([Unable to configure: f2c compiler not found])
+      fi
+      # script shell f77 have bugs, get ours
+      FC='${SCIDIR}/bin/f77-linux'
+    else
+      # first find g77
+      AC_CHECK_PROG(G77,g77,yes,no)
+      if test "$G77" = yes; then
+        FC=g77
+      else
+      # otherwise find f2c
+        AC_CHECK_PROG(F2C,f2c,yes,no)
+        if test "$F2C" = yes; then
+          # script shell f77 have bugs, get ours
+          FC='${SCIDIR}/bin/f77-linux'
+        else
+          AC_MSG_ERROR([Unable to configure: no Fortran compiler found])
+        fi
+      fi
+    fi
+    FC_OPTIONS=-O
+    FC_OPTIONS_O0=
+    FC_LDFLAGS="$LIEEELIB -ldl -rdynamic"
+    LD=ld
+    LD_LDFLAGS=$LIEEELIB
+    if test "$enable_debug" = yes; then
+      CC_OPTIONS='-g -Dlinux '
+      FC_OPTIONS=-g
+    fi
+    MAKEFILE_TARGET=Makefile.linux
+   ;;
+# SUN OS (NO LONGER SUPPORTED)
+  sparc-*-sunos*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS=-O
+    CC_LDFLAGS=
+    CC_PICFLAGS=-PIC
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,f77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran f77 compiler not found])
+      fi
+    fi
+    FC=f77
+    FC_OPTIONS=-O
+    FC_OPTIONS_O0=
+    FC_LDFLAGS=
+    FC_PICFLAGS=-PIC
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS=-g
+      FC_OPTIONS=-g
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      CC_PICFLAGS=
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      FC_PICFLAGS=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+      FC_LDFLAGS='-Xlinker'
+    fi
+    MAKEFILE_TARGET=Makefile.sunos
+    ;;
+# SUN SOLARIS
+  *-*-solaris*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS='-O -DSVR4 -DSYSV -Dsolaris'
+    CC_LDFLAGS=
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,f77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran f77 compiler not found])
+      fi
+    fi
+    FC=f77
+    FC_OPTIONS=-O
+    FC_OPTIONS_O0=
+    FC_LDFLAGS=
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -DSVR4 -DSYSV -Dsolaris'
+      FC_OPTIONS=-g
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS='-O2 -DSVR4 -DSYSV -Dsolaris'
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS='-g -DSVR4 -DSYSV -Dsolaris'
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O2
+      FC_OPTIONS_O0=
+      FC_LDFLAGS='-t' 
+#     for solaris 2.7 with gcc/g77 2.95.2, binutils 2.9 
+#     the correct value should be 
+#     FC_LDFLAGS='-t -Wl,-export-dynamic'
+#     but we need to check this case 
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+    MAKEFILE_TARGET=Makefile.solaris
+    ;;
+# Linux, old binary format a.out (NO LONGER SUPPORTED)
+  *-pc-linux-gnuaout)
+    LIEEELIB=
+    AC_CHECK_LIB(ieee,main,
+      [LIEEELIB=-lieee])
+    GCC=yes
+    CC=cc
+    CC_OPTIONS='-O -Dlinux '
+    CC_LDFLAGS=$LIEEELIB
+    # find Fortran compiler
+    # g77 already asked and found: good
+    if test "$G77" = yes; then
+      FC=g77
+    # option with-f2c
+    elif test "$with_f2c" = yes; then
+      AC_CHECK_PROG(F2C,f2c,yes,no)
+      if test "$F2C" = no; then
+        AC_MSG_ERROR([Unable to configure: f2c compiler not found])
+      fi
+      # script shell f77 have bugs, get ours
+      FC='${SCIDIR}/bin/f77-linux'
+    else
+      # first find g77
+      AC_CHECK_PROG(G77,g77,yes,no)
+      if test "$G77" = yes; then
+        FC=g77
+      else
+      # otherwise find f2c
+        AC_CHECK_PROG(F2C,f2c,yes,no)
+        if test "$F2C" = yes; then
+          # script shell f77 have bugs, get ours
+          FC='${SCIDIR}/bin/f77-linux'
+        else
+          AC_MSG_ERROR([Unable to configure: no Fortran compiler found])    
+        fi
+      fi
+    fi
+    FC_OPTIONS=-O
+    FC_OPTIONS_O0=
+    FC_LDFLAGS=$LIEEELIB
+    LD=ld
+    LD_LDFLAGS=$LIEEELIB
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -Dlinux '
+      FC_OPTIONS=-g
+    fi
+    DLDLIB='${SCIDIR}/libs/libdld.a'
+    DLD_SUBDIR=dld
+    MAKEFILE_TARGET=Makefile.linux
+   ;;
+# Linux ELF: all standard distributions
+  i*86-*-linux-gnu | *-pc-linux-gnu )
+    LIEEELIB=
+    AC_CHECK_LIB(ieee,main,
+      [LIEEELIB=-lieee])
+    GCC=yes
+    CC=cc
+    CC_OPTIONS='-O -Dlinux '
+    CC_LDFLAGS=$LIEEELIB
+    # find Fortran compiler
+    # g77 already asked and found: good
+    if test "$G77" = yes; then
+      FC=g77
+    # option with-f2c
+    elif test "$with_f2c" = yes; then
+      AC_CHECK_PROG(F2C,f2c,yes,no)
+      if test "$F2C" = no; then
+        AC_MSG_ERROR([Unable to configure: f2c compiler not found])
+      fi
+      # script shell f77 have bugs, get ours
+      FC='${SCIDIR}/bin/f77-linux'
+    else
+      # first find g77
+      AC_CHECK_PROG(G77,g77,yes,no)
+      if test "$G77" = yes; then
+        FC=g77
+      else
+      # otherwise find f2c
+        AC_CHECK_PROG(F2C,f2c,yes,no)
+        if test "$F2C" = yes; then
+          # script shell f77 have bugs, get ours
+          FC='${SCIDIR}/bin/f77-linux'
+        else
+          AC_MSG_ERROR([Unable to configure: no Fortran compiler found])    
+        fi
+      fi
+    fi
+    FC_OPTIONS=-O
+    FC_OPTIONS_O0=
+    FC_LDFLAGS="$LIEEELIB -ldl -rdynamic"
+    LD=ld
+    LD_LDFLAGS=$LIEEELIB
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -Wall -Dlinux '
+      FC_OPTIONS=-g
+    fi
+    MAKEFILE_TARGET=Makefile.linux
+   ;;
+# Linux gnu: x86_64 distributions added by cdh 2004-09-29
+  x86_64-*-linux-gnu)
+    LIEEELIB=
+    AC_CHECK_LIB(ieee,main,
+      [LIEEELIB=-lieee])
+    MALLOC=malloc.o
+    if test "$with_intelcompilers" = yes; then
+       GCC=no
+       CC=$ICC
+       FC=$IFC
+       CC_OPTIONS='-O -Dlinux -DNARROWPROTO -mp'
+       CC_PICFLAGS="-fPIC"
+# -cm remove comments displays, -w90  -w95 remove warnings abort f90 f95 non standard
+       FC_OPTIONS="-O -cm -w90 -w95 -mp "
+       FC_OPTIONS_O0="-cm  -w90 -w95 -mp "
+       if test "$enable_debug" = yes; then
+         CC_OPTIONS='-g -Wall -Dlinux  -DNARROWPROTO  -mp '
+         FC_OPTIONS="-g -cm  -w90 -w95 -mp "
+       fi
+       CC_LDFLAGS="$LIEEELIB  -Wl,-relax"
+       FC_LDFLAGS="$LIEEELIB -ldl  -lPEPCF90 -Wl,-relax "
+       LD=xild
+       LD_LDFLAGS="$LIEEELIB -lPEPCF90 -Wl,-relax "
+    else
+       GCC=yes
+       CC=cc
+       # CC_PLAT_OPTIONS is optional, and is used to add CPU specific code generation tuning for Athlon64 presumably 
+       # Opteron could benefit too but these are not optimized for the Opteron
+       CC_PLAT_OPTIONS='-march=athlon64 -mfpmath=sse -msse2 -m3dnow -m64 '
+       CC_OPTIONS="-O2 -Dlinux  -DNARROWPROTO $CC_PLAT_OPTIONS"
+       CC_LDFLAGS=$LIEEELIB
+       CC_PICFLAGS=-fPIC
+       # find Fortran compiler
+       # g77 already asked and found: good
+       if test "$WITH_G77" = yes; then
+         FC=g77
+         FC_PICFLAGS=-fPIC
+       # option with-f2c
+       elif test "$with_f2c" = yes; then
+         AC_CHECK_PROG(F2C,f2c,yes,no)
+         if test "$F2C" = no; then
+           AC_MSG_ERROR([Unable to configure: f2c compiler not found])
+         fi
+         # script shell f77 have bugs, get ours
+         FC='${SCIDIR}/bin/f77-linux'
+       else
+         # first find g77
+         AC_CHECK_PROG(WITH_G77,g77,yes,no)
+         if test "$WITH_G77" = yes; then
+           FC=g77
+           FC_PICFLAGS=-fPIC
+         else
+         # otherwise find f2c
+           AC_CHECK_PROG(F2C,f2c,yes,no)
+           if test "$F2C" = yes; then
+             # script shell f77 have bugs, get ours
+             FC='${SCIDIR}/bin/f77-linux'
+           else
+             AC_MSG_ERROR([Unable to configure: no Fortran compiler found])
+           fi
+         fi
+       fi
+       FC_OPTIONS="-O $CC_PLAT_OPTIONS"
+       FC_OPTIONS_O0=
+       FC_LDFLAGS="$LIEEELIB -ldl -rdynamic -Wl,-relax "
+       LD=ld
+       LD_LDFLAGS="$LIEEELIB  -Wl,-relax "
+       if test "$enable_debug" = yes; then
+        # CC_PLAT_OPTIONS is optional, and is used to add CPU specific code generation tuning for Athlon64 presumably Opteron could benefit too but these are not optimized for the Opteron
+         CC_PLAT_OPTIONS='-march=athlon64 -mfpmath=sse -msse2 -m3dnow -m64 '
+         CC_OPTIONS="-g -Wall -Dlinux  -DNARROWPROTO $CC_PLAT_OPTIONS"
+         FC_OPTIONS="-g $CC_PLAT_OPTIONS"
+       fi
+    fi
+    MAKEFILE_TARGET=Makefile.linux
+   ;;
+# Alpha Linux
+  alpha-*-linux-gnu)
+    MALLOC=malloc.o
+    GCC=yes
+    CC=cc
+    CC_OPTIONS='-O -mieee-with-inexact -Dlinux '
+    CC_LDFLAGS='-ldl -rdynamic -mieee-with-inexact'
+    CC_PICFLAGS=-fPIC
+    # find Fortran compiler
+    # g77 already asked and found: good
+    if test "$G77" = yes; then
+      FC=g77
+    # option with-f2c
+    elif test "$with_f2c" = yes; then
+      AC_CHECK_PROG(F2C,f2c,yes,no)
+      if test "$F2C" = no; then
+        AC_MSG_ERROR([Unable to configure: f2c compiler not found])
+      fi
+      # script shell f77 have bugs, get ours
+      FC='${SCIDIR}/bin/f77-linux'
+    else
+      # first find g77
+      AC_CHECK_PROG(G77,g77,yes,no)
+      if test "$G77" = yes; then
+        FC=g77
+      else
+      # otherwise find f2c
+        AC_CHECK_PROG(F2C,f2c,yes,no)
+        if test "$F2C" = yes; then
+          # script shell f77 have bugs, get ours
+          FC='${SCIDIR}/bin/f77-linux'
+        else
+          AC_MSG_ERROR([Unable to configure: no Fortran compiler found])    
+        fi
+      fi
+    fi
+    FC_OPTIONS='-O -mieee-with-inexact'
+    FC_OPTIONS_O0='-mieee-with-inexact'
+    FC_LDFLAGS='-ldl -rdynamic -mieee-with-inexact'
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -mieee-with-inexact -Dlinux '
+      FC_OPTIONS='-g -mieee-with-inexact'
+    fi
+    MAKEFILE_TARGET=Makefile.linux
+   ;;
+# Mklinux PowerPC (Macintosh)
+  powerpc-*-linux-gnu)
+    LIEEELIB=
+    AC_CHECK_LIB(ieee,main,
+      [LIEEELIB=-lieee])
+    GCC=yes
+    CC=cc
+    CC_OPTIONS='-O -D_GNU_SOURCE -Dlinux '
+    CC_LDFLAGS=$LIEEELIB
+    CC_PICFLAGS=-fPIC
+    # find Fortran compiler
+    # g77 already asked and found: good
+    if test "$G77" = yes; then
+      FC=g77
+    # option with-f2c
+    elif test "$with_f2c" = yes; then
+      AC_CHECK_PROG(F2C,f2c,yes,no)
+      if test "$F2C" = no; then
+        AC_MSG_ERROR([Unable to configure: f2c compiler not found])
+      fi
+      # script shell f77 have bugs, get ours
+      FC='${SCIDIR}/bin/f77-linux'
+    else
+      # first find g77
+      AC_CHECK_PROG(G77,g77,yes,no)
+      if test "$G77" = yes; then
+        FC=g77
+      else
+      # otherwise find f2c
+        AC_CHECK_PROG(F2C,f2c,yes,no)
+        if test "$F2C" = yes; then
+          # script shell f77 have bugs, get ours
+          FC='${SCIDIR}/bin/f77-linux'
+        else
+          AC_MSG_ERROR([Unable to configure: no Fortran compiler found])    
+        fi
+      fi
+    fi
+    FC_OPTIONS=-O
+    FC_OPTIONS_O0=
+    FC_LDFLAGS="$LIEEELIB -ldl -rdynamic"
+    FC_PICFLAGS=-fPIC
+    LD=ld
+    LD_LDFLAGS=$LIEEELIB
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -Dlinux -D_GNU_SOURCE '
+      FC_OPTIONS=-g
+    fi
+    MAKEFILE_TARGET=Makefile.linux
+   ;;
+# SGI MIPS ULTRIX (NO LONGER SUPPORTED)
+  mips-*-ultrix*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS=-O0
+    CC_LDFLAGS=
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,f77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran f77 compiler not found])
+      fi
+    fi
+    FC=f77
+    FC_OPTIONS='-O0 -fpe1'
+    FC_OPTIONS_O0='-O0 -fpe1'
+    FC_LDFLAGS=
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS=-g
+      FC_OPTIONS='-g -fpe1'
+    fi
+    SCILAB_GS=sh5
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+    MAKEFILE_TARGET=Makefile.ultrix
+    ;;
+# SGI
+  mips-sgi-irix*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS='-O -c -DSYSV -DSVR4'
+    CC_LDFLAGS=
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,f77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran f77 compiler not found])
+      fi
+    fi
+    FC=f77
+    FC_OPTIONS='-O -Nl999 -Nn15000'
+    FC_OPTIONS_O0='-Nl999 -Nn15000'
+
+
+
+    FC_LDFLAGS=
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -c -DSYSV -DSVR4'
+      FC_OPTIONS='-g -Nl999 -Nn15000'
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+
+    MAKEFILE_TARGET=Makefile.sgi
+    ;;
+# OLD HP (NO LONGER SUPPORTED)
+  *-*-hpux9.*)
+    # standard compilers
+    HPPA_OLD=-Dhppa_old
+    CC=cc
+    CC_OPTIONS='-O -DSYSV -Dhpux'
+    CC_LDFLAGS='-Wl,-a,archive'
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,fort77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran fort77 compiler not found])
+      fi
+    fi
+    FC=fort77
+    FC_OPTIONS='-O +Obb1200 +E4'
+    FC_OPTIONS_O0='+Obb1200 +E4'
+    FC_LDFLAGS='-Wl,-a,archive'
+    LD=ld
+    LD_LDFLAGS='-a archive'
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -DSYSV -Dhpux'
+      FC_OPTIONS='-g +E4'
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+    MAKEFILE_TARGET=Makefile.hpux9
+    FGETARG=fgetarg-hpux
+    ;;
+# HP
+  *-*-hpux*)
+    # standard compilers
+    CC=cc
+    CC_OPTIONS='-O -DSYSV -Dhpux +Z +DAportable'
+    CC_LDFLAGS='-Wl,+vnocompatwarnings,-E /usr/lib/libdld.sl'
+    if test "$G77" != yes; then    
+      AC_CHECK_PROG(F77,fort77,yes,no)
+      if test "$F77" = no; then
+        AC_MSG_ERROR([Unable to configure: Fortran fort77 compiler not found])
+      fi
+    fi
+    FC=fort77
+    FC_OPTIONS='+O2 +E4 +Z +DAportable'
+    FC_OPTIONS_O0='+E4 +Z +DAportable'
+    FC_LDFLAGS='-Wl,+vnocompatwarnings,-E /usr/lib/libdld.sl'
+    LD=ld
+    LD_LDFLAGS=
+    if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -DSYSV -Dhpux'
+      FC_OPTIONS='-g +E4'
+    fi
+    # GNU compilers
+    if test "$GCC" = yes; then
+      CC=gcc
+      CC_OPTIONS=-O
+      if test "$enable_debug" = yes; then 
+        CC_OPTIONS=-g
+      fi
+    fi
+    if test "$G77" = yes; then
+      FC=g77
+      FC_OPTIONS=-O
+      FC_OPTIONS_O0=
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS=-g
+      fi
+    fi
+    MAKEFILE_TARGET=Makefile.hpux
+    FGETARG=fgetarg-hpux
+    ;;
+# CYGWIN32 for Windows 9X/NT/XP 
+# mingw32 is detected 
+  *-*-cygwin* |   *-*-mingw32*)
+    SCILABSCRIPT=scilab-gcwin32.g
+    PERIFILE=periWin.o
+    MAIN='mainwin95.o'
+    GUILIB='wsci'
+    XDRLIB='xdr'
+    XDRLIBNAME='libs/xdr.a'
+    MENUSOBJS=WOBJS
+    BLPR_SCRIPTS=
+    SED_CYGDRIVE='$(CYGDRIVE)'
+    IMPPREF=B
+    IMPENV=env.o
+    # want to build f2c comand 
+    # which is required for building fortran dlls 
+    # which can be loaded into scilab 
+    F2C_SUBDIR=f2c/src
+    # just *-so tests 
+    EXAMPLES_TESTS='$(SUBDIRS1)'
+    GCC=yes
+    CC=gcc 
+    CC_OPTIONS='-mno-cygwin -mieee-fp -O   -Wall'
+      if test "$enable_debug" = yes; then 
+	CC_OPTIONS='-mno-cygwin -g   -Wall'
+      fi
+    CC_LDFLAGS=
+    FC=g77
+    if test "$G77" = yes; then
+      FC=g77
+    fi 
+    FC_OPTIONS="-O -mno-cygwin"
+    FC_OPTIONS_O0="-mno-cygwin"
+      if test "$enable_debug" = yes; then 
+        FC_OPTIONS="-g -mno-cygwin"
+      fi
+    FC_LDFLAGS=
+    if test "$with_f2c" = yes; then
+      # ignore with_f2c here       
+      FC=g77
+    fi    
+    LD=gcc
+    LD_LDFLAGS="-mconsole --enable-stdcall-fixup"
+    WINXFLAGS='-I../xdr'
+    MAKEFILE_TARGET=Makefile.gcwin32
+    ;;
+# FreeBSD  systems (not supported by INRIA)
+  *-*-freebsd*)
+     GCC=yes
+     CC=cc
+     CC_OPTIONS="${CFLAGS} -Dfreebsd"
+     CC_LDFLAGS=-lm
+     CC_PICFLAGS='-fPIC'
+     # script shell f77 have bugs, get ours
+     FC=f77
+     FC_OPTIONS="${CFLAGS} -Dfreebsd"	
+     FC_OPTIONS_O0='-Dfreebsd'
+     FC_LDFLAGS='-lm -Wl,--export-dynamic'
+     FC_PICFLAGS='-fPIC'
+     LD=ld
+     LD_LDFLAGS=-lm
+
+     if test "$enable_debug" = yes; then 
+       CC_OPTIONS='-g -Dfreebsd'
+       FC_OPTIONS=-g
+     fi
+     if test "$G77" = yes; then
+       # On FreeBSD the gnu fortran compiler is named f77
+       FC=f77
+     fi
+    DLDLIB='${SCIDIR}/libs/libdld.a'
+    DLD_SUBDIR=dld
+    MAKEFILE_TARGET=Makefile.freebsd
+    ;;
+
+# NetBSD  systems (not supported by INRIA)
+  *-*-netbsd*)
+    #
+    # C Compiler
+    #
+    CC=cc
+    CC_OPTIONS='-O2 -Dnetbsd'
+    CC_LDFLAGS="-Wl,-R${X11BASE}/lib"
+    CC_PICFLAGS='-fPIC'
+    # check for --export-dynamic
+    ac_save_LDFLAGS="$LDFLAGS"
+    LDFLAGS='-Wl,--export-dynamic'
+    AC_MSG_CHECKING([if the linker accepts --export-dynamic])
+    AC_TRY_LINK(,,
+      AC_MSG_RESULT(yes)
+      CC_LDFLAGS=["$CC_LDFLAGS  -Wl,--export-dynamic"],
+      AC_MSG_RESULT(no))
+    LDFLAGS="$ac_save_LDFLAGS"
+   #
+   # Fortran Compiler
+   #
+   if test "$with_f2c" = yes; then
+     AC_CHECK_PROGS(F77,f2c-f77,no)
+     if test "$F77" = no; then
+       AC_MSG_ERROR([Unable to configure: Fortran compiler f2c-f77 not found])
+     fi
+   else		
+     AC_CHECK_PROGS(F77,"${FC}" f77 f2c-f77,no)
+     if test "$F77" = no; then
+       AC_MSG_ERROR([Unable to configure: Fortran, f77 or f2c-f77, compiler not found])
+     fi
+   fi
+   FC="$F77"
+   FC_OPTIONS='-O2'
+   FC_OPTIONS_O0=`echo $FC_OPTIONS | sed 's/-O[0-9]*//g'`
+   FC_LDFLAGS="-Wl,-R${X11BASE}/lib"
+   FC_PICFLAGS='-fPIC'
+   # check for --export-dynamic
+   ac_save_LDFLAGS="$LDFLAGS"
+   LDFLAGS='-Wl,--export-dynamic'
+   AC_MSG_CHECKING([if the linker accepts --export-dynamic])
+   AC_TRY_LINK(,,
+     AC_MSG_RESULT(yes)
+     FC_LDFLAGS=["$FC_LDFLAGS  -Wl,--export-dynamic"],
+     AC_MSG_RESULT(no))
+   LDFLAGS="$ac_save_LDFLAGS"
+   #
+   # Linker
+   #
+   LD=ld
+   LD_LDFLAGS="-R${X11BASE}/lib"
+   # check for --export-dynamic
+   ac_save_LDFLAGS="$LDFLAGS"
+   LDFLAGS='-Wl,--export-dynamic'
+   AC_MSG_CHECKING([if the linker accepts --export-dynamic])
+   AC_TRY_LINK(,,
+     AC_MSG_RESULT(yes)
+     LD_LDFLAGS=["$LD_LDFLAGS  --export-dynamic"],
+     AC_MSG_RESULT(no))
+   LDFLAGS="$ac_save_LDFLAGS" 
+   #
+   # Compiler Debug Flags
+   #
+   if test "$enable_debug" = yes; then 
+      CC_OPTIONS='-g -Dnetbsd '
+      FC_OPTIONS='-g '
+   fi
+   MAKEFILE_TARGET=Makefile.netbsd
+   ;;
+# Darwin/MacOSX (Not supported by INRIA)
+  *-*-darwin*)
+     STRIP=echo
+     GCC=yes
+     CC=gcc
+     # -L/sw/lib is needed during configure but seams not best place
+     CC_OPTIONS='-no-cpp-precomp -O2 -I/sw/include -L/sw/lib'
+     CC_LDFLAGS=
+     CC_PICFLAGS='-fPIC'
+     LIBS="$LIBS -L/sw/lib"
+     # script shell f77 have bugs, get ours
+     FC=g77
+     FC_OPTIONS='-O2'
+     FC_OPTIONS_O0=
+     FC_LDFLAGS='-L/sw/lib -ldl'
+     FC_PICFLAGS='-fPIC'
+     LD=ld
+     LD_LDFLAGS=
+     if test "$enable_debug" = yes; then
+       # -L/sw/lib is needed during configure but seams not best place
+       CC_OPTIONS='-g -I/sw/include -L/sw/lib'
+       FC_OPTIONS=-g
+     fi
+     if test "$G77" = yes; then
+       FC=g77
+     fi
+    # just *-so tests 
+    EXAMPLES_TESTS='$(SUBDIRS1)'
+    # FLIBS generated by libtool config should not be used 
+    FLIBS= 
+   # Dyn. loading - ????
+   # DLDLIB=
+   # DLD_SUBDIR=
+   # DLDLIB=
+   # DLD_SUBDIR=
+   MAKEFILE_TARGET=Makefile.darwin
+   # we need to patch libtool 		
+   cp  libtool libtool-cp
+   sed -e 's:\\\\"x\\\$module\\\\" = xyes:\\$module = .yes:' libtool-cp > libtool
+   rm -f libtool-cp
+    ;;
+  *)
+    AC_MSG_ERROR([Unable to configure for host $host])
+    ;;
+esac
+
+
+# due to g77 Fortran compiler bugs, a few files must not be compiled
+# with optimizer:
+# in "src/control": hqror2.f comqr3.f tql2.f imtql3.f dsvdc.f wsvdc.f 
+#                        pade.f
+# in "src/sparse": intreadmps.f
+
+FC_OPTIONS1=$FC_OPTIONS
+if test "$G77" = yes; then
+  if test "$enable_debug" = yes; then   
+    FC_OPTIONS1=$FC_OPTIONS
+  else
+    FC_OPTIONS1=$FC_OPTIONS_O0
+  fi
+fi
+# due overlapping arguments a few files must not be compiled
+# with optimizer on some computers (SGI : unsfdcopy.f icopy.f)
+
+FC_OPTIONS2=$FC_OPTIONS
+
+case "$host" in
+# SGI MIPS 
+  mips-sgi-irix*)
+    if test "$enable_debug" = yes; then   
+      FC_OPTIONS2=$FC_OPTIONS
+    else
+      FC_OPTIONS2=$FC_OPTIONS_O0
+    fi
+    ;;
+esac
+
+
+# due to a gcc bug, a few C functions must not be inlined when compiled
+# with optimizer: the "floor" function in "src/graphics/Format.c"
+
+NOINLINE=
+if test "$GCC" = yes; then
+  NOINLINE='-D__NO_MATH_INLINES'
+fi
+
+# flag for possible compilations in configure
+CFLAGS=$CC_OPTIONS
+LDLAGS=$CC_LDFLAGS
+
+############################
+## test for various programs
+############################
+# Using `AC_PROG_RANLIB' is rendered obsolete by `AC_PROG_LIBTOOL'
+#AC_PROG_RANLIB
+
+
+#########################
+## sizeof(int*)== sizeof(int)
+#########################
+
+AC_CHECK_POINTER_SIZE() 
+
+#######################
+## test for underscores
+#######################
+
+AC_MSG_CHECKING([for leading and/or trailing underscores])
+cat << EOF > pipof.f
+       subroutine pipof
+       end
+EOF
+
+dnl expand possible $SCIDIR in $FC (wizard command...)
+eval "FC1=\"$FC\""
+eval "$FC1 -c pipof.f > /dev/null 2>&1"
+
+FC_LEADING_UNDERSCORE=no
+FC_TRAILING_UNDERSCORE=no
+
+output=`nm pipof.o|grep _pipof 2>&1`
+if test ! -z "$output"; then
+  FC_LEADING_UNDERSCORE=yes
+  FC_TRAILING_UNDERSCORE=no
+fi
+
+output=`nm pipof.o|grep pipof_ 2>&1`
+if test ! -z "$output"; then
+  FC_LEADING_UNDERSCORE=no
+  FC_TRAILING_UNDERSCORE=yes
+fi
+
+output=`nm pipof.o|grep _pipof_ 2>&1`
+if test ! -z "$output"; then
+  FC_LEADING_UNDERSCORE=yes
+  FC_TRAILING_UNDERSCORE=yes
+fi
+
+if test "$FC_LEADING_UNDERSCORE" = yes; then
+  AC_DEFINE(WLU)
+fi
+if test "$FC_TRAILING_UNDERSCORE" = yes; then
+  AC_DEFINE(WTU)
+fi
+
+$RM pipof.f pipof.o
+
+AC_MSG_RESULT([$FC_LEADING_UNDERSCORE $FC_TRAILING_UNDERSCORE])
+
+#####################
+## test for sharpsign
+#####################
+
+AC_MSG_CHECKING([for use of sharpsign in CPP])
+AC_TRY_COMPILE([#define C2F(name) name##_],
+  [C2F(toto)()],  
+  AC_MSG_RESULT(yes)
+  AC_DEFINE(USE_SHARP_SIGN),
+  AC_MSG_RESULT(no))
+
+##############################################################
+## test for functions in standard C library and C math library
+##############################################################
+
+AC_CHECK_LIB(m,main)
+AC_CHECK_FUNCS(exp10)
+AC_CHECK_FUNCS(getwd)
+AC_CHECK_FUNCS(getcwd)
+AC_CHECK_FUNCS(sleep)
+AC_CHECK_FUNCS(strerror)
+AC_CHECK_FUNCS(usleep)
+AC_CHECK_FUNCS(finite)
+AC_CHECK_FUNCS(mkstemp)
+AC_CHECK_FUNCS(tgamma)
+AC_CHECK_FUNCS(lgamma)
+
+########################
+## test for header files
+########################
+
+AC_CHECK_HEADERS(values.h) 
+
+#--------------------------------------------------------------------
+#	Supply substitutes for missing POSIX library procedures, or
+#	set flags so Tcl uses alternate procedures.
+#--------------------------------------------------------------------
+
+# Check if Posix compliant getcwd exists, if not we'll use getwd.
+AC_CHECK_FUNCS(getcwd, , AC_DEFINE(USEGETWD))
+# Nb: if getcwd uses popen and pwd(1) (like Solaris) we should really
+# define USEGETWD even if the posix getcwd exists. Add a test ?
+
+AC_REPLACE_FUNCS(opendir strstr)
+
+AC_REPLACE_FUNCS(strtol tmpnam waitpid)
+AC_CHECK_FUNC(strerror, , AC_DEFINE(NO_STRERROR))
+AC_CHECK_FUNC(getwd, , AC_DEFINE(NO_GETWD))
+AC_CHECK_FUNC(wait3, , AC_DEFINE(NO_WAIT3))
+AC_CHECK_FUNC(uname, , AC_DEFINE(NO_UNAME))
+
+#--------------------------------------------------------------------
+#	On a few very rare systems, all of the libm.a stuff is
+#	already in libc.a.  Set compiler flags accordingly.
+#	Also, Linux requires the "ieee" library for math to work
+#	right (and it must appear before "-lm").
+#--------------------------------------------------------------------
+
+AC_CHECK_FUNC(sin, MATH_LIBS="", MATH_LIBS="-lm")
+AC_CHECK_LIB(ieee, main, [MATH_LIBS="-lieee $MATH_LIBS"])
+
+#--------------------------------------------------------------------
+#       On AIX systems, libbsd.a has to be linked in to support
+#       non-blocking file IO.  This library has to be linked in after
+#       the MATH_LIBS or it breaks the pow() function.  The way to
+#       insure proper sequencing, is to add it to the tail of MATH_LIBS.
+#        This library also supplies gettimeofday.
+#--------------------------------------------------------------------
+libbsd=no
+if test "`uname -s`" = "AIX" ; then
+    AC_CHECK_LIB(bsd, gettimeofday, libbsd=yes)
+    if test $libbsd = yes; then
+	MATH_LIBS="$MATH_LIBS -lbsd"
+    fi
+fi
+
+#--------------------------------------------------------------------
+#	Supply substitutes for missing POSIX header files.  Special
+#	notes:
+#	    - stdlib.h doesn't define strtol, strtoul, or
+#	      strtod insome versions of SunOS
+#	    - some versions of string.h don't declare procedures such
+#	      as strstr
+#--------------------------------------------------------------------
+
+AC_MSG_CHECKING(dirent.h)
+AC_TRY_LINK([#include <sys/types.h>
+#include <dirent.h>], [
+#ifndef _POSIX_SOURCE
+#   ifdef __Lynx__
+	/*
+	 * Generate compilation error to make the test fail:  Lynx headers
+	 * are only valid if really in the POSIX environment.
+	 */
+
+	missing_procedure();
+#   endif
+#endif
+DIR *d;
+struct dirent *entryPtr;
+char *p;
+d = opendir("foobar");
+entryPtr = readdir(d);
+p = entryPtr->d_name;
+closedir(d);
+], tcl_ok=yes, tcl_ok=no)
+if test $tcl_ok = no; then
+    AC_DEFINE(NO_DIRENT_H)
+fi
+AC_MSG_RESULT($tcl_ok)
+AC_CHECK_HEADER(errno.h, , AC_DEFINE(NO_ERRNO_H))
+AC_CHECK_HEADER(float.h, , AC_DEFINE(NO_FLOAT_H))
+AC_CHECK_HEADER(values.h, , AC_DEFINE(NO_VALUES_H))
+AC_CHECK_HEADER(limits.h, , AC_DEFINE(NO_LIMITS_H))
+AC_CHECK_HEADER(stdlib.h, tcl_ok=1, tcl_ok=0)
+AC_EGREP_HEADER(strtol, stdlib.h, , tcl_ok=0)
+AC_EGREP_HEADER(strtoul, stdlib.h, , tcl_ok=0)
+AC_EGREP_HEADER(strtod, stdlib.h, , tcl_ok=0)
+if test $tcl_ok = 0; then
+    AC_DEFINE(NO_STDLIB_H)
+fi
+AC_CHECK_HEADER(string.h, tcl_ok=1, tcl_ok=0)
+AC_EGREP_HEADER(strstr, string.h, , tcl_ok=0)
+AC_EGREP_HEADER(strerror, string.h, , tcl_ok=0)
+if test $tcl_ok = 0; then
+    AC_DEFINE(NO_STRING_H)
+fi
+AC_CHECK_HEADER(sys/wait.h, , AC_DEFINE(NO_SYS_WAIT_H))
+AC_CHECK_HEADER(dlfcn.h, , AC_DEFINE(NO_DLFCN_H))
+AC_HAVE_HEADERS(unistd.h)
+
+#---------------------------------------------------------------------------
+#	Determine which interface to use to talk to the serial port.
+#	Note that #include lines must begin in leftmost column for
+#	some compilers to recognize them as preprocessor directives.
+#---------------------------------------------------------------------------
+
+AC_MSG_CHECKING([termios vs. termio vs. sgtty])
+AC_TRY_RUN([
+#include <termios.h>
+
+main()
+{
+    struct termios t;
+    if (tcgetattr(0, &t) == 0) {
+	cfsetospeed(&t, 0);
+	t.c_cflag |= PARENB | PARODD | CSIZE | CSTOPB;
+	return 0;
+    }
+    return 1;
+}], tk_ok=termios, tk_ok=no, tk_ok=no)
+if test $tk_ok = termios; then
+    AC_DEFINE(USE_TERMIOS)
+else
+AC_TRY_RUN([
+#include <termio.h>
+
+main()
+{
+    struct termio t;
+    if (ioctl(0, TCGETA, &t) == 0) {
+	t.c_cflag |= CBAUD | PARENB | PARODD | CSIZE | CSTOPB;
+	return 0;
+    }
+    return 1;
+}], tk_ok=termio, tk_ok=no, tk_ok=no)
+if test $tk_ok = termio; then
+    AC_DEFINE(USE_TERMIO)
+else
+AC_TRY_RUN([
+#include <sgtty.h>
+
+main()
+{
+    struct sgttyb t;
+    if (ioctl(0, TIOCGETP, &t) == 0) {
+	t.sg_ospeed = 0;
+	t.sg_flags |= ODDP | EVENP | RAW;
+	return 0;
+    }
+    return 1;
+}], tk_ok=sgtty, tk_ok=none, tk_ok=none)
+if test $tk_ok = sgtty; then
+    AC_DEFINE(USE_SGTTY)
+fi
+fi
+fi
+AC_MSG_RESULT($tk_ok)
+
+#--------------------------------------------------------------------
+#	Include sys/select.h if it exists and if it supplies things
+#	that appear to be useful and aren't already in sys/types.h.
+#	This appears to be true only on the RS/6000 under AIX.  Some
+#	systems like OSF/1 have a sys/select.h that's of no use, and
+#	other systems like SCO UNIX have a sys/select.h that's
+#	pernicious.  If "fd_set" isn't defined anywhere then set a
+#	special flag.
+#--------------------------------------------------------------------
+
+AC_MSG_CHECKING([fd_set and sys/select])
+AC_TRY_COMPILE([#include <sys/types.h>],
+	[fd_set readMask, writeMask;], tk_ok=yes, tk_ok=no)
+if test $tk_ok = no; then
+    AC_HEADER_EGREP(fd_mask, sys/select.h, tk_ok=yes)
+    if test $tk_ok = yes; then
+	AC_DEFINE(HAVE_SYS_SELECT_H)
+    fi
+fi
+AC_MSG_RESULT($tk_ok)
+if test $tk_ok = no; then
+    AC_DEFINE(NO_FD_SET)
+fi
+
+#------------------------------------------------------------------------------
+#       Find out all about time handling differences.
+#------------------------------------------------------------------------------
+
+AC_CHECK_HEADERS(sys/time.h)
+AC_HEADER_TIME
+AC_STRUCT_TIMEZONE
+
+AC_MSG_CHECKING([tm_tzadj in struct tm])
+AC_TRY_COMPILE([#include <time.h>], [struct tm tm; tm.tm_tzadj;],
+        [AC_DEFINE(HAVE_TM_TZADJ)
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
+AC_MSG_CHECKING([tm_gmtoff in struct tm])
+AC_TRY_COMPILE([#include <time.h>], [struct tm tm; tm.tm_gmtoff;],
+        [AC_DEFINE(HAVE_TM_GMTOFF)
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
+#
+# Its important to include time.h in this check, as some systems (like convex)
+# have timezone functions, etc.
+#
+have_timezone=no
+AC_MSG_CHECKING([long timezone variable])
+AC_TRY_COMPILE([#include <time.h>],
+        [extern long timezone;
+         timezone += 1;
+         exit (0);],
+        [have_timezone=yes
+	 AC_DEFINE(HAVE_TIMEZONE_VAR)
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
+#
+# On some systems (eg IRIX 6.2), timezone is a time_t and not a long.
+#
+if test "$have_timezone" = no; then
+   AC_MSG_CHECKING([time_t timezone variable])
+   AC_TRY_COMPILE([#include <time.h>],
+        [extern time_t timezone;
+         timezone += 1;
+         exit (0);],
+        [AC_DEFINE(HAVE_TIMEZONE_VAR)
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+fi
+
+#
+# AIX does not have a timezone field in struct tm. When the AIX bsd
+# library is used, the timezone global and the gettimeofday methods are
+# to be avoided for timezone deduction instead, we deduce the timezone
+# by comparing the localtime result on a known GMT value.
+#
+if test $libbsd = yes; then
+    AC_DEFINE(USE_DELTA_FOR_TZ)
+fi
+
+#--------------------------------------------------------------------
+#	On some systems strstr is broken: it returns a pointer even
+#	even if the original string is empty.
+#--------------------------------------------------------------------
+
+AC_MSG_CHECKING([proper strstr implementation])
+AC_TRY_RUN([
+extern int strstr();
+int main()
+{
+    exit(strstr("\0test", "test") ? 1 : 0);
+}
+], tcl_ok=yes, tcl_ok=no, tcl_ok=no)
+if test $tcl_ok = yes; then
+    AC_MSG_RESULT(yes)
+else
+    AC_MSG_RESULT([broken, using substitute])
+    TCLLIBOBJSS="$TCLLIBOBJSS strstr.o"
+fi
+
+#--------------------------------------------------------------------
+#	Check for strtoul function.  This is tricky because under some
+#	versions of AIX strtoul returns an incorrect terminator
+#	pointer for the string "0".
+#--------------------------------------------------------------------
+
+AC_CHECK_FUNC(strtoul, tcl_ok=1, tcl_ok=0)
+AC_TRY_RUN([
+extern int strtoul();
+int main()
+{
+    char *string = "0";
+    char *term;
+    int value;
+    value = strtoul(string, &term, 0);
+    if ((value != 0) || (term != (string+1))) {
+        exit(1);
+    }
+    exit(0);
+}], , tcl_ok=0, tcl_ok=0)
+if test "$tcl_ok" = 0; then
+    test -n "$verbose" && echo "	Adding strtoul.o."
+    TCLLIBOBJSS="$TCLLIBOBJSS strtoul.o"
+fi
+
+#--------------------------------------------------------------------
+#	Check for the strtod function.  This is tricky because in some
+#	versions of Linux strtod mis-parses strings starting with "+".
+#--------------------------------------------------------------------
+
+AC_CHECK_FUNC(strtod, tcl_ok=1, tcl_ok=0)
+AC_TRY_RUN([
+extern double strtod();
+int main()
+{
+    char *string = " +69";
+    char *term;
+    double value;
+    value = strtod(string, &term);
+    if ((value != 69) || (term != (string+4))) {
+	exit(1);
+    }
+    exit(0);
+}], , tcl_ok=0, tcl_ok=0)
+if test "$tcl_ok" = 0; then
+    test -n "$verbose" && echo "	Adding strtod.o."
+    TCLLIBOBJSS="$TCLLIBOBJSS strtod.o"
+fi
+
+#--------------------------------------------------------------------
+#	Under Solaris 2.4, strtod returns the wrong value for the
+#	terminating character under some conditions.  Check for this
+#	and if the problem exists use a substitute procedure
+#	"fixstrtod" that corrects the error.
+#--------------------------------------------------------------------
+
+AC_CHECK_FUNC(strtod, tcl_strtod=1, tcl_strtod=0)
+if test "$tcl_strtod" = 1; then
+    AC_MSG_CHECKING([for Solaris strtod bug])
+    AC_TRY_RUN([
+extern double strtod();
+int main()
+{
+    char *string = "NaN";
+    char *term;
+    strtod(string, &term);
+    if ((term != string) && (term[-1] == 0)) {
+	exit(1);
+    }
+    exit(0);
+}], tcl_ok=1, tcl_ok=0, tcl_ok=0)
+    if test $tcl_ok = 1; then
+	AC_MSG_RESULT(ok)
+    else
+	AC_MSG_RESULT(buggy)
+	TCLLIBOBJSS="$TCLLIBOBJSS fixstrtod.o"
+	AC_DEFINE(strtod, fixstrtod)
+    fi
+fi
+
+#--------------------------------------------------------------------
+#	Check for various typedefs and provide substitutes if
+#	they don't exist.
+#--------------------------------------------------------------------
+
+AC_TYPE_MODE_T
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_TYPE_UID_T
+
+#--------------------------------------------------------------------
+#	If a system doesn't have an opendir function (man, that's old!)
+#	then we have to supply a different version of dirent.h which
+#	is compatible with the substitute version of opendir that's
+#	provided.  This version only works with V7-style directories.
+#--------------------------------------------------------------------
+
+AC_CHECK_FUNC(opendir, , AC_DEFINE(USE_DIRENT2_H))
+
+#--------------------------------------------------------------------
+#	The check below checks whether <sys/wait.h> defines the type
+#	"union wait" correctly.  It's needed because of weirdness in
+#	HP-UX where "union wait" is defined in both the BSD and SYS-V
+#	environments.  Checking the usability of WIFEXITED seems to do
+#	the trick.
+#--------------------------------------------------------------------
+
+AC_MSG_CHECKING([union wait])
+AC_TRY_LINK([#include <sys/types.h> 
+#include <sys/wait.h>], [
+union wait x;
+WIFEXITED(x);		/* Generates compiler error if WIFEXITED
+			 * uses an int. */
+], tcl_ok=yes, tcl_ok=no)
+AC_MSG_RESULT($tcl_ok)
+if test $tcl_ok = no; then
+    AC_DEFINE(NO_UNION_WAIT)
+fi
+
+#--------------------------------------------------------------------
+#	Check to see whether the system supports the matherr function
+#	and its associated type "struct exception".
+#--------------------------------------------------------------------
+
+AC_MSG_CHECKING([matherr support])
+AC_TRY_COMPILE([#include <math.h>], [
+struct exception x;
+x.type = DOMAIN;
+x.type = SING;
+], tcl_ok=yes, tcl_ok=no)
+AC_MSG_RESULT($tcl_ok)
+if test $tcl_ok = yes; then
+    AC_DEFINE(NEED_MATHERR)
+fi
+
+#--------------------------------------------------------------------
+#	Check to see whether the system provides a vfork kernel call.
+#	If not, then use fork instead.  Also, check for a problem with
+#	vforks and signals that can cause core dumps if a vforked child
+#	resets a signal handler.  If the problem exists, then use fork
+#	instead of vfork.
+#--------------------------------------------------------------------
+
+AC_CHECK_FUNC(vfork, tcl_ok=1, tcl_ok=0)
+if test "$tcl_ok" = 1; then
+    AC_MSG_CHECKING([vfork/signal bug]);
+    AC_TRY_RUN([
+#include <stdio.h>
+#include <signal.h>
+#include <sys/wait.h>
+int gotSignal = 0;
+sigProc(sig)
+    int sig;
+{
+    gotSignal = 1;
+}
+main()
+{
+    int pid, sts;
+    (void) signal(SIGCHLD, sigProc);
+    pid = vfork();
+    if (pid <  0) {
+	exit(1);
+    } else if (pid == 0) {
+	(void) signal(SIGCHLD, SIG_DFL);
+	_exit(0);
+    } else {
+	(void) wait(&sts);
+    }
+    exit((gotSignal) ? 0 : 1);
+}], tcl_ok=1, tcl_ok=0, tcl_ok=0)
+    if test "$tcl_ok" = 1; then
+	AC_MSG_RESULT(ok)
+    else
+	AC_MSG_RESULT([buggy, using fork instead])
+    fi
+fi
+rm -f core
+if test "$tcl_ok" = 0; then
+    AC_DEFINE(vfork, fork)
+fi
+
+#--------------------------------------------------------------------
+#	Check whether there is an strncasecmp function on this system.
+#	This is a bit tricky because under SCO it's in -lsocket and
+#	under Sequent Dynix it's in -linet.
+#--------------------------------------------------------------------
+
+AC_CHECK_FUNC(strncasecmp, tcl_ok=1, tcl_ok=0)
+if test "$tcl_ok" = 0; then
+    AC_CHECK_LIB(socket, strncasecmp, tcl_ok=1, tcl_ok=0)
+fi
+if test "$tcl_ok" = 0; then
+    AC_CHECK_LIB(inet, strncasecmp, tcl_ok=1, tcl_ok=0)
+fi
+if test "$tcl_ok" = 0; then
+    TCLLIBOBJSS="$TCLLIBOBJSS strncasecmp.o"
+fi
+
+#--------------------------------------------------------------------
+#	Interactive UNIX requires -linet instead of -lsocket, plus it
+#	needs net/errno.h to define the socket-related error codes.
+#--------------------------------------------------------------------
+
+AC_CHECK_LIB(inet, main, [LIBS="$LIBS -linet"])
+AC_CHECK_HEADER(net/errno.h, AC_DEFINE(HAVE_NET_ERRNO_H))
+
+#--------------------------------------------------------------------
+#	The following code checks to see whether it is possible to get
+#	signed chars on this platform.  This is needed in order to
+#	properly generate sign-extended ints from character values.
+#--------------------------------------------------------------------
+
+AC_C_CHAR_UNSIGNED
+AC_MSG_CHECKING([signed char declarations])
+AC_TRY_COMPILE(, [
+signed char *p;
+p = 0;
+], tcl_ok=yes, tcl_ok=no)
+AC_MSG_RESULT($tcl_ok)
+if test $tcl_ok = yes; then
+    AC_DEFINE(HAVE_SIGNED_CHAR)
+fi
+
+#--------------------------------------------------------------------
+#	Check for the existence of the -lsocket and -lnsl libraries.
+#	The order here is important, so that they end up in the right
+#	order in the command line generated by make.  Here are some
+#	special considerations:
+#	1. Use "connect" and "accept" to check for -lsocket, and
+#	   "gethostbyname" to check for -lnsl.
+#	2. Use each function name only once:  can't redo a check because
+#	   autoconf caches the results of the last check and won't redo it.
+#	3. Use -lnsl and -lsocket only if they supply procedures that
+#	   aren't already present in the normal libraries.  This is because
+#	   IRIX 5.2 has libraries, but they aren't needed and they're
+#	   bogus:  they goof up name resolution if used.
+#	4. On some SVR4 systems, can't use -lsocket without -lnsl too.
+#	   To get around this problem, check for both libraries together
+#	   if -lsocket doesn't work by itself.
+#--------------------------------------------------------------------
+
+tcl_checkBoth=0
+AC_CHECK_FUNC(connect, tcl_checkSocket=0, tcl_checkSocket=1)
+if test "$tcl_checkSocket" = 1; then
+    AC_CHECK_LIB(socket, main, LIBS="$LIBS -lsocket", tcl_checkBoth=1)
+fi
+if test "$tcl_checkBoth" = 1; then
+    tk_oldLibs=$LIBS
+    LIBS="$LIBS -lsocket -lnsl"
+    AC_CHECK_FUNC(accept, tcl_checkNsl=0, [LIBS=$tk_oldLibs])
+fi
+AC_CHECK_FUNC(gethostbyname, , AC_CHECK_LIB(nsl, main, [LIBS="$LIBS -lnsl"]))
+
+#--------------------------------------------------------------------
+#	The statements below check for systems where POSIX-style
+#	non-blocking I/O (O_NONBLOCK) doesn't work or is unimplemented. 
+#	On these systems (mostly older ones), use the old BSD-style
+#	FIONBIO approach instead.
+#--------------------------------------------------------------------
+
+AC_CHECK_HEADERS(sys/ioctl.h)
+AC_CHECK_HEADERS(sys/filio.h)
+AC_MSG_CHECKING([FIONBIO vs. O_NONBLOCK for nonblocking I/O])
+if test -f /usr/lib/NextStep/software_version; then
+    system=NEXTSTEP-`awk '/3/,/3/' /usr/lib/NextStep/software_version`
+else
+    system=`uname -s`-`uname -r`
+    if test "$?" -ne 0 ; then
+	system=unknown
+    else
+	# Special check for weird MP-RAS system (uname returns weird
+	# results, and the version is kept in special file).
+    
+	if test -r /etc/.relid -a "X`uname -n`" = "X`uname -s`" ; then
+	    system=MP-RAS-`awk '{print $3}' /etc/.relid'`
+	fi
+	if test "`uname -s`" = "AIX" ; then
+	    system=AIX-`uname -v`.`uname -r`
+	fi
+    fi
+fi
+case $system in
+    # There used to be code here to use FIONBIO under AIX.  However, it
+    # was reported that FIONBIO doesn't work under AIX 3.2.5.  Since
+    # using O_NONBLOCK seems fine under AIX 4.*, I removed the FIONBIO
+    # code (JO, 5/31/97).
+
+    OSF*)
+	AC_DEFINE(USE_FIONBIO)
+	AC_MSG_RESULT(FIONBIO)
+	;;
+    SunOS-4*)
+	AC_DEFINE(USE_FIONBIO)
+	AC_MSG_RESULT(FIONBIO)
+	;;
+    ULTRIX-4.*)
+	AC_DEFINE(USE_FIONBIO)
+	AC_MSG_RESULT(FIONBIO)
+	;;
+    *)
+	AC_MSG_RESULT(O_NONBLOCK)
+	;;
+esac
+
+
+
+

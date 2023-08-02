@@ -1,0 +1,406 @@
+<DATA flag="ex">
+
+  <FILE name='CUMSUM' type='XML'>
+    <EXAMPLE>
+	A=[1 2 3;4 5 6;7 8 9]
+	If the sum is along the row the result will be
+	B=[12;15;18]
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='EXTRACT' type='XML'>
+    <EXAMPLE>
+	A=[1 2 3;4 5 6;7 8 9]
+	If the "Lines to extract" is 1 and 2 and the "Column to extract" is 1 and 3 then the output is
+	B=[1 3;4 6]
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='EXTTRI' type='XML'>
+    <EXAMPLE>
+	A=[1 2 3;4 5 6;7 8 9;10 11 12]
+	If the extraction type is 2 then the output is
+	B=[1 0 0;4 5 0;7 8 9;10 11 12]
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='LOGIC' type='XML'>
+    <EXAMPLE>
+      The easiest example to consider is the OR example.
+      In this case we have two inputs and only one output.
+      The truth table for this example is [0;1;1;1].
+      
+      |-----------|-----------|-----------| 
+      |  input 1  |  input 2  |  output   | 
+      |-----------|-----------|-----------| 
+      |     0     |     0     |     0     | 
+      |-----------|-----------|-----------| 
+      |     0     |     1     |     1     | 
+      |-----------|-----------|-----------| 
+      |     1     |     0     |     1     | 
+      |-----------|-----------|-----------| 
+      |     1     |     1     |     1     | 
+      |-----------|-----------|-----------| 
+    </EXAMPLE>
+  </FILE>
+
+
+  <FILE name='MATBKSL' type='XML'>
+    <EXAMPLE>
+      
+	A=[1 7 3;23 32 29]
+	B=[21 18;13 10]
+	then the result of the A*x=B equation is (A\B):
+	x=[-4.504 -3.922;3.643 3.132;0.000 0.000]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATCATH' type='XML'>
+    <EXAMPLE>
+      
+	A=[1 2 3;4 5 6]
+	B=[7 8;9 10]
+	The result of the horizental concatenation is:
+	C=[1 2 3 7 8;4 5 6 9 10]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATCATV' type='XML'>
+    <EXAMPLE>
+      
+	A=[1 2;3 4;5 6]
+	B=[7 8;9 10]
+	The result of the horizental concatenation is:
+	C=[1 2;3 4;5 6;7 8;9 10]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATDET' type='XML'>
+    <EXAMPLE>
+      
+	U=[1 0 63;2 -2 5;9 9 4]
+	y=2215
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATDIAG' type='XML'>
+    <EXAMPLE>
+      
+	if the input of the block is U=ones(5,1) then the output is:
+	y=[1 0 0 0 0;0 1 0 0 0;0 0 1 0 0;0 0 0 1 0;0 0 0 0 1]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATDIV' type='XML'>
+    <EXAMPLE>
+      
+	A=[1 7 3;23 32 29]
+	B=[21 18 34;13 10 19;11 54 36]
+	then the result of the x*B=A equation is (A/B):
+	x=[-0.475 0.712 0.156;-4.350 8.381 0.491]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATEIG' type='XML'>
+    <EXAMPLE>
+      
+	A=[1 12 32;21 35 46;70 8 19]
+	When the "Decomposition type" is set to one the output is y=[-35.649;14.279;76.369]
+	When the "Decomposition type" is set to two the outputs are:
+	y1=[-35.649 0.000 0.000;0.000 14.279 0.000;0.000 0.000 76.369]
+	y2=[0.557 0.080 0.349;0.330 -0.922 0.770;-0.762 0.379 0.533]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATEXPM' type='XML'>
+    <EXAMPLE>
+      
+	u=[1 2 3;2 3 1;4 2 1]
+	y=[182.612 196.518 141.735;172.973 190.770 133.577;204.677 220.063 159.067]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATMUL' type='XML'>
+    <EXAMPLE>
+      
+	A=[1 2 3;4 5 6]
+	B=[9 8 7 6;5 4 3 2;9 7 5 3]
+	y=[46 37 28 19;115 94 73 52]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATRESH' type='XML'>
+    <EXAMPLE>
+      
+	u=[1 2 3 4;5 6 7 8]
+	When the output desired is [1;6] the output is:
+	y=[1 2 3 4 5 6]
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATTRAN' type='XML'>
+    <EXAMPLE>
+      .                        Complex 
+       --                  --               --           --
+       | 1+i   2+3i    3+2i |   Tranpose    | 1- i   4- i |
+       | 4+i   5-8i    6-2i | ----------->  | 2-3i   5+8i |
+       --                  --               | 3-2i   6+2i |
+       .                                    --           --
+      .                  Real 
+       --          --               --      --
+       | 1   -2   3 |   Tranpose    | 1    4 |
+       | 4   5    6 | ----------->  |- 2   5 |
+       --          --               | 3    6 |
+      .                            --      --
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='MATZCONJ' type='XML'>
+    <EXAMPLE>
+       --                  --               --                  --
+       | 1+i   2+3i    3+2i |  Conjugate    | 1-i   2-3i    3-2i |
+       | 4+i   5-8i    6-2i | ----------->  | 4-i   5+8i    6+2i |
+       --                  --               --                  --
+    </EXAMPLE>
+  </FILE>
+
+
+  <FILE name='M_freq' type='XML'>
+    <EXAMPLE>
+      
+	Let us take the example where the sample time is equal to [1 1 2] and the offset is equal to [0 .5 0]. Consider t=simulation time.
+	When t=0, the fifth output is activated (001 + 100).
+	When t=0.5, the second output is activated (010).
+	When t=1, the first output is activated (001).
+	When t=1.5, the second output is activated (010).
+	When t=2 we loop back to 0.
+      
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='SetString' type='XML'>
+    <EXAMPLE><![CDATA[
+    //In interfacing function -set case-
+    fil1='/home/user/data_1.dat'
+    fil2='/home/user/data_2.dat'
+    ...
+    model.opar=list(SetString(fil1),SetString(fil2))
+
+    /* In a C computational function */
+    #include "scicos_block4.h"
+    ....
+    void myFunc(scicos_block *block,int flag)
+    {
+    SCSINT8_COP *fil1;
+    SCSINT8_COP *fil2;
+    ....
+    fil1=Getint8OparPtrs(block,1);
+    fil2=Getint8OparPtrs(block,2);
+    ...
+    }
+    ]]></EXAMPLE>
+  </FILE>
+
+  <FILE name='callblk' type='XML'>
+    <EXAMPLE>
+      //Use of scope of fibo.cosf in Scilab
+      //15/07/08, AL
+
+      load SCI/macros/scicos/lib;
+      exec('SCI/demos/scicos/fibo.cosf',-1);
+      [ierr,scicos_ver,scs_m]=update_version(scs_m);
+
+      omod=scs_m.objs(10).model; //scope is the obj(10)
+      omod.in=1; //update in (because -1)
+      bl=model2blk(omod); //get a computational blk struct
+
+      // init
+      bl=callblk(bl,4,0);
+      // run
+      Tfin=120;
+      for i=0:1:Tfin*100
+      t=i/100;
+      //update regular input
+      bl.inptr(1)=0.55+cos(2*%pi/(15)*t)/10;
+      bl=callblk(bl,2,t); //calblk with flag=2
+      end
+      // finish
+      bl=callblk(bl,5,t);
+    </EXAMPLE>
+  </FILE>
+
+
+  <FILE name='data2sig' type='XML'>
+    <EXAMPLE>
+      -->a(:,:,4)=([7 8 9;10 11 12]);
+      -->b=data2sig(a,0.1)
+      b  =
+      values: [2x3x4 hypermat]
+      time: [4x1 constant]
+      -->b.time
+      ans  =
+      0.
+      0.1.
+      0.2.
+      0.3.
+    </EXAMPLE>
+  </FILE>
+
+
+  <FILE name='get_scicos_version' type='XML'>
+    <EXAMPLE>
+      //Get the scicos version 
+        get_scicos_version()
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='scicos' type='XML'>
+    <EXAMPLE>
+      // Open a new diagram 
+        scicos();
+        scicos
+       
+       
+      // Load a diagram  
+       scicos SCI/demos/scicos/bounce.cosf; 
+       scs_m=scicos('SCI/demos/scicos/bounce.cosf'); 
+       
+       
+      // Load a structure 
+       load('mondiagr.cos'); 
+        scs_m=scicos(scs_m);
+    </EXAMPLE>
+  </FILE>
+
+
+  <FILE name='sig2data' type='XML'>
+    <EXAMPLE>
+      -->a(:,:,4)=([7 8 9;10 11 12]);
+      -->b=data2sig(a,0.1)
+      b  =
+      values: [2x3x4 hypermat]
+      time: [4x1 constant]
+      -->b.time
+      ans  =
+      0.
+      0.1.
+      0.2.
+      0.3.
+
+      -->[x,t]=sig2data(b)
+      t  =
+      0.
+      0.1
+      0.2
+      0.3
+      x  =
+      (:,:,1)
+
+      0.    0.    0.
+      0.    0.    0.
+      (:,:,2)
+
+      0.    0.    0.
+      0.    0.    0.
+      (:,:,3)
+
+      0.    0.    0.
+      0.    0.    0.
+      (:,:,4)
+
+      7.     8.     9.
+      10.    11.    12.
+    </EXAMPLE>
+  </FILE>
+
+
+
+  <FILE name='var2vec' type='XML'>
+    <EXAMPLE>
+        -->a=list("cos",[1.1,2])
+         a  = 
+       
+               a(1)
+         
+         cos   
+         
+               a(2)
+         
+            1.1    2.  
+      
+      
+        -->b=var2vec(a)         
+         b  =
+         
+            4.244-314  
+            1.273-313  
+            8.488-314  
+            2.122-314  
+            4.941-324  
+            8.488-314  
+            5.093-313  
+            2.122-314  
+            2.122-314  
+            9.881-324  
+            1.1        
+            2.         
+    </EXAMPLE>
+  </FILE>
+
+  <FILE name='vec2var' type='XML'>
+    <EXAMPLE>
+        -->a=list("cos",[1.1,2])
+         a  = 
+       
+               a(1)
+         
+         cos   
+         
+               a(2)
+         
+            1.1    2.  
+      
+      
+        -->b=var2vec(a)         
+         b  =
+         
+            4.244-314  
+            1.273-313  
+            8.488-314  
+            2.122-314  
+            4.941-324  
+            8.488-314  
+            5.093-313  
+            2.122-314  
+            2.122-314  
+            9.881-324  
+            1.1        
+            2.         
+      
+      
+        -->c=vec2var(b)
+         c  =
+         
+         
+               c(1)
+         
+         cos   
+         
+               c(2)
+         
+            1.1    2.  
+      
+    </EXAMPLE>
+  </FILE>
+
+</DATA>

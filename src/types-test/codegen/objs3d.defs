@@ -1,0 +1,28 @@
+;; -*- scheme -*-
+
+(include "objs3d-types.defs")
+
+;; overriden 
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_objs3d
+  (c-name "nsp_extractelts_objs3d")
+  (return-type "none")
+)
+(define-function setrowscols_objs3d
+  (c-name "nsp_setrowscols_objs3d")
+  (return-type "none")
+)
+
+;; returns the ebox value
+
+(define-method get_ebox
+  (of-object "Objs3d")
+  (c-name "nsp_objs3d_get_ebox")
+  (return-type "NspMatrix*")
+  )
+
+
+
+

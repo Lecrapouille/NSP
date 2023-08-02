@@ -1,0 +1,15 @@
+;; -*- scheme -*-
+
+(define-objectref Compound
+  (in-module "Compound")
+  (parent "Graphic")
+  (c-name "NspCompound")
+  (fields
+   '("NspMatrix*" "bounds" "hidden" "{0}" "4");; bounds of objects contained in the compound
+   '("NspList*" "children") ;; list of graphic object in the compound
+   '("int" "hilite_type" "std" "-1") ;; type of surrounding box for hilite
+   '("int" "hilite_size" "std" "-1") ;; size of surrounding box for hilite
+   '("int" "hilite_color" "std" "-1") ;; color of surrounding box for hilite
+  )
+  (gtype-id "Compound")
+)

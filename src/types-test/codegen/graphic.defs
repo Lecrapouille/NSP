@@ -1,0 +1,56 @@
+;; -*- scheme -*-
+
+(include "graphic-types.defs")
+
+(define-method translate 
+  (of-object "Graphic")
+  (c-name "graphic_translate")
+  (return-type "none")
+  (parameters
+   '("NspMatrix*" "tr");
+  )
+)
+
+(define-method scale 
+  (of-object "Graphic")
+  (c-name "graphic_scale")
+  (return-type "none")
+  (parameters
+   '("NspMatrix*" "sc");
+  )
+)
+
+(define-method rotate 
+  (of-object "Graphic")
+  (c-name "graphic_rotate")
+  (return-type "none")
+  (parameters
+   '("NspMatrix*" "R");
+  )
+)
+
+;; unlink given graphic from a figure 
+
+(define-method unlink
+  (of-object "Graphic")
+  (c-name "graphic_unlink")
+  (return-type "NspGraphic")
+  )
+
+;; tells gtk that the rectangle is invalidated
+
+(define-method invalidate
+  (of-object "Graphic")
+  (c-name "graphic_invalidate")
+  (return-type "none")
+  )
+
+;; get bounds 
+
+(define-method get_bounds
+  (of-object "Graphic")
+  (c-name "graphic_get_bounds")
+  (return-type "NspMatrix*")
+  )
+
+

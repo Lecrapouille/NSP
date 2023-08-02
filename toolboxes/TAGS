@@ -1,0 +1,537 @@
+
+modnum_nsp/Makefile,351
+SHELL 1,0
+		$(9,134
+	    fi)16,444
+SUBDIRS 19,460
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;23,496
+	   	IER=28,705
+	       	  exit $$IER;32,809
+	   	esac;33,834
+	@case '${MFLAGS}' in *[ik]*) set +e;e37,872
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;37,872
+	   	IER=42,1079
+	       	  exit $$IER;46,1183
+	   	esac;47,1208
+	@$(51,1239
+
+modnum_nsp/src/pll/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/pll/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/communication/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/communication/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/filter/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/filter/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/Make.incl,433
+	@if test -f Makelib;4,49
+		$(NSP) -nw -e "exec('builder.sce');quit" -errcatch > /dev/null null7,179
+	@if test -f Makelib;13,276
+	@if test -f Makelib; then make -s -f Makelib clean;13,276
+	@if test -f Makelib;16,344
+	@if test -f Makelib; then make -s -f Makelib distclean;16,344
+		-Wl,Wl22,531
+		-Wl,--output-def,def22,531
+		-Wl,Wl23,566
+		-Wl,--export-all-symbols -Wl,Wl23,566
+		-Wl,Wl24,627
+		-lgfortran $(25,712
+
+modnum_nsp/src/integer/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/integer/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/modnum-in/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/modnum-in/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/old/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/old/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/sinks/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/sinks/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/Makefile,405
+SHELL 1,0
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;22,365
+		if test -f Makelib; then MAKEFILE=26,529
+		if test -f Makelib; then MAKEFILE=Makelib;else MAKEFILE=26,529
+	   	IER=28,662
+	       	  exit $$IER;32,766
+	   	esac;33,791
+	@case '${MFLAGS}' in *[ik]*) set +e;e41,865
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;41,865
+	   	IER=46,1070
+	       	  exit $$IER;50,1174
+	   	esac;51,1199
+
+modnum_nsp/src/nonlinear/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/nonlinear/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/signal/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/signal/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/libmodnum/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/libmodnum/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/other/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/other/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/sources/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/sources/Makefile,11
+SHELL 1,0
+
+modnum_nsp/src/tools/Makelib,14
+SCIDIR 3,114
+
+modnum_nsp/src/tools/Makefile,11
+SHELL 1,0
+
+modnum_nsp/macros/pll/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_overload/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_util/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/Makefile.incl,130
+SILENT=4,67
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;10,158
+	   	IER=15,365
+	       	  exit $$IER;19,469
+	   	esac;20,494
+
+modnum_nsp/macros/build_util/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/signal/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Communication/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Sinks/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Tools/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Signal/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Integer/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Old/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Sources/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/Filter/Makefile,11
+SHELL=1,0
+
+modnum_nsp/macros/scicos_blocks/NonLinear/Makefile,11
+SHELL=1,0
+
+Makefile.in,973
+SHELL 1,0
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;13,178
+	   	IER=18,386
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;22,491
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;22,491
+	   	esac;23,595
+	@case '${MFLAGS}' in *[ik]*) set +e;e30,731
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;30,731
+	 	( if test -f $$i/Path.incl; then ok=33,808
+		     echo "SCIDIR1=..\.." >> $$i/Path.incl incl36,909
+		  fi 37,959
+	@case '${MFLAGS}' in *[ik]*) set +e;e41,997
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;41,997
+	   	IER=46,1211
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;50,1316
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;50,1316
+	   	esac;51,1420
+DESTDIR=54,1439
+SUBDIRS_UP=62,1699
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;65,1761
+
+scicos-4.4/demos/scicoslab/orig/Makefile,11
+SHELL=1,0
+
+scicos-4.4/demos/scicoslab/Makefile,11
+SHELL=1,0
+
+scicos-4.4/Makefile,345
+SHELL=1,0
+		$(10,133
+	    fi)17,443
+SUBDIRS 20,459
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;24,495
+	   	IER=29,704
+	       	  exit $$IER;33,808
+	   	esac;34,833
+	@if test -f Path.incl;incl38,871
+	@if test -f Path.incl; then 38,871
+	   	IER=44,1111
+	       	  exit $$IER;48,1215
+	   	esac;49,1240
+	done 50,1252
+	else $(51,1263
+
+scicos-4.4/src/blocks/Makefile,11
+SHELL 1,0
+
+scicos-4.4/src/blocks/Makefile.mak,13
+SHELL 4,102
+
+scicos-4.4/src/control/Makefile,11
+SHELL 1,0
+
+scicos-4.4/src/Makefile,11
+SHELL 1,0
+
+scicos-4.4/src/Makefile.blocks,13
+BLOCKSF=2,1
+
+scicos-4.4/src/calelm/Makefile,11
+SHELL 1,0
+
+scicos-4.4/src/Makefile.mak,13
+SHELL 4,102
+
+scicos-4.4/macros/blocks/PDE/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/PDE/gencode/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/MatrixOp/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Branching/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/ModElectrical/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Sinks/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Iterators/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/ModEni/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/ModLinear/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/ModHydraulics/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Sources/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Makefile,11
+SHELL 1,0
+
+scicos-4.4/macros/blocks/Threshold/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/IntegerOp/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Misc/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Events/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/NonLinear/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Linear/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/blocks/Modelica/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/importapi/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/scicos/scicos-images/Makefile,28
+PNGS=3,34
+BLOCKS=308,5131
+
+scicos-4.4/macros/scicos/icon_edit/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/scicos/menus/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/scicos/Makefile,11
+SHELL 1,0
+
+scicos-4.4/macros/scicos/codegeneration/Makefile,11
+SHELL=1,0
+
+scicos-4.4/macros/Makefile.incl,130
+SILENT=4,67
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;10,158
+	   	IER=15,365
+	       	  exit $$IER;19,469
+	   	esac;20,494
+
+scicos-4.4/macros/Makefile,11
+SHELL=1,0
+
+compilers/scicosc/Makefile,422
+ROOT_DIR=17,986
+	  svn propset svn:keywords "Id" $$file;124,3382
+	  IER=125,3424
+	       exit $$IER;129,3519
+	  esac;130,3541
+	DIRS=134,3566
+	    fi;141,3795
+	  fi;142,3805
+	  IER=143,3813
+	       exit $$IER;147,3911
+	  esac;148,3933
+LOCAL_FILES_TO_BANNERIZE=151,3950
+	    $(BH) -bf $(CONFIG_DIR)/banner -bft caml $$file;157,4198
+	  fi;159,4303
+	  IER=160,4311
+	   *) exit $$IER;163,4355
+	  esac;164,4376
+
+compilers/scicosc/config/Makefile,123
+MAIN_DIR=17,987
+	  $(BH) -bf banner -bft make $$file;38,1592
+	  IER=39,1631
+	   *) exit $$IER;42,1675
+	  esac;43,1696
+
+compilers/modelicac/Makefile,422
+ROOT_DIR=17,986
+	  svn propset svn:keywords "Id" $$file;127,3453
+	  IER=128,3495
+	       exit $$IER;132,3590
+	  esac;133,3612
+	DIRS=137,3637
+	    fi;144,3866
+	  fi;145,3876
+	  IER=146,3884
+	       exit $$IER;150,3982
+	  esac;151,4004
+LOCAL_FILES_TO_BANNERIZE=154,4021
+	    $(BH) -bf $(CONFIG_DIR)/banner -bft caml $$file;160,4271
+	  fi;162,4376
+	  IER=163,4384
+	   *) exit $$IER;166,4428
+	  esac;167,4449
+
+compilers/modelicac/config/Makefile,123
+MAIN_DIR=17,987
+	  $(BH) -bf banner -bft make $$file;38,1592
+	  IER=39,1631
+	   *) exit $$IER;42,1675
+	  esac;43,1696
+
+compilers/Makefile,777
+ROOT_DIR=17,973
+	   IER=50,1669
+	       exit $$IER;54,1769
+	   esac;55,1791
+	fi;62,1934
+	  command=64,1973
+	  $(CPC) $${file}.$($65,2008
+	   IER=66,2088
+	       exit $$IER;70,2188
+	   esac;71,2210
+	  command=78,2341
+	  $(CPC) $${file}.$($79,2376
+	   IER=80,2463
+	       exit $$IER;84,2542
+	   esac;85,2564
+	  command=90,2627
+	   IER=92,2728
+	       exit $$IER;96,2807
+	   esac;97,2829
+	  IER=103,2914
+	      exit $$IER;107,3010
+	  esac;108,3031
+	  IER=114,3149
+	      exit $$IER;118,3245
+	  esac;119,3266
+	FILES=123,3293
+	  svn propset svn:keywords "Id" $$file;125,3393
+	  IER=126,3435
+	       exit $$IER;130,3530
+	  esac;131,3552
+	DIRS=135,3577
+	    fi;142,3806
+	  fi;143,3816
+	  IER=144,3824
+	       exit $$IER;148,3922
+	  esac;149,3944
+
+compilers/xml2translator/Makefile,499
+ROOT_DIR=17,986
+	@if test -d test_data;81,2305
+	@if test -d test_data;88,2448
+	@$(93,2538
+	  svn propset svn:keywords "Id" $$file;145,3791
+	  IER=146,3833
+	       exit $$IER;150,3928
+	  esac;151,3950
+	DIRS=155,3975
+	    fi;162,4204
+	  fi;163,4214
+	  IER=164,4222
+	       exit $$IER;168,4320
+	  esac;169,4342
+LOCAL_FILES_TO_BANNERIZE=172,4359
+	    $(BH) -bf $(CONFIG_DIR)/banner -bft caml $$file;178,4605
+	  fi;180,4710
+	  IER=181,4718
+	   *) exit $$IER;184,4762
+	  esac;185,4783
+
+compilers/xml2translator/config/Makefile,123
+MAIN_DIR=17,987
+	  $(BH) -bf banner -bft make $$file;38,1592
+	  IER=39,1631
+	   *) exit $$IER;42,1675
+	  esac;43,1696
+
+compilers/translator/modelica/translation/Makefile,17
+ROOT_DIR=17,974
+
+compilers/translator/modelica/compilation/Makefile,17
+ROOT_DIR=17,974
+
+compilers/translator/modelica/instantiation/Makefile,17
+ROOT_DIR=17,974
+
+compilers/translator/modelica/parsing/Makefile,17
+ROOT_DIR=17,974
+
+compilers/translator/modelica/Makefile,422
+ROOT_DIR=17,986
+	  svn propset svn:keywords "Id" $$file;127,3470
+	  IER=128,3512
+	       exit $$IER;132,3607
+	  esac;133,3629
+	DIRS=137,3654
+	    fi;144,3883
+	  fi;145,3893
+	  IER=146,3901
+	       exit $$IER;150,3999
+	  esac;151,4021
+LOCAL_FILES_TO_BANNERIZE=154,4038
+	    $(BH) -bf $(CONFIG_DIR)/banner -bft caml $$file;160,4289
+	  fi;162,4394
+	  IER=163,4402
+	   *) exit $$IER;166,4446
+	  esac;167,4467
+
+compilers/translator/modelica/exceptionHandling/Makefile,17
+ROOT_DIR=17,974
+
+compilers/translator/modelica/config/Makefile,123
+MAIN_DIR=17,987
+	  $(BH) -bf banner -bft make $$file;38,1592
+	  IER=39,1631
+	   *) exit $$IER;42,1675
+	  esac;43,1696
+
+compilers/translator/modelica/Make.machdeps,18
+COMCFLAGS=29,973
+
+compilers/translator/mdl/private/P/Makefile,17
+ROOT_DIR=16,915
+
+compilers/translator/mdl/private/polish/Makefile,23
+MAKE_FILES_DIR=16,915
+
+compilers/translator/mdl/private/simulinklibs/Makefile,17
+ROOT_DIR=16,915
+
+Makefile,975
+SHELL 1,0
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;13,218
+	   	IER=18,426
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;22,531
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;22,531
+	   	esac;23,635
+	@case '${MFLAGS}' in *[ik]*) set +e;e30,771
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;30,771
+	 	( if test -f $$i/Path.incl; then ok=33,848
+		     echo "SCIDIR1=..\.." >> $$i/Path.incl incl36,949
+		  fi 37,999
+	@case '${MFLAGS}' in *[ik]*) set +e;e41,1037
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;41,1037
+	   	IER=46,1251
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;50,1356
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;50,1356
+	   	esac;51,1460
+DESTDIR=54,1479
+SUBDIRS_UP=62,1739
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac;65,1801
+
+scicos-4.4/macros/blocks/palettes/Makefile,0
+
+scicos-4.4/demos/MBlock/Makefile,0
+
+scicos-4.4/demos/Makefile,0
+
+scicos-4.4/demos/CodeGen/Makefile,0
+
+scicos-4.4/demos/Electrical/Makefile,0
+
+scicos-4.4/demos/Tests/Makefile,0
+
+modnum_nsp/macros/scicos_blocks/Pll/Makefile,0

@@ -1,0 +1,108 @@
+% -*- mode: latex -*-
+
+
+\mansection{interp2d}
+\begin{mandesc}
+\short{interp2d} {bicubic spline or subspline evaluation function}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+[zp[,dzpdx,dzpdy]]=interp2d(xp,yp,x,y,C)
+[zp[,dzpdx,dzpdy]]=interp2d(xp,yp,x,y,C,outmode=str_outmode)
+[zp[,dzpdx,dzpdy]]=interp2d(xp,yp,x,y,C, str_outmode)
+\end{verbatim}
+\end{calling_sequence}
+
+% -- Parameters
+
+\begin{parameters}
+  \begin{varlist}
+   \vname{xp, yp}: real vectors or matrices of same size
+   \vname{x,y,C}: real vectors defining a bicubic spline or sub-spline function 
+                (called $s$ in the following)
+   \vname{str\_out\_mode}: (optional) string defining the evaluation of $s$ outside 
+                the grid boundary.
+   \vname{zp}: vector or matrix of same format than \verb!xp! and \verb!yp!, elementwise 
+                evaluation of $s$ on these points.
+   \vname{dzpdx, dzpdy}: vectors (or matrices) of same format than \verb!xp! and \verb!yp!, elementwise
+                evaluation of the first derivatives of \verb!s! on these points.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  Given three vectors \verb!(x,y,C)! defining a bicubic spline or sub-spline function
+  (see \manlink{splin2d}{splin2d} ) this function evaluates $s$ 
+  (and $ds/dx, ds/dy$ if needed) at $(xp(i),yp(i))$:
+    \begin{verbatim}
+      zp(i) = s(xp(i),yp(i))   
+      dzpdx(i) = ds/dx(xp(i),yp(i))
+      dzpdy(i) = ds/dy(xp(i),yp(i))  
+    \end{verbatim}
+%       d2zpdxx(i) = d2s/dx2(xp(i),yp(i))
+%       d2zpdxy(i) = d2s/dxdy(xp(i),yp(i))  
+%       d2zpdyy(i) = d2s/dy2(xp(i),yp(i))
+
+  The \verb!outmode! parameter defines the evaluation rule for extrapolation,
+  i.e. for {\em (xp(i),yp(i)) not in [x(1),x(nx)]x[y(1),y(ny)]}: 
+  \begin{description}
+  \item["by\_zero"]: an extrapolation by zero is done
+  \item["by\_nan"]: extrapolation by Nan
+  \item["C0"]:  use $s(proj(P))$ where $proj(P)$ the nearest point from P located on the grid boundary.
+  \item["natural"]: the extrapolation is done by using the nearest bicubic-patch from (x,y).
+  \item["periodic"]: \verb!s! is extended by periodicity. 
+  \end{description}
+
+\end{mandescription}
+
+% --example 
+
+\begin{examples}
+
+\paragraph{example 1} this example shows some different extrapolation features
+\begin{mintednsp}{nsp}
+// interpolation of cos(x)cos(y)
+n = 7;  // a n x n interpolation grid
+x = linspace(0,2*%pi,n); y = x;
+z = cos(x')*cos(y);
+C = splin2d(x, y, z, "periodic");
+// now evaluate on a bigger domain than [0,2pi]x [0,2pi]
+m = 80; // discretisation parameter of the evaluation grid
+xx = linspace(-0.5*%pi,2.5*%pi,m); yy = xx;
+[XX,YY] = ndgrid(xx,yy);
+zz1 = interp2d(XX,YY, x, y, C, outmode="C0"); // or interp2d(XX,YY, x, y, C, "C0");
+zz2 = interp2d(XX,YY, x, y, C, outmode="by_zero"); // or interp2d(XX,YY, x, y, C, "by_zero");
+zz3 = interp2d(XX,YY, x, y, C, outmode="periodic"); // or interp2d(XX,YY, x, y, C, "periodic");
+zz4 = interp2d(XX,YY, x, y, C, outmode="natural"); // or interp2d(XX,YY, x, y, C, "natural");
+xbasc()
+subplot(2,2,1,a3d=%t)
+  plot3d(xx, yy, zz1, flag=[2 6 4])
+  xtitle("extrapolation with the C0 outmode")
+subplot(2,2,2,a3d=%t)
+  plot3d(xx, yy, zz2, flag=[2 6 4])
+  xtitle("extrapolation with the by_zero outmode")
+subplot(2,2,3,a3d=%t)
+  plot3d(xx, yy, zz3, flag=[2 6 4])
+  xtitle("extrapolation with the periodic outmode")
+subplot(2,2,4,a3d=%t)
+  plot3d(xx, yy, zz4, flag=[2 6 4])
+  xtitle("extrapolation with the natural outmode")
+xselect()
+\end{mintednsp}
+
+\paragraph{others} you can see the examples of the
+\manlink{splin2d}{splin2d} help page.
+
+\end{examples}
+
+% -- see also
+\begin{manseealso}
+\manlink{splin2d}{splin2d}  
+\end{manseealso}
+
+% -- Author
+\begin{authors}
+B. Pincon
+\end{authors}
+

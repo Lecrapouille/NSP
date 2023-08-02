@@ -1,0 +1,758 @@
+/* -*- Mode: C -*- */
+%%
+include-start Ast
+
+%%
+include-public Ast
+
+/* inserted at the end of public part of class include file */
+extern NspAst *nsp_plist_to_ast(const char *name,PList L);
+extern NspAst* nsp_parse_file(char *Str);
+extern NspAst * nsp_parse_from_smat(NspSMatrix *M);
+extern int nsp_ast_set_str(NspAst *ast,const char *str);
+extern int nsp_ast_check_args(NspList *L);
+extern void nsp_ast_generic_pretty_printer(NspAst *ast, int indent, int color,int target, int space, int columns);
+extern int nsp_ast_printlength(NspAst *ast, int indent);
+
+%%
+include-private Ast
+
+/* inserted in the private part of include file
+ * of classa.h
+ */
+static void nsp_ast_pprint(NspAst * L, int indent, int color,int target, int space, int columns);
+static int meth_ast_print(NspAst *self,Stack stack, int rhs, int opt, int lhs);
+static int meth_ast_sprint(NspAst *self,Stack stack, int rhs, int opt, int lhs);
+static int meth_ast_fprint(NspAst *self,Stack stack, int rhs, int opt, int lhs);
+static int nsp_ast_obj_equal(NspAst *ast1,NspAst *ast2);
+static void nsp_ast_print_node(NspAst *ast);
+static void nsp_ast_info_tree(NspAst *ast, int indent,const char *name,int rec_level);
+
+%%
+headers
+#include <ctype.h>
+#include <nsp/objects.h>
+#include <nsp/plist.h> 
+#include <nsp/plistc.h> 
+#include <nsp/parse.h>
+
+%%
+init 
+
+/ * init code  * /
+
+%%
+modulename atk
+/* %%  import gobject.GObject as GObject */
+
+%%
+ignore-glob
+  *_get_type
+
+%%
+override-int-create-final Ast
+/* verbatim in create/load/full_copy interface use %(ret)s for returned value */
+%%
+override-destroy-prelim  Ast
+/* verbatim in destroy */
+
+%%
+override Ast.set_args kwargs
+/* a method can be overriden by giving its name or 
+ * class.name 
+ */
+
+static int _wrap_set_args(NspAst *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {list,t_end};
+  NspList *args;
+  if ( GetArgs(stack,rhs,opt,T,&args) == FAIL) return RET_BUG;
+  if ( nsp_ast_check_args(args) == FAIL)  return RET_BUG;
+  if ( (args= (NspList *) nsp_object_copy((NspObject *)args)) == NULL )
+    return RET_BUG;
+
+
+  if ( nsp_object_set_name((NspObject *) args,"args") == FAIL ) goto err;
+  nsp_list_destroy(self->args);
+  self->args = args;
+  self->arity =  nsp_list_length(self->args);
+  return 0;
+ err: 
+  nsp_list_destroy(args);
+  return RET_BUG;
+}
+
+%%
+override Ast.ast_get_str kwargs
+/* override a method */
+static int _wrap_ast_get_str(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  NspObject *Ret;
+  char *str=NULL;
+  int op; 
+  CheckRhs(0,0); 
+  CheckLhs(1,1);
+  op = ((int) self->op);
+  switch ( op ) 
+    {
+    case NAME :
+    case OPNAME :
+    case STRING :
+    case COMMENT :
+    case NUMBER :
+    case INUMBER32:
+    case INUMBER64:
+    case UNUMBER32:
+    case UNUMBER64:
+      str = ((NspAst *) self)->str;
+      if ( str == NULL) str = "@";
+      if ((Ret = nsp_new_string_obj(NVOID,str,-1))== NULLOBJ) return RET_BUG;
+      break;
+    default:
+      if ((Ret = (NspObject *) nsp_smatrix_create(NVOID,0,0,"v",(int)0)) == NULLOBJ) 
+	return RET_BUG;
+    }
+  MoveObj(stack,1,Ret);
+  return 1;
+}
+
+%%
+override Ast.ast_set_str kwargs
+static int _wrap_ast_set_str(NspAst *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {string,t_end};
+  char *str;
+  CheckRhs(1,1); 
+  if ( GetArgs(stack,rhs,opt,T,&str) == FAIL) return RET_BUG;
+  CheckLhs(0,1);
+  if ( nsp_ast_set_str(self,str) == FAIL) 
+    return RET_BUG;
+  return 0;
+}
+
+%%
+override Ast.ast_get_op kwargs
+/* override a method */
+static int _wrap_ast_get_op(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  NspObject *Ret;
+  int ret ;
+  CheckRhs(0,0);
+  CheckLhs(1,1); 
+  ret = ((int) self->op);
+  if ((Ret=nsp_new_double_obj((double) ret))== NULLOBJ) return RET_BUG;
+  MoveObj(stack,1,Ret);
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_get_codename kwargs
+/* override a method */
+static int _wrap_ast_get_codename(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  const char *str;
+  NspObject *Ret;
+  CheckRhs(0,0);
+  CheckLhs(1,1); 
+  str=nsp_astcode_to_codename(self->op);
+  if ( str != (char *) 0 )
+    {
+      if ((Ret = nsp_new_string_obj(NVOID,str,-1))== NULLOBJ) return RET_BUG;
+    }
+  else 
+    {
+      if ((Ret = (NspObject *) nsp_smatrix_create(NVOID,0,0,"v",(int)0)) == NULLOBJ) 
+	return RET_BUG;
+    }
+  MoveObj(stack,1,Ret);
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_get_opname kwargs
+/* override a method */
+static int _wrap_ast_get_opname(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  const char *str;
+  NspObject *Ret;
+  CheckRhs(0,0);
+  CheckLhs(1,1); 
+  switch ( ((int) self->op)) 
+    {
+    default:
+      str=nsp_astcode_to_name(self->op);
+      if ( str != (char *) 0 )
+	{
+	  if ((Ret = nsp_new_string_obj(NVOID,str,-1))== NULLOBJ) return RET_BUG;
+	}
+      else 
+	{
+	  if ((Ret = (NspObject *) nsp_smatrix_create(NVOID,0,0,"v",(int)0)) == NULLOBJ) 
+	    return RET_BUG;
+	}
+    }
+  MoveObj(stack,1,Ret);
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_get_arity kwargs
+/* override a method */
+static int _wrap_ast_get_arity(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  NspObject *Ret;
+  int ret ;
+  CheckRhs(0,0);
+  CheckLhs(1,1); 
+  ret = ((int) self->arity);
+  if ((Ret=nsp_new_double_obj((double) ret))== NULLOBJ) return RET_BUG;
+  MoveObj(stack,1,Ret);
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_get_line kwargs
+/* override a method */
+static int _wrap_ast_get_line(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  NspObject *Ret;
+  int ret ;
+  CheckRhs(0,0);
+  CheckLhs(1,1); 
+  ret = ((int) self->line);
+  if ((Ret=nsp_new_double_obj((double) ret))== NULLOBJ) return RET_BUG;
+  MoveObj(stack,1,Ret);
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_is kwargs
+/* override a method */
+static int _wrap_ast_is(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  int rep = FALSE;
+  const char *str,*str1;
+  CheckRhs(1,1);
+  CheckLhs(1,1); 
+  if ((str1 = GetString(stack,1)) == (char*)0) return RET_BUG;
+  switch ( ((int) self->op)) 
+    {
+    default:
+      str=nsp_astcode_to_codename(self->op);
+      if ( str != (char *) 0 && strcmp(str,str1)==0 ) rep = TRUE;
+    }
+  if ( nsp_move_boolean(stack,1, rep) == FAIL)  return RET_BUG;
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_get_obj kwargs
+/* override a method */
+static int _wrap_ast_get_obj(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  CheckRhs(0,0);
+  CheckLhs(0,1); 
+  if ( ((int) self->op) != OBJECT )
+    {
+      Scierror("Error: an object can be returned only for astnode of id OBJECT\n");
+      return RET_BUG;
+    }
+  MoveObj(stack,1, self->xobj);
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_set_user_data kwargs
+/* override a method */
+static int _wrap_ast_set_user_data(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  NspObject *Obj;
+  CheckRhs(1,1);
+  CheckLhs(0,1); 
+  if ((Obj = nsp_object_copy_and_name("ud",NthObj(1))) == NULLOBJ) 
+    return RET_BUG;
+  if ( self->user_data != NULL )
+    {
+      nsp_object_destroy(&self->user_data);
+    }
+  self->user_data = Obj;
+  return 0;
+}
+
+%%
+override Ast.ast_get_user_data kwargs
+/* override a method */
+static int _wrap_ast_get_user_data(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  CheckRhs(0,0);
+  CheckLhs(0,1); 
+  if ( self->user_data == NULL )
+    {
+      Scierror("Error: astnode has no user_data\n");
+      return RET_BUG;
+    }
+  MoveObj(stack,1, self->user_data);
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_get_args kwargs
+/* override a method */
+static int _wrap_ast_get_args(NspAst *self, Stack stack, int rhs, int opt, int lhs)
+{
+  CheckRhs(0,0);
+  CheckLhs(0,1); 
+  MoveObj(stack,1, NSP_OBJECT(self->args));
+  return Max(lhs,1);
+}
+
+%%
+override Ast.ast_print kwargs
+/* override a method */
+
+static int _wrap_ast_print(NspAst *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return meth_ast_print(self,stack,rhs,opt,lhs);
+}
+
+%%
+override Ast.ast_sprint kwargs
+/* override a method */
+
+static int _wrap_ast_sprint(NspAst *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return meth_ast_sprint(self,stack,rhs,opt,lhs);
+}
+%%
+override Ast.ast_fprint kwargs
+/* override a method */
+
+static int _wrap_ast_fprint(NspAst *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return meth_ast_fprint(self,stack,rhs,opt,lhs);
+}
+
+%%
+override Ast.ast_print_length kwargs
+static int _wrap_ast_print_length(NspAst *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int ret;
+  CheckRhs(0,0);
+  ret = nsp_ast_printlength(self,0);
+  if ( nsp_move_double(stack,1,(double) ret)==FAIL) return RET_BUG;
+  return 1;
+}
+
+%%
+override-path-extract Ast 
+top->path_extract = (path_func *) NULL; /* path extract as for matrix type */
+
+%%
+override-info Ast 
+/*
+ * info overriden 
+ */
+
+int nsp_ast_info(NspAst *M, int indent,const char *name, int rec_level)
+{
+  const char *pname = (name != NULL) ? name : NSP_OBJECT(M)->name;
+  if ( user_pref.list_as_tree == TRUE ) 
+    {
+      nsp_ast_info_tree(M,indent,name,rec_level);
+    }
+  else
+    {
+      Sciprintf1(indent,"%s\t={",pname);
+      nsp_ast_print_node(M);
+      Sciprintf("}\t\t%s\n",nsp_ast_type_short_string(NSP_OBJECT(M)));
+      if ( M->args != NULL && nsp_list_length(M->args) > 0) 
+	{
+	  nsp_list_info(M->args,indent+2,"|",rec_level+1);
+	}
+    }
+  return TRUE;
+}
+
+%%
+override-print Ast 
+/*
+ * print overriden 
+ */
+
+int nsp_ast_print(NspAst *M, int indent,const char *name, int rec_level)
+{
+  const char *pname = (name != NULL) ? name : NSP_OBJECT(M)->name;
+  if (user_pref.pr_as_read_syntax)
+    {
+      if ( strcmp(pname,NVOID) != 0) 
+	{
+	  Sciprintf1(indent,"%s=ast_create(%d);",pname,M->op);
+	}
+      else 
+	{
+	  Sciprintf1(indent,"ast_create(%d);",M->op);
+	}
+    }
+  else 
+    {
+      Sciprintf1(indent,"%s\t={",pname);
+      nsp_ast_print_node(M);
+      Sciprintf("}\t\t%s\n",nsp_ast_type_short_string(NSP_OBJECT(M)));
+      if ( M->args != NULL && nsp_list_length(M->args) > 0) 
+	{
+	  nsp_list_print(M->args,indent+2,"args",rec_level+1);
+	}
+    }
+  return TRUE;
+}
+
+
+static void nsp_ast_print_node(NspAst *ast) 
+{
+  const char *s;
+  switch ( ast->op ) 
+    {
+    case STRING:
+      Sciprintf("\"%s\"", ast->str);
+      break;
+    case COMMENT:
+      Sciprintf("//%s", ast->str);
+      break;
+    case NUMBER:
+    case INUMBER32:
+    case INUMBER64:
+    case UNUMBER32:
+    case UNUMBER64:
+      Sciprintf("%s",ast->str);
+      break;
+    case NAME :
+      Sciprintf("%s", ast->str);
+      break;
+    case OPNAME :
+      Sciprintf("'%s'", ast->str);
+      break;
+    case OBJECT : 
+      Sciprintf("obj:0x%x",ast->xobj);
+      break;
+    default:
+      s=nsp_astcode_to_name( ast->op);
+      if ( s != (char *) 0 )
+	Sciprintf("%s",s);
+      else 
+	Sciprintf("UNKNOWN->%d", ast->op);
+    }
+}
+
+%%
+override-equal Ast
+
+/*
+ * A == B 
+ */
+
+static int nsp_ast_eq(NspAst *A, NspObject *B)
+{
+  NspAst *loc = (NspAst *) B;
+  if ( check_cast(B,nsp_type_ast_id) == FALSE) return FALSE ;
+  if ( A->op != loc->op) return FALSE;
+  if ( A->arity != loc->arity) return FALSE;
+  if ( nsp_ast_obj_equal(A,loc)== FALSE) return FALSE;
+  if ( NSP_OBJECT(A->args)->type->eq(A->args,loc->args) == FALSE ) return FALSE;
+  return TRUE;
+}
+
+/*
+ * A != B 
+ */
+
+static int nsp_ast_neq(NspAst *A, NspObject *B)
+{
+  return ( nsp_ast_eq(A,B) == TRUE ) ? FALSE : TRUE;
+}
+
+
+%%
+last 
+
+/* very similar to the generic function for printing objects and 
+ * redirection of output to string, file or stdout
+ */
+
+typedef enum { string_out, stdout_out, file_out } print_mode; 
+static int int_ast_print_gen(NspAst *self,Stack stack, int rhs, int opt, int lhs, print_mode mode);
+
+static int meth_ast_print(NspAst *self,Stack stack, int rhs, int opt, int lhs)
+{
+  return int_ast_print_gen(self,stack,rhs,opt,lhs,stdout_out);
+}
+
+static int meth_ast_sprint(NspAst *self,Stack stack, int rhs, int opt, int lhs)
+{
+  return int_ast_print_gen(self,stack,rhs,opt,lhs,string_out);
+}
+
+static int meth_ast_fprint(NspAst *self,Stack stack, int rhs, int opt, int lhs)
+{
+  return int_ast_print_gen(self,stack,rhs,opt,lhs,file_out);
+}
+
+static int int_ast_print_gen(NspAst *self,Stack stack, int rhs, int opt, int lhs, print_mode mode)
+{
+  int target = 4, columns = 90;
+  char *s_target = NULL;
+  const char *targets[]={"html", "gtk", "latex", "term", NULL };
+  NspFile *F=NULL;
+  FILE *f=NULL;
+  IOVFun def=NULL ;
+  MoreFun mf=NULL; 
+  
+  NspObject *res;
+  int dp=user_pref.pr_depth;
+  int cr=user_pref.color;
+  int as_read=FALSE,depth=INT_MAX,indent=0,color=TRUE,html=FALSE,gtk=FALSE;
+  nsp_option print_opts[] ={{ "as_read",s_bool,NULLOBJ,-1},
+			    { "color",s_bool,NULLOBJ,-1},
+			    { "depth", s_int,NULLOBJ,-1},
+			    { "indent",s_int,NULLOBJ,-1},
+			    { "target",string,NULLOBJ,-1},
+			    { "columns",s_int, NULLOBJ,-1},
+			    { NULL,t_end,NULLOBJ,-1}};
+			    
+  if ( mode == file_out ) 
+    {
+      CheckStdRhs(1,1);
+      if ((F= GetSciFile(stack,1))== NULL) return RET_BUG; 
+    }
+  else 
+    {
+      CheckStdRhs(0,0);
+    }
+  CheckLhs(0,1);
+
+  if ( mode == string_out) color=FALSE;
+  
+  if ( get_optional_args(stack, rhs, opt, print_opts,
+			    &as_read,&color,&depth,&indent,&s_target,&columns) == FAIL) 
+    return RET_BUG;
+
+  if ( s_target != NULL ) 
+    {
+      int rep;
+      if ( (rep= is_string_in_array(s_target,targets,0)) == -1 )
+	{
+	  string_not_in_array(stack,s_target,targets , "optional argument targets");
+	  return RET_BUG;
+	}
+      target = rep+1;
+    }
+  
+  /* initialize according to mode */
+  switch ( mode ) 
+    {
+    case string_out: 
+      def = SetScilabIO(Sciprint2string);
+      mf =nsp_set_nsp_more(scimore_void);
+      break;
+    case stdout_out:
+      break;
+    case file_out : 
+      /* changes io in order to write to file F */
+      if ( !IS_OPENED(F->obj->flag))
+	{
+	  Scierror("Warning:\tfile %s is already closed\n",F->obj->fname);
+	  return RET_BUG;
+	}
+      f=Sciprint_file(F->obj->file); 
+      def = SetScilabIO(Sciprint2file);
+      mf =nsp_set_nsp_more(scimore_void);
+      break;
+    }
+  /* print object */
+  user_pref.pr_depth= depth;
+  user_pref.color=color;
+  
+  if ( gtk == TRUE )
+    {
+      user_pref.color= color = TRUE;
+    }
+  
+  if ( html == TRUE )
+    {
+      /*
+	.nsp_code  { background: #EEEEEE; color: Black;}
+	.nsp_code .code { color : Black; }
+	.nsp_code .keyword { color : blue; }
+	.nsp_code .comment { color : red;}
+	.nsp_code .string { color : brown;}
+	.nsp_code .number { color : YellowGreen; }
+	.nsp_code .function { color : SkyBlue ;  font-weight: bold;}
+      */
+      
+      user_pref.color= color = TRUE;
+      Sciprintf2(indent," ","<!-- style directives ");
+      Sciprintf2(indent," ","<head>\n");
+      Sciprintf2(indent+2," ","<style>\n");
+      Sciprintf2(indent+4," ",".nsp_code  { background:  WhiteSmoke; color: Black; font-size: 120%;}\n");
+      Sciprintf2(indent+4," ",".nsp_code .code { color : Black; }\n");
+      Sciprintf2(indent+4," ",".nsp_code .keyword { color : MediumPurple; }\n");
+      Sciprintf2(indent+4," ",".nsp_code .comment { color :  OrangeRed; }\n");
+      Sciprintf2(indent+4," ",".nsp_code .string { color : LightSalmon; }\n");
+      Sciprintf2(indent+4," ",".nsp_code .number { color : YellowGreen; }\n");
+      Sciprintf2(indent+4," ",".nsp_code .function { color : SkyBlue ;  font-weight: bold;}\n");
+      Sciprintf2(indent+2," ","</style>\n");
+      Sciprintf2(indent," ","</head>\n");
+      Sciprintf2(indent," ","-->\n");
+      Sciprintf2(indent," ","%s\n","<div class=\"nsp_code\">");
+			    Sciprintf2(indent+2," ","%s\n","<pre class=\"code\">");
+			    nsp_ast_pprint(self, indent + 2, user_pref.color, target, TRUE,columns);
+      Sciprintf2(indent+2," ","\n");
+      Sciprintf2(indent+2," ","%s\n","</pre>");
+      Sciprintf2(indent," ","%s\n","</div>");
+    }
+  else
+    {
+      nsp_ast_pprint(self, indent, user_pref.color, target, FALSE,columns);
+    }
+  user_pref.color=cr;
+  user_pref.pr_depth= dp;
+  /* restore to default values */
+  switch ( mode ) 
+    {
+    case string_out: 
+      res = Sciprint2string_reset(); 
+      SetScilabIO(def);
+      nsp_set_nsp_more(mf);
+      if ( res == NULL) return RET_BUG; 
+      MoveObj(stack,1, res);
+      return 1;
+    case stdout_out: 
+      return 0;
+    case file_out:
+      SetScilabIO(def);
+      nsp_set_nsp_more(mf);
+      Sciprint_file(f); 
+      return 0;
+    }
+  return 0;
+}
+
+
+/**
+ * nsp_ast_pprint:
+ * @L: 
+ * @indent: the curent indentation to use.
+ * 
+ * pretty printing of a #PList. 
+ * 
+ **/
+
+static void nsp_ast_pprint(NspAst * L, int indent, int color,int target , int space, int columns)
+{
+  nsp_ast_generic_pretty_printer(L,indent,color, target, space, columns);
+}
+
+static void nsp_ast_info_tree(NspAst *ast, int indent,const char *name,int rec_level)
+{
+  const int name_len=128;
+  char epname[name_len];
+  const char *pname = (name != NULL) ? name : NSP_OBJECT(ast)->name;
+  Cell *C;
+  int i=1;
+  Sciprintf1(indent,"%s[",(strcmp(pname,NVOID) != 0) ? pname : "");
+  nsp_ast_print_node(ast);Sciprintf("]\n");
+  if ( rec_level <= user_pref.pr_depth ) 
+    {
+      C= ast->args->first;
+      while ( C != NULLCELL) 
+	{
+	  int j;
+	  sprintf(epname,"%s",pname);
+	  for ( j = 0 ; j < strlen(epname);j++) 
+	    {
+	      if (epname[j] !='-' && epname[j] != '`' && epname[j] != ' ' && epname[j] != '|') epname[j]=' ';
+	    }
+	  for ( j = 0 ; j < strlen(epname);j++) if (epname[j]=='-' || epname[j] == '`' ) epname[j]=' ';
+	  if ( C->next == NULLCELL) 
+	    strcat(epname,"`-");
+	  else 
+	    strcat(epname,"|-");
+	  if ( C->O != NULLOBJ )
+	    {
+	      nsp_object_info(C->O,indent,epname,rec_level+1);      
+	    }
+	  else
+	    {
+	      Sciprintf1(indent+2,"%s Undefined\n",epname);
+	    }
+	  C = C->next ;i++;
+	}
+    }
+} 
+
+int nsp_ast_set_str(NspAst *ast,const char *str)
+{
+  char *str1,*ast_str =((NspAst *) ast)->str ;
+  int op = ((int) ast->op);
+  switch ( op ) 
+    {
+    case NAME :
+    case OPNAME :
+    case STRING :
+    case COMMENT :
+    case NUMBER :
+    case INUMBER32:
+    case INUMBER64:
+    case UNUMBER32:
+    case UNUMBER64:
+      if (( str1 =new_nsp_string(str)) == NULLSTRING) 
+	{
+	  Scierror("Error:\tCannot allocate string, running out of memory\n");
+	  return FAIL;
+	}
+      if (ast_str  != NULL) nsp_string_destroy(&ast_str);
+      ((NspAst *) ast)->str = str1 ;
+      break;
+    default:
+      Scierror("Error: str cannot be set for the given ast node\n");
+      return FAIL;
+    }
+  return OK;
+}
+
+static int nsp_ast_obj_equal(NspAst *ast1,NspAst *ast2)
+{
+  if ( ast1->op != ast2->op ) return FALSE;
+  switch ( ast1->op ) 
+    {
+    case NUMBER :
+    case INUMBER32 :
+    case INUMBER64 :
+    case UNUMBER32 :
+    case UNUMBER64 :
+    case STRING:
+    case COMMENT:
+    case NAME :
+    case OPNAME :
+      return strcmp((char *) ast1->str,(char *) ast2->str)==0;
+      break;
+    default: 
+      return TRUE;
+    }
+  return TRUE;
+}
+/*
+ * checks that all elements are of type NspAst 
+ */ 
+
+int nsp_ast_check_args(NspList *L)
+{
+  int n = nsp_list_length(L);
+  int i;
+  for ( i = 1; i <= n ; i++)
+    {
+      NspObject *Obj = nsp_list_get_element(L,i);
+      if ( IsAst(Obj) == FALSE ) return FAIL;
+    }
+  return OK;
+}
+

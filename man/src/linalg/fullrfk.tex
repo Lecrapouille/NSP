@@ -1,0 +1,58 @@
+% -*- mode: latex -*-
+%% Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+%% Copyright (C) 1987-2016 - F. Delebecque
+%%
+%% This program is free software; you can redistribute it and/or modify
+%% it under the terms of the GNU General Public License as published by
+%% the Free Software Foundation; either version 2 of the License, or
+%% (at your option) any later version.
+%%
+%% This program is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%% GNU General Public License for more details.
+%%
+%% You should have received a copy of the GNU General Public License
+%% along with this program; if not, write to the Free Software
+%% Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+%%                                                                                                
+
+\mansection{fullrfk}
+\begin{mandesc}
+  \short{fullrfk}{full rank factorization of $A^k$} \\ % 
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  [Bk,Ck]=fullrfk(A,k)  
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A}: real or complex matrix
+    \vname{k}: integer
+    \vname{Bk,Ck}: real or complex matrices
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  This function computes the full rank factorization of \verb!A^k! i.e.
+  \verb!Bk*Ck=A^k! where \verb!Bk! is full column rank and \verb!Ck! full row rank.
+  One has range(\verb!Bk!)=range(\verb!A^k!) and ker(\verb!Ck!)=ker(\verb!A^k!).
+  When \verb!k=1!, calling \verb!fullrfk! is equivalent to calling \verb!fullrf!.
+\end{mandescription}
+%--example 
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    A=rand(5,2)*rand(2,5);[Bk,Ck]=fullrfk(A,3);
+    if norm(Bk*Ck-A^3,1) > 1.e-11 then pause;end
+  \end{mintednsp}
+\end{examples}
+% -- see also
+\begin{manseealso}
+  \manlink{fullrf}{fullrf} \manlink{range}{range}  
+\end{manseealso}
+% -- Author
+\begin{authors}
+  Fran\c{c}ois Delebecque
+\end{authors}

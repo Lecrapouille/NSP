@@ -1,0 +1,22 @@
+;; -*- scheme -*-
+
+(define-objectref Curve
+  (in-module "Curve")
+  (parent "Graphic")
+  (c-name "NspCurve")
+  (fields
+   '("int" "mark" "std" "-1") ; mark to be used (-1 no mark)
+   '("int" "mark_size" "std" "-1") ; mark size be used (-1 no mark)
+   '("int" "mark_color" "std" "-1") ; mark color be used (-1 no mark)
+   '("int" "width" "std" "-1"); line width 
+   '("int" "color"); line style 
+   '("int" "mode"); mode: std, step, stem, arrow.
+   '("NspMatrix*" "Pts")
+   '("char*" "legend")
+    )
+  (gtype-id "Curve")
+)
+
+
+
+

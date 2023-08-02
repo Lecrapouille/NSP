@@ -1,0 +1,16 @@
+
+console/Makefile.aimk,14
+SHELL	11,273
+
+hoster/Makefile.aimk,14
+SHELL	11,276
+
+pvmgs/Makefile.aimk,92
+SHELL	17,474
+	@case x$(HASRANLIB) in xt ) echo $(RANLIB) $(PVMLDIR)/$(LIBGPVM); $(69,1714
+
+tracer/Makefile.aimk,63
+SHELL	9,102
+		xt ) echo "$(RANLIB) $(LIBPVMTRC)"; $(136,2431
+
+src/Makefile.aimk,0

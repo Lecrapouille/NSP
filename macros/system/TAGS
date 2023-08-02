@@ -1,0 +1,82 @@
+
+ilib_build.sci,239
+function ilib_build(1,0
+function ilib_gen_gateway(29,1302
+function ilib_gen_loader(157,5128
+function Makename=203,6473
+function ilib_gen_Make_unix(246,8051
+function ilib_gen_Make_win32(314,10251
+function ilib_gen_Make_lcc(367,11982
+
+ilib_for_link.sci,162
+function ilib_link_gen_loader(27,1094
+function ilib_link_gen_Make(60,2180
+function ilib_link_gen_Make_unix(96,3476
+function ilib_link_gen_Make_win32(142,5201
+
+ilib_importlib.sci,19
+function str1=1,0
+
+ilib_path_incl.sci,29
+function ilib_path_incl(1,0
+
+load_toolbox.sci,61
+function load_toolbox(1,0
+  function register_toolbox(3,41
+
+msvc_configure.sci,46
+function mc=92,3855
+function table=135,5266
+
+msvc_get_compiler.sci,175
+function 1,0
+  function 41,1546
+    name="unknown";path=45,1725
+    table 47,1754
+      ok 77,3481
+	name 81,3618
+  endfunction85,3666
+      path 95,3973
+  end97,4001
+
+nsp_help.sci,43
+function nsp_help(1,0
+  function h=4,118
+
+nsptest.sci,16
+function y=1,0
+
+scihelp.sci,42
+function scihelp(1,0
+  function h=5,186
+
+sci_load.sci,703
+function H=1,0
+  function str=20,851
+  function x=42,1365
+  function x=53,1685
+  function x=80,2448
+  function x=105,3144
+  function x=114,3362
+  function Str=132,3901
+  function sci_load_fun(152,4516
+  function L=167,4986
+  function str=208,6289
+function sci_save(282,8359
+  function sci_save_mat(287,8523
+  function sci_save_imat(301,8904
+  function sci_save_spmat(318,9543
+  function sci_save_bmat(339,10166
+  function sci_save_smat(349,10416
+  function sci_save_list(374,11027
+  function sci_save_hash(423,12338
+  function y=456,13280
+  function y=465,13558
+  function y=472,13705
+  function y=485,14045
+  function y=495,14319
+  function  y=517,14997
+function id=588,16854
+
+with_lcc.sci,17
+function ok=1,0

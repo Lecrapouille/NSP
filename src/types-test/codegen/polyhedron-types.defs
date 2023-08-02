@@ -1,0 +1,22 @@
+;; -*- scheme -*-
+
+(define-objectref Polyhedron
+  (in-module "Polyhedron")
+  (parent "Graphic")
+  (c-name "NspPolyhedron")
+  (fields
+    '("NspMatrix*" "Mcoord" ) 
+    '("void*"      "Mcoord_l"  "hidden" "NULL" )
+    '("NspMatrix*" "Mface")
+    '("NspMatrix*" "Mcolor" "std" "{2}" "1")
+    '("NspMatrix*" "Mback_color" "std" "{3}" "1")
+    '("gboolean" "mesh" "std" "TRUE")
+    '("int*" "pos" "hidden" )
+    )
+  (gtype-id "Polyhedron")
+)
+
+
+
+
+

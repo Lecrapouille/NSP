@@ -1,0 +1,39 @@
+% -*- mode: latex -*-
+
+\mansection{getfile}
+\begin{mandesc}
+\short{getfile}{return the contents of a file in a column string vector}
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+S=getfile(fname)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{fname}: the file name to create given as a string.
+    \vname{S}: a string matrix.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+reads file contents and store the result line by line in a string matrix.
+\end{mandescription}
+
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    A = string([1,2;3,4]);
+    putfile('A.txt',A);
+    A1= getfile('A.txt');
+    A1== A(:)
+  \end{mintednsp}
+\end{examples}
+
+% -- see also
+
+\begin{manseealso}
+  \manlink{putfile}{putfile}
+  \manlink{File}{File}  
+\end{manseealso}

@@ -1,0 +1,412 @@
+/* -*- Mode: C -*- */
+%%
+headers
+#include <gio/gio.h>
+#include <nsp/nsp.h>
+#include <nsp/smatrix.h>
+#include <nsp/bmatrix.h>
+#include <nsp/hash.h>
+#include <nsp/plist.h>
+#include <nsp/list.h>
+#include <nsp/cells.h>
+#include <nsp/none.h>
+#include <nsp/mpmatrix.h>
+#include <nsp/matrix.h>
+#include <nsp/file.h>
+#include <nsp/type.h>
+#include <nsp/hobj.h>
+#include <nsp/interf.h>
+#include <nsp/gvariant.h>
+#include <nsp/gvarianttype.h>
+#include <nsp/gtk/gboxed.h>
+#include <nsp/gtk/gobject.h>
+#include <nsp/gtk/gobject-util.h>
+#include <nsp/gtk/gsource.h>
+#include <nsp/gtk/gmainloop.h>
+#include <nsp/gtk/gmaincontext.h>
+
+%%
+init
+
+%%
+modulename gio
+
+%%
+ignore-glob
+*_get_type
+_*
+*_ref
+*_unref
+
+%%
+override g_menu_model_get_item_attribute
+
+#if GLIB_CHECK_VERSION(2,32,0)
+static int _wrap_g_menu_model_get_item_attribute(NspGMenuModel *self,Stack stack,int rhs,int opt,int lhs)
+{
+  gchar *rep = NULL;
+  int_types T[] = {s_int,string,string, t_end};
+  int item_index, ret;
+  char *attribute, *format_string;
+  CheckLhs(1,2);
+  if ( GetArgs(stack,rhs,opt,T,&item_index, &attribute, &format_string) == FAIL) return RET_BUG;
+  if ( item_index < 0 || item_index >= g_menu_model_get_n_items (G_MENU_MODEL(self->obj)))
+    {
+      Scierror("Error: item should be in [0,%d)\n",g_menu_model_get_n_items (G_MENU_MODEL(self->obj)));
+      return RET_BUG;
+    }
+  ret =g_menu_model_get_item_attribute(G_MENU_MODEL(self->obj),item_index,attribute,format_string,&rep);
+  if ( nsp_move_boolean(stack,1,ret)==FAIL) return RET_BUG;
+  if ( lhs == 2 )
+    {
+      nsp_move_string(stack,2,rep == NULL ? "":rep,-1);
+    }
+  return Max(lhs,1);
+}
+
+#else
+int _wrap_g_menu_model_get_item_attribute(Stack stack, int rhs, int opt, int lhs) /* get_item_attribute */
+{
+  Scierror("Error: function g_menu_model_get_item_attribute not available\n");
+  return RET_BUG;
+}
+#endif
+
+%%
+override g_action_map_add_action_entries
+
+static int _wrap_g_action_map_add_action_entries(NspGActionMap *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int i;
+  GActionEntry action_entry={ NULL,NULL,NULL,NULL,NULL};
+  int_types T[] = {smat, t_end};
+  NspSMatrix *entries;
+  CheckLhs(0,0);
+  if ( GetArgs(stack,rhs,opt,T,&entries) == FAIL) return RET_BUG;
+  if ( entries->n < 3 )
+    {
+      Scierror("Error: expecting at least a mx3 string matrix\n");
+      return RET_BUG;
+    }
+  for (i=0; i < entries->m; i++)
+    {
+      action_entry.name = entries->S[i];
+      action_entry.parameter_type = (entries->S[i+entries->m][0] != '\0' ) ? entries->S[i+entries->m]: NULL;
+      action_entry.state = (entries->S[i+entries->m*2][0] != '\0' ) ? entries->S[i+entries->m*2]: NULL;
+      g_action_map_add_action_entries(G_ACTION_MAP(self->obj),&action_entry,1,NULL);
+    }
+  return 0;
+}
+
+%%
+override g_menu_model_get_item_link
+
+/* XXX we want to return the most specialized type
+ * i.e use nspgobject_new and not gobject_create
+ * XXX this should be the generic rule for all methods ?
+ */
+
+#if GLIB_CHECK_VERSION(2,32,0)
+static int _wrap_g_menu_model_get_item_link(NspGMenuModel *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {s_int,string, t_end};
+  int item_index;
+  char *link;
+  GMenuModel *ret;
+  NspObject *nsp_ret;
+  if ( GetArgs(stack,rhs,opt,T,&item_index, &link) == FAIL) return RET_BUG;
+    ret =g_menu_model_get_item_link(G_MENU_MODEL(self->obj),item_index,link);
+  nsp_type_gmenumodel = new_type_gmenumodel(T_BASE);
+  if ((nsp_ret = (NspObject *) nspgobject_new(NVOID,(GObject *)ret))== NULL) return RET_BUG;
+  MoveObj(stack,1,nsp_ret);
+  return 1;
+}
+
+#else
+int _wrap_g_menu_model_get_item_link(Stack stack, int rhs, int opt, int lhs) /* get_item_link */
+{
+  Scierror("Error: function g_menu_model_get_item_link not available\n");
+  return RET_BUG;
+}
+#endif
+
+%%
+override g_action_map_lookup_action
+
+/* XXX we want to return the most specialized type
+ * i.e use nspgobject_new and not gobject_create
+ * XXX this should be the generic rule for all methods ?
+ */
+
+#if GLIB_CHECK_VERSION(2,32,0)
+static int _wrap_g_action_map_lookup_action(NspGActionMap *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {string, t_end};
+  char *action_name;
+  GAction *ret;
+  NspObject *nsp_ret;
+  if ( GetArgs(stack,rhs,opt,T,&action_name) == FAIL) return RET_BUG;
+    ret =g_action_map_lookup_action(G_ACTION_MAP(self->obj),action_name);
+  nsp_type_gaction = new_type_gaction(T_BASE);
+  if ((nsp_ret = (NspObject *) nspgobject_new(NVOID,(GObject *)ret))== NULL) return RET_BUG;
+  MoveObj(stack,1,nsp_ret);
+  return 1;
+}
+
+#else
+int _wrap_g_action_map_lookup_action(Stack stack, int rhs, int opt, int lhs) /* lookup_action */
+{
+  Scierror("Error: function g_action_map_lookup_action not available\n");
+  return RET_BUG;
+}
+#endif
+
+%%
+override g_application_get_default
+/* XXX we want to return the most specialized type */
+
+int _wrap_g_application_get_default(Stack stack, int rhs, int opt, int lhs) /* g_application_get_default */
+{
+  GApplication *ret;
+  NspObject *nsp_ret;
+  CheckRhs(0,0);
+  ret =g_application_get_default();
+  nsp_type_gapplication = new_type_gapplication(T_BASE);
+  if ((nsp_ret = (NspObject *) nspgobject_new(NVOID,(GObject *)ret)) == NULL) return RET_BUG;
+  MoveObj(stack,1,nsp_ret);
+  return 1;
+}
+
+%%
+override g_themed_icon_new_from_names
+
+int _wrap_g_themed_icon_new_from_names(Stack stack, int rhs, int opt, int lhs) /* g_themed_icon_new_from_names */
+{
+  int_types T[] = {obj, t_end};
+  gchar **iconnames = NULL;
+  NspObject *nsp_iconnames = NULL, *nsp_ret;
+  GIcon *ret;
+  if ( GetArgs(stack,rhs,opt,T,&nsp_iconnames) == FAIL) return RET_BUG;
+  if ( IsSMat(nsp_iconnames))
+    { iconnames =  ((NspSMatrix *) nsp_iconnames)->S;}
+  else
+    {
+      Scierror("Error: iconnames should be of type SMat");
+      return RET_BUG;
+    }
+  ret =g_themed_icon_new_from_names(iconnames,-1);
+  nsp_type_gicon = new_type_gicon(T_BASE);
+  if ((nsp_ret = (NspObject *) gobject_create(NVOID,(GObject *)ret,(NspTypeBase *) nsp_type_gicon))== NULL) return RET_BUG;
+  MoveObj(stack,1,nsp_ret);
+  return 1;
+}
+%%
+override g_resource_load
+
+int _wrap_g_resource_load(Stack stack, int rhs, int opt, int lhs) /* g_resource_load */
+{
+  GError      *error;
+  int_types T[] = {string, t_end};
+  char *filename;
+  GResource *ret;
+  NspObject *nsp_ret;
+  if ( GetArgs(stack,rhs,opt,T,&filename) == FAIL) return RET_BUG;
+  ret =g_resource_load(filename,&error);
+  if ( error != NULL ) {
+    Scierror("%s: gtk error\n%s\n",NspFname(stack),error->message);
+    return RET_BUG;
+  }
+  if ((nsp_ret = (NspObject *) gboxed_create(NVOID,G_TYPE_RESOURCE, ret, TRUE, TRUE,
+                                             (NspTypeBase *) nsp_type_gresource))== NULL)
+    return RET_BUG;
+  MoveObj(stack,1,nsp_ret);
+  return 1;
+}
+
+%%
+override g_resource_new_from_data
+
+int _wrap_g_resource_new_from_data(Stack stack, int rhs, int opt, int lhs) /* g_resource_new_from_data */
+{
+  char *text;
+  GError      *error;
+  GResource *ret;
+  NspObject *nsp_ret;
+  CheckRhs(1,1);
+  CheckLhs(0,1);
+  if (( text = GetString(stack,1))== NULL) return RET_BUG;
+  GBytes *bytes = g_bytes_new (text,strlen(text));
+  ret = g_resource_new_from_data(bytes,&error);
+  if ( error != NULL )
+    {
+      Scierror("%s: gtk error\n%s\n",NspFname(stack),error->message);
+      return RET_BUG;
+    }
+  if ((nsp_ret = (NspObject *) gboxed_create(NVOID,G_TYPE_RESOURCE, ret, TRUE, TRUE,
+                                             (NspTypeBase *) nsp_type_gresource))== NULL)
+    return RET_BUG;
+  MoveObj(stack,1,nsp_ret);
+  return 1;
+}
+
+%%
+override g_resource_from_int
+
+int _wrap_g_resource_from_int(Stack stack, int rhs, int opt, int lhs) /* g_resource_from_int */
+{
+  GStaticResource static_resource = { NULL, 0, NULL, NULL, NULL };
+  int_types T[] = {obj, t_end};
+  NspObject *Im = NULL;
+  NspObject *nsp_ret;
+  GResource *ret;
+  if ( GetArgs(stack,rhs,opt,T,&Im) == FAIL) return RET_BUG;
+  if ( ! IsIMat(Im) )
+    {
+      Scierror("Error: argument should be of type IMat (uint8)\n");
+      return RET_BUG;
+    }
+  if ( ((NspIMatrix *) Im)->itype != nsp_guint8)
+    {
+      Scierror ("Error: integer matrix argument for %s should be of uint8 subtype\n", NspFname(stack));
+      return RET_BUG;
+    }
+  static_resource.data = ((NspIMatrix *) Im)->Guint8;
+  static_resource.data_len = ((NspIMatrix *) Im)->mn*sizeof(guint8);
+  g_static_resource_init (&static_resource);
+  ret = g_static_resource_get_resource (&static_resource);
+  if ((nsp_ret = (NspObject *) gboxed_create(NVOID,G_TYPE_RESOURCE, ret, TRUE, TRUE,
+                                             (NspTypeBase *) nsp_type_gresource))== NULL)
+    return RET_BUG;
+  MoveObj(stack,1,nsp_ret);
+  return 1;
+}
+%%
+override g_input_stream_read
+
+static int _wrap_g_input_stream_read(NspGInputStream *self,Stack stack,int rhs,int opt,int lhs)
+{
+  NspSMatrix *S=NULL;
+  int_types T[] = {new_opts, t_end};
+  nsp_option opts[] = {
+	{"count",s_int,NULLOBJ,-1},
+	{"cancellable",obj,NULLOBJ,-1},
+	{NULL,t_end,NULLOBJ,-1} };
+  int count = 256, ret;
+  GCancellable *cancellable = NULL;
+  NspGObject *nsp_cancellable = NULL;
+  GError *error = NULL;
+  if ( GetArgs(stack,rhs,opt,T,opts, &count, &nsp_cancellable) == FAIL) return RET_BUG;
+  if ( nsp_cancellable != NULL ) {
+    if ( IsGCancellable((NspObject *)nsp_cancellable))
+      cancellable =G_CANCELLABLE(nsp_cancellable->obj);
+    else if (! IsNone((NspObject *)nsp_cancellable)) {
+         Scierror( "cancellable should be a GCancellable or None");
+         return RET_BUG;
+    }
+  }
+  if ((S=nsp_smatrix_create_with_length(NVOID, 1,1, count)) == NULL)return RET_BUG;
+  ret =g_input_stream_read(G_INPUT_STREAM(self->obj),S->S[0], count,cancellable,&error);
+  /* Sciprintf("read %d characters\n",ret); */
+  S->S[0][ret]='\0';
+  if ( error != NULL ) {
+    Scierror("%s: gtk error\n%s\n",NspFname(stack),error->message);
+    return RET_BUG;
+  }
+  if ( ret >=0)
+    {
+      if (nsp_string_resize(&(S->S[0]),ret)  == FAIL ) return RET_BUG;
+
+    }
+  MoveObj(stack,1,NSP_OBJECT(S));
+  return 1;
+}
+
+%%
+override g_output_stream_write
+
+
+static int _wrap_g_output_stream_write(NspGOutputStream *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {stringcopy,new_opts, t_end};
+  nsp_option opts[] = {
+    {"cancellable",obj,NULLOBJ,-1},
+    {NULL,t_end,NULLOBJ,-1} };
+
+  char *buffer;
+  int count;
+  GCancellable *cancellable = NULL;
+  NspGObject *nsp_cancellable = NULL;
+  GError *error = NULL;
+  if ( GetArgs(stack,rhs,opt,T,&buffer,opts, &nsp_cancellable) == FAIL) return RET_BUG;
+  if ( nsp_cancellable != NULL ) {
+    if ( IsGCancellable((NspObject *)nsp_cancellable))
+      cancellable =G_CANCELLABLE(nsp_cancellable->obj);
+    else if (! IsNone((NspObject *)nsp_cancellable)) {
+         Scierror( "cancellable should be a GCancellable or None");
+         return RET_BUG;
+    }
+  }
+  /* Sciprintf("writing <%s> %dn",buffer,strlen(buffer));*/
+  count = g_output_stream_write(G_OUTPUT_STREAM(self->obj),buffer,strlen(buffer),cancellable,&error);
+  if ( error != NULL ) {
+    Scierror("%s: gtk error\n%s\n",NspFname(stack),error->message);
+    return RET_BUG;
+  }
+  if ( nsp_move_double(stack,1,(double) count)==FAIL) return RET_BUG;
+  return 1;
+}
+
+%%
+override ensure_socket_condition
+/* for udp */
+static void _wrap_ensure_socket_condition(NspGSocket *self,Stack stack,int rhs,int opt,int lhs)
+/*  (GSocket *socket, GIOCondition  condition, GCancellable *cancellable)*/
+{
+  GSource *source;
+
+  if (!non_blocking)
+    return;
+
+  source = g_socket_create_source (socket, condition, cancellable);
+  g_source_set_callback (source,
+			 (GSourceFunc) source_ready,
+			 NULL, NULL);
+  g_source_attach (source, NULL);
+  g_source_unref (source);
+  g_main_loop_run (loop);
+}
+
+%%
+override ensure_connection_condition
+/* for tcp */
+
+static gboolean
+source_ready (GPollableInputStream *stream,
+	      gpointer              data)
+{
+  g_main_loop_quit (loop);
+  return FALSE;
+}
+
+static void _wrap_ensure_connection_condition(NspGIOStream *self,Stack stack,int rhs,int opt,int lhs)
+
+/* (GIOStream    *stream, GIOCondition  condition, GCancellable *cancellable)*/
+{
+  GSource *source;
+
+  if (!non_blocking)
+    return;
+
+  if (condition & G_IO_IN)
+    source = g_pollable_input_stream_create_source (G_POLLABLE_INPUT_STREAM (g_io_stream_get_input_stream (stream)), cancellable);
+  else
+    source = g_pollable_output_stream_create_source (G_POLLABLE_OUTPUT_STREAM (g_io_stream_get_output_stream (stream)), cancellable);
+
+  g_source_set_callback (source,
+			 (GSourceFunc) source_ready,
+			 NULL, NULL);
+  g_source_attach (source, NULL);
+  g_source_unref (source);
+  g_main_loop_run (loop);
+}
+

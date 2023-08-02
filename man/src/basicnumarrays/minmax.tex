@@ -1,0 +1,148 @@
+\mansection{min, max and minmax}
+\begin{mandesc}
+  \short{min}{minimum of matrix elements or minimum of 2 or more matrices}\\ 
+  \short{max}{maximum of matrix elements or maximum of 2 or more matrices}\\ 
+  \short{minmax}{both minimum and maximum of matrix elements}
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  // first form of calling sequences
+  m = min(A,dim=mode)
+  [m,km] = min(A,dim=mode)
+  M = max(A,dim=mode)
+  [M,kM] = max(A,dim=mode)
+  [m,M] = minmax(A,dim=mode)
+  [m,M,km,kM] = minmax(A,dim=mode)
+
+  // second form
+  m = min(A1,A2,...)  
+  [m,km] = min(A1,A2,...) 
+  M = max(A1,A2,...)  
+  [M,kM] = max(A1,A2,...)  
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A,A1,A2,...}: numerical matrices (real Mat, real SpColMat or IMat)
+    \vname{mode}: a string chosen among \verb+'M'+, \verb+'m'+, \verb+'full'+, \verb+'FULL'+, \verb+'row'+,
+    \verb+'ROW'+, \verb+'col'+, \verb+'COL'+ or an non ambiguous abbreviation or an integer. 
+    This argument is optional and if omitted 'full' is assumed.
+    \vname{m,M}: numerical scalars or vectors or matrices
+    \vname{km, kM}: integer scalars or vectors (or matrices) of indices.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+These functions have 2 differents forms. In the first form the min, max operators are 
+applied to the entries of a unique matrix, in the second form the  min, max operators are 
+applied to entries from a set of matrices. More precisely:
+\begin{description}
+\item[form 1]: is used when only one $m \times n$ sized matrix is given as argument. Depending on the value of the 
+           optional argument \verb+dim=mode+ (with 'full' as default value) they compute the $min$ or $max$ element(s):
+  \begin{itemize}
+    \item among all the matrix elements if dim='full' or 0:
+     $$
+           m = \min_{i,j} A_{i,j}\,; \; M = \max_{i,j} A_{i,j}\, ;
+     $$
+    \item along the dimension 1 when dim=1 or 'row' (we get the min or max of each column);
+     $$
+           m_{1,j} = \min_i A_{i,j}\,; \; M_{1,j} = \max_i A_{i,j}\, ;
+     $$
+     $m$ and $M$ are then row vectors ($1 \times n$).
+    \item along the dimension 2 when dim=2 or 'col' (we get the min or max of each row);
+     $$
+           m_{i,1} = \min_j A_{i,j}\,; \; M_{i,1} = \max_j A_{i,j}\,; 
+     $$
+     $m$ and $M$ are then column vectors ($m \times 1$).
+    \item along the first non singleton dimension of the given matrix if dim='m' (matlab compatibility).
+  \end{itemize}
+
+Additionnaly the first index of the corresponding min or max is provided in the returned values (when dim=0, it is 
+given in the ``one way indexing'' meaning of the matrix). The \verb+minmax+ function behave exactly
+as described. It is practical since very often one needs both the min and max of a vector or matrix.  
+
+\item[form2]: is used when the argument list contains more than one matrix. It applies on any number of matrices of 
+             the {\bf same size}, says $m \times n$ (with the usual short cut that you can use any scalar in place of such a matrix). 
+  The result is a $m \times n$ sized matrix with entries given by:
+    $$
+        m_{i,j} = \min_k Ak_{i,j}\,,  M_{i,j} = \max_k Ak_{i,j}\,,
+  $$    
+  and $km_{i,j}$ or $kM_{i,j}$ gives the (first) matrix number where the min or max is got.
+  Note that this second form is not implemented for the minmax function.
+\end{description}
+\itemdesc{Remarks}
+\begin{itemize} 
+\item Nan values are not taking into account in these functions except when the min or max is to 
+  be taken among only Nan values. 
+\item In the first form you can use the syntax \verb+min(A,mode)+ (in place of \verb+min(A,dim=mode)+)
+  if you use a string ('row', 'col',..) as dim descriptor (if you use an integer the interpretor will 
+  recognize a call of the second form). This can be useful for scilab compatibility.
+\item for sparse matrices: 
+  \begin{itemize}
+  \item \verb+minmax+ is not defined
+  \item the second form is (currently) limited to two matrices. Use \verb+max(A1,max(A2,A3))+ to
+    simulate \verb+max(A1,A2,A3)+. 
+  \item for the second form \verb+[m,km]=min(A1,A2)+, \verb+[M,kM]=max(A1,A2)+ the matrices 
+    of indices $km$ or $kM$ are sparse matrices as  no index (1 or 2) is provided when 
+    both $A1_{i,j}$ and  $A2_{i,j}$ are null.
+  \end{itemize}
+\end{itemize}
+\end{mandescription}
+
+%--example 
+\begin{examples}
+\paragraph{first form}
+\begin{mintednsp}{nsp}
+A = rand(4,5) 
+
+// min and max of all elements
+m = min(A) 
+M = max(A) 
+[m,M] = minmax(A)
+[m,km] = min(A)
+[M,kM] = max(A)
+[m,M,km,kM] = minmax(A)
+
+// min and max of each column
+[m,km] = min(A,dim=1)
+[M,kM] = max(A,dim=1)
+[m,M,km,kM] = minmax(A,dim=1)
+
+// min and max of each row
+[m,km] = min(A,dim=2)
+[M,kM] = max(A,dim=2)
+[m,M,km,kM] = minmax(A,dim=2)
+
+// behavior with Nan
+x = [1, %nan, 2, %nan]
+[m,km] = min(x)
+[M,kM] = max(x)
+[m,M,km,kM] = minmax(A)
+\end{mintednsp}
+
+\paragraph{second form}
+\begin{mintednsp}{nsp}
+A=rand(2,2) 
+B = rand(2,2) 
+C = rand(2,2) 
+m = min(A,B,C) 
+[m,km] = min(A,B,C) 
+
+// one (or more) of the matrix can be a scalar 
+[m,km] = min(A,0.3,C) 
+
+// using scalar is practical to impose a min and max thresholds on a matrix 
+// in this example we want to limit a random matrix between 0.2 and 0.8 
+A = rand(2,4) 
+B = min(0.8,max(0.2,A))
+\end{mintednsp} 
+
+\end{examples}
+
+%-- see also
+\begin{manseealso}
+  \manlink{find}{find}
+\end{manseealso}
+

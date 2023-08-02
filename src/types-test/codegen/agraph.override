@@ -1,0 +1,1100 @@
+/* -*- Mode: C -*- */
+%%
+include-start Agraph
+
+%%
+include-public Agraph
+/* inserted at the end of public part of include file
+ */
+#include <gvc.h> 
+#include <nsp/agraph-nsp.h>
+
+%%
+include-private Agraph
+
+/* graph methods */
+
+static int nsp_agraph_fill_from_b(Agraph_t *g, NspBMatrix *B);
+
+#define nsp_agnnodes(G) agnnodes((G)->obj->graph)
+#define nsp_agnedges(G) agnedges((G)->obj->graph)
+
+static NspAgraph *nsp_agparent(NspAgraph * G);
+static NspAgraph *nsp_agroot(NspAgraph * G);
+
+static int nsp_gv_write(NspAgraph * g,void *chan);
+static int nsp_gv_render(NspAgraph *G, char *mode, char *filename);
+static int nsp_gv_layout(NspAgraph *G, char *mode);
+
+static NspSMatrix *nsp_agnodeattrs(NspAgraph * g);
+static NspSMatrix *nsp_agedgeattrs(NspAgraph * g);
+static NspSMatrix *nsp_agraphattrs(NspAgraph * g);
+
+static NspAgedge *nsp_agfstout(NspAgraph * g, NspAgnode *n);
+static NspAgedge *nsp_agnxtout(NspAgraph * g, NspAgedge *e);
+static NspAgedge *nsp_agfstin(NspAgraph * g, NspAgnode *n);
+static NspAgedge *nsp_agnxtin(NspAgraph * g, NspAgedge *e);
+static NspAgedge *nsp_agfstedge(NspAgraph * g, NspAgnode *n);
+static NspAgedge *nsp_agnxtedge(NspAgraph * g, NspAgedge *e, NspAgnode *n);
+
+static int _wrap_nsp_agset_gen(void *obj,Stack stack,int rhs,int opt,int lhs);
+static int nsp_agdelnode(NspAgraph *g, NspAgnode *n);
+static int nsp_agdeledge(NspAgraph *g,NspAgedge *e);
+
+/* graph methods related to subgraphs */
+
+static NspAgraph *nsp_agsubg(NspAgraph * g, char *name);
+static NspAgraph *nsp_agfstsubg(NspAgraph * G);
+static NspAgraph *nsp_agnxtsubg(NspAgraph * G);
+static int nsp_agdelsubg(NspAgraph * G,NspAgraph * Gsub);
+
+/* graph methods related to nodes */
+
+static NspAgnode *nsp_agfstnode(NspAgraph * g);
+static NspAgnode *nsp_aglstnode(NspAgraph * g);
+static NspAgnode *nsp_agnxtnode(NspAgraph * g, NspAgnode *n);
+static NspAgnode *nsp_agprvnode(NspAgraph * g, NspAgnode *n);
+static int nsp_agaddnodes(NspAgraph *G, NspSMatrix *S);
+static int nsp_agaddedges(NspAgraph *G, NspSMatrix *S);
+static NspAgnode *nsp_agfindnode_by_name(NspAgraph * g, char *name);
+
+static NspAgraph *nsp_agread(void *chan);
+
+/* common */
+
+static char *nsp_agnameof_g(NspAgraph * G);
+static char *nsp_agnameof_n(NspAgnode * N);
+static char *nsp_agnameof_e(NspAgedge * E);
+
+/* node methods */
+
+static NspAgraph *nsp_agraphof(NspAgnode * N);
+
+/* edge methods */
+
+static NspAgnode *nsp_agtail(NspAgedge* E);
+static NspAgnode *nsp_aghead(NspAgedge* E);
+
+/* ref counts */
+static int nsp_agattr_refcount_set(void *obj,int itype, int offset);
+/* static int nsp_agattr_refcount_get(Agraph_t *obj,int itype); */
+
+%%
+headers
+/* headers */
+
+%%
+init 
+/ * init code  * /
+
+%%
+modulename atk
+/* %%  import gobject.GObject as GObject */
+
+%%
+ignore-glob
+  *_get_type
+
+%%
+override-intcreate Agraph
+
+/* describing the type of graph to be created. 
+ * A graph can be directed or undirected. In addition, a graph can
+ * be strict, i.e., have at most one edge between any pair of nodes, 
+ * or non-strict, allowing an arbitrary number
+ * of edges between two nodes. 
+ Agundirected: Non-strict, undirected graph
+ Agstrictundirected: Strict, undirected graph
+ Agdirected: Non-strict, directed graph
+ Agstrictdirected: Strict, directed graph
+*/
+
+int int_agraph_create(Stack stack, int rhs, int opt, int lhs)
+{
+  Agraph_t *g;
+  NspAgraph *H;
+  char *name = "G";
+  char *type = "graph";
+  nsp_option opts[] ={{ "type",string,NULLOBJ,-1},
+		      { "name",string,NULLOBJ,-1},
+		      { NULL,t_end,NULLOBJ,-1}};
+  int rep;
+  Agdesc_t itype = Agundirected;
+  const char *t_choices[]={ "graph", "graphstrict","digraph","digraphstrict",  NULL };
+  Agdesc_t t_itype[]={ Agundirected,Agstrictundirected, Agdirected , Agstrictdirected};
+  CheckStdRhs(0,1);
+  /* aginit(); can be called multiple times */
+  if ( get_optional_args(stack,rhs,opt,opts,&type,&name) == FAIL) 
+    return RET_BUG;
+  rep = is_string_in_array(type, t_choices, 1);
+  if ( rep < 0 )
+    {
+      string_not_in_array(stack, type, t_choices, "optional argument type");
+      return RET_BUG;
+    }
+  itype = t_itype[rep];
+  if (( g = agopen(name,itype,0))== NULL) 
+    {
+      Scierror("Error: agopen failed to create a graph\n");
+      return RET_BUG;
+    }
+  if ( rhs -opt == 1)
+    {
+      NspBMatrix *B;
+      if (( B = GetBMat(stack,1)) == NULLBMAT) return RET_BUG;
+      if ( B->m != B->n ) 
+	{
+	  Scierror("Error: first argument should be a square matrix\n");
+	  return RET_BUG;
+	}
+      itype= Agdirected;
+      if ( nsp_agraph_fill_from_b(g, B) == FAIL) 
+	{
+	  Scierror("Error: failed to fill graph with data\n");
+	  return RET_BUG;
+	}
+    }
+
+  if ((H = nsp_agraph_create(NVOID,g,NULL, NULL)) == NULL) 
+    {
+      Scierror("Error: failed to create a graph\n");
+      return RET_BUG;
+    }
+  nsp_agattr_refcount_set(g,AGRAPH,0);
+  MoveObj(stack,1,(NspObject  *) H);
+  return 1;
+} 
+
+
+%%
+override-destroy-prelim  Agraph
+   /* verbatim in destroy */
+   int l = nsp_agattr_refcount_set(H->obj->graph,AGRAPH,-1);
+   /* Sciprintf("Warning: graph refcount is %d\n",l); */
+   if ( l <= 0) 
+     {
+       /* Sciprintf("Warning: agclose called\n"); */
+       if ( H->obj->gvc != NULL) 
+	 {
+	   gvFreeLayout(H->obj->gvc,H->obj->graph);
+	 }
+       agclose(H->obj->graph);
+       if ( H->obj->gvc != NULL) 
+	 {
+	   gvFreeContext(H->obj->gvc);
+	 }
+     }
+   
+%%
+override-destroy-prelim  Agnode
+   /* verbatim in destroy */
+   int l = nsp_agattr_refcount_set(H->obj->node,AGNODE,-1);
+   /* Sciprintf("Warning: node refcount is %d\n",l); */
+   if ( l <= 0) 
+     {
+     }
+%%
+override-destroy-prelim  Agedge
+   /* verbatim in destroy */
+   int l = nsp_agattr_refcount_set(H->obj->edge,AGEDGE,-1);
+   /* Sciprintf("Warning: edge refcount is %d\n",l); */
+   if ( l <= 0) 
+     {
+              
+     }
+
+
+%%
+override nsp_agattr kwargs
+
+/* generic function used to set a graph attribute */
+
+static int _wrap_nsp_agattr_gen(NspAgraph *self,Stack stack,int rhs,int opt,int lhs,
+				  int itype,const char *type)
+{
+  Agsym_t *a = NULL;
+  int i;
+  CheckStdRhs(0,0);
+  CheckLhs(0,1);
+  for ( i = 1 ; i <= rhs ; i++) 
+    {
+      char *value,*agstr;
+      const char *attr;
+      NspObject *O;
+      if ( Ocheckname(NthObj(i),NVOID) ) 
+	{
+	  Scierror("Error: %s of method %s should be a named optional argument \n",
+		   ArgPosition(i),NspFname(stack));
+	  return RET_BUG;
+	}
+      /* A copy of object is added in the hash table **/
+      /* GetObj takes care of Hobj pointers **/
+      attr = nsp_object_get_name(NthObj(i));
+      O = nsp_get_object(stack,i);
+      if ( IsString(O) == FALSE )
+	{
+	  Scierror("Error: %s of method  %s should be a string\n",
+		   ArgPosition(i),NspFname(stack));
+	  return RET_BUG;
+	}
+      value =  ((NspSMatrix *) O)->S[0];
+      agstr = nsp_string_copy(attr);
+      if ( agstr == NULL) return RET_BUG;
+      a = agattr( ((Agraph_t *) self->obj->graph)->root,itype, agstr,value);
+      nsp_string_destroy(&agstr);
+      if ( a == NULL) 
+	{
+	  Scierror("Error: failed to add %s attribute %s=%s\n",
+		   type,  attr,((NspSMatrix *) O)->S[0]);
+	  return RET_BUG;
+	}
+    }
+  return 0;
+} 
+
+static int _wrap_nsp_agattr(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return _wrap_nsp_agattr_gen(self,stack,rhs,opt,lhs,AGRAPH,"graph");
+}
+
+
+%%
+override nsp_agattr_n kwargs
+
+static int _wrap_nsp_agattr_n(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return _wrap_nsp_agattr_gen(self,stack,rhs,opt,lhs,AGNODE,"node");
+}
+
+%%
+override nsp_agattr_e kwargs
+
+static int _wrap_nsp_agattr_e(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return _wrap_nsp_agattr_gen(self,stack,rhs,opt,lhs,AGEDGE,"edge");
+}
+
+%%
+override nsp_agisundirected kwargs
+static int _wrap_nsp_agisundirected(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int ret;
+  CheckRhs(0,0);
+  CheckLhs(0,1);
+  ret = agisundirected(self->obj->graph);
+  if ( nsp_move_boolean(stack,1,ret)==FAIL) return RET_BUG;
+  return 1;
+}
+
+%%
+override nsp_agisdirected kwargs
+static int _wrap_nsp_agisdirected(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int ret;
+  CheckRhs(0,0);
+  CheckLhs(0,1);
+  ret = agisdirected(self->obj->graph);
+  if ( nsp_move_boolean(stack,1,ret)==FAIL) return RET_BUG;
+  return 1;
+}
+
+%%
+override nsp_agisstrict kwargs
+static int _wrap_nsp_agisstrict(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int ret;
+  CheckRhs(0,0);
+  CheckLhs(0,1);
+  ret = agisstrict(self->obj->graph);
+  if ( nsp_move_boolean(stack,1,ret)==FAIL) return RET_BUG;
+  return 1;
+}
+
+%%
+override nsp_agget kwargs
+
+static int _wrap_nsp_agget(NspAgnode *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {string,t_end};
+  char *attr;
+  gchar *ret;
+  if ( GetArgs(stack,rhs,opt,T,&attr) == FAIL) return RET_BUG;
+  ret = agget(self->obj->node, attr);
+  if ( nsp_move_string(stack,1,(ret) ? ret: "",-1)== FAIL) return RET_BUG;
+  return 1;
+}
+
+
+%%
+override nsp_agset_g kwargs
+
+/* fix an attribute of a node */
+static int _wrap_nsp_agset_g(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return _wrap_nsp_agset_gen(self->obj->graph,stack,rhs,opt,lhs);
+} 
+
+%%
+override nsp_agset_n kwargs
+
+/* fix an attribute of a node */
+static int _wrap_nsp_agset_n(NspAgnode *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return _wrap_nsp_agset_gen(self->obj->node,stack,rhs,opt,lhs);
+} 
+
+%%
+override nsp_agset_e kwargs
+
+/* fix an attribute of a node */
+static int _wrap_nsp_agset_e(NspAgedge *self,Stack stack,int rhs,int opt,int lhs)
+{
+  return _wrap_nsp_agset_gen(self->obj->edge,stack,rhs,opt,lhs);
+} 
+
+%%
+override nsp_agaddnodes kwargs
+
+static int _wrap_nsp_agaddnodes(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {smat,t_end};
+  NspSMatrix *nodes;
+  int ret;
+  CheckLhs(0,1);
+  if ( GetArgs(stack,rhs,opt,T,&nodes) == FAIL) return RET_BUG;
+  ret = nsp_agaddnodes(self, nodes);
+  if ( lhs == 1) 
+    {
+      if ( nsp_move_double(stack,1,ret)==FAIL) return RET_BUG;
+      return 1;
+    }
+  if ( ret != -1 ) 
+    {
+      Scierror("Error: failed to add node %s to the graph\n",nodes->S[ret]);
+      return RET_BUG;
+    }
+  return 0;
+}
+
+%%
+override nsp_agaddedges kwargs
+
+static int _wrap_nsp_agaddedges(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {smat,t_end};
+  NspSMatrix *nodes;
+  int ret;
+  CheckLhs(0,1);
+  if ( GetArgs(stack,rhs,opt,T,&nodes) == FAIL) return RET_BUG;
+  ret = nsp_agaddedges(self, nodes);
+  if ( ret == FALSE ) 
+    {
+      return RET_BUG;
+    }
+  return 0;
+}
+
+%%
+override nsp_agdegree kwargs
+
+static int _wrap_nsp_agdegree(NspAgraph *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int ret,rep,in,out;
+  const char *t_choices[]={ "in", "out","both", NULL };
+  char *type = "both";
+  int_types T[] = {obj_check,new_opts,t_end};
+  nsp_option opts[] ={{ "type",string,NULLOBJ,-1},
+		      { NULL,t_end,NULLOBJ,-1}};
+  NspObject *arg_n;
+  if ( GetArgs(stack,rhs,opt,T,&nsp_type_agnode, &arg_n,&opts,&type) == FAIL) 
+    return RET_BUG;
+
+  rep = is_string_in_array(type, t_choices, 1);
+  if ( rep < 0 ) 
+    { 
+      Scierror("Error: argument type of degree method should be \"in\", or \"out\", or \"both\"\n");
+      return RET_BUG;
+    };
+  in  = (rep == 1) ? 0: 1;
+  out = (rep == 0) ? 0: 1;
+  ret = agdegree(self->obj->graph,
+		 ((NspAgnode *) arg_n)->obj->node,
+		 in,out);
+  if ( nsp_move_double(stack,1,(double) ret)==FAIL) return RET_BUG;
+  return 1;
+}
+
+%%
+override-equal Agraph
+
+/*
+ *  A == B (we just compare the graph attribute not the gvc).
+ */
+
+static int nsp_agraph_eq(NspAgraph *A, NspObject *B)
+{
+  NspAgraph *loc = (NspAgraph *) B;
+  if ( check_cast(B,nsp_type_agraph_id) == FALSE) return FALSE ;
+  if ( A->obj == loc->obj ) return TRUE;
+  if ( A->obj->graph != loc->obj->graph) return FALSE;
+  return TRUE;
+}
+
+/*
+ * A != B 
+ */
+
+static int nsp_agraph_neq(NspAgraph *A, NspObject *B)
+{
+  return ( nsp_agraph_eq(A,B) == TRUE ) ? FALSE : TRUE;
+}
+
+%%
+last
+
+/* set of nsp function to facilitate methods or functions for graphviz functions */
+
+static NspAgraph *nsp_agread(void *chan)
+{ 
+  FILE* file = fopen(chan, "r"); 
+  Agraph_t *dotGraph = NULL;
+  if ( file == NULL ) return NULL;
+  /* aginit(); */ /* can be called multiple times */
+  if ((dotGraph = agread(file,NULL))== NULL) 
+    return NULL;
+  return nsp_agraph_create(NVOID,dotGraph,NULL, NULL);
+}
+
+static int nsp_gv_write(NspAgraph * g,void *chan)
+{ 
+  FILE* file = fopen(chan, "w"); 
+  if ( file == NULL ) return FALSE;
+  agwrite(g->obj->graph,file);
+  fclose(file);
+  return TRUE;
+}
+
+static int nsp_gv_layout(NspAgraph *G, char *mode)
+{
+  if ( G->obj->gvc == NULL ) 
+    {
+      G->obj->gvc = gvContext();
+    }
+  gvLayout(G->obj->gvc, G->obj->graph, mode);
+  return TRUE;
+}
+
+static int nsp_gv_render(NspAgraph *G, char *mode, char *filename)
+{
+  FILE* file;
+  if ( G->obj->gvc == NULL ) 
+    {
+      Scierror("render: you should call layout first\n");
+      return FALSE;
+    }
+  if (( file = fopen(filename, "w"))== NULL) 
+    return FALSE;
+  gvRender(G->obj->gvc, G->obj->graph, mode, file);
+  fclose(file);
+  return TRUE;
+}
+
+/* list attribute names */ 
+
+static NspSMatrix *nsp_agobjattrs(NspAgraph * g,int tag )
+{
+  Agsym_t *a = NULL;
+  NspSMatrix *S= nsp_smatrix_create(NVOID,0,0, NULL,0);
+  while ((a = agnxtattr(g->obj->graph, tag , a))) 
+    {
+      if ( nsp_row_smatrix_append_string(S, a->name) == FAIL) 
+	goto fail;
+    }
+  return S;
+ fail:
+  if ( S != NULL) nsp_smatrix_destroy(S);
+  return NULL;
+}
+
+/* the next methods are methods for graph objects 
+ * setting attributes of the graph and common to all 
+ * nodes and edges.
+ */
+
+static NspSMatrix *nsp_agraphattrs(NspAgraph * g)
+{
+  return nsp_agobjattrs(g,AGRAPH);
+}
+
+static NspSMatrix *nsp_agnodeattrs(NspAgraph * g)
+{
+  return nsp_agobjattrs(g,AGNODE);
+}
+
+static NspSMatrix *nsp_agedgeattrs(NspAgraph * g)
+{
+  return nsp_agobjattrs(g,AGEDGE);
+}
+
+static NspAgedge *nsp_agfstout(NspAgraph * g, NspAgnode *n)
+{
+  Agedge_t *e1 ;
+  if ((e1 = agfstout(g->obj->graph,n->obj->node))== NULL)
+    {
+      Scierror("Error: first out edge was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(e1,AGEDGE,+1);
+  return nsp_agedge_create(NVOID,e1,NULL);
+}
+
+static NspAgedge *nsp_agnxtout(NspAgraph * g, NspAgedge *e)
+{
+  Agedge_t *e1 ;
+  if ((e1 = agnxtout(g->obj->graph,e->obj->edge))== NULL)
+    {
+      Scierror("Error: next out edge node was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(e1,AGEDGE,+1);
+  return nsp_agedge_create(NVOID,e1,NULL);
+}
+
+static NspAgedge *nsp_agfstin(NspAgraph * g, NspAgnode *n)
+{
+  Agedge_t *e1 ;
+  if ((e1 = agfstin(g->obj->graph,n->obj->node))== NULL)
+    {
+      Scierror("Error: first in edge was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(e1,AGEDGE,+1);
+  return nsp_agedge_create(NVOID,e1,NULL);
+}
+
+static NspAgedge *nsp_agnxtin(NspAgraph * g, NspAgedge *e)
+{
+  Agedge_t *e1 ;
+  if ((e1 = agnxtin(g->obj->graph,e->obj->edge))== NULL)
+    {
+      Scierror("Error: next in edge was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(e1,AGEDGE,+1);
+  return nsp_agedge_create(NVOID,e1,NULL);
+}
+
+static NspAgedge *nsp_agfstedge(NspAgraph * g, NspAgnode *n)
+{
+  Agedge_t *e1 ;
+  if ((e1 = agfstedge(g->obj->graph,n->obj->node))== NULL)
+    {
+      Scierror("Error: first edge node was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(e1,AGEDGE,+1);
+  return nsp_agedge_create(NVOID,e1,NULL);
+}
+
+static NspAgedge *nsp_agnxtedge(NspAgraph * g, NspAgedge *e, NspAgnode *n)
+{
+  Agedge_t *e1 ;
+  if ((e1 = agnxtedge(g->obj->graph,e->obj->edge,n->obj->node))== NULL)
+    {
+      Scierror("Error: next edge was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(e1,AGEDGE,+1);
+  return nsp_agedge_create(NVOID,e1,NULL);
+}
+
+static int _wrap_nsp_agset_gen(void *obj,Stack stack,int rhs,int opt,int lhs)
+{
+  /* int a; */
+  int i;
+  CheckStdRhs(0,0);
+  CheckLhs(0,1);
+  for ( i = 1 ; i <= rhs ; i++) 
+    {
+      char *value, *agstr;
+      const char *attr;
+      NspObject *O;
+      if ( Ocheckname(NthObj(i),NVOID) ) 
+	{
+	  Scierror("Error: %s of method %s should be a named optional argument \n",
+		   ArgPosition(i),NspFname(stack));
+	  return RET_BUG;
+	}
+      attr = nsp_object_get_name(NthObj(i));
+      O = nsp_get_object(stack,i);
+      if ( IsString(O) == FALSE )
+	{
+	  Scierror("Error: %s of method  %s should be a string\n",
+		   ArgPosition(i),NspFname(stack));
+	  return RET_BUG;
+	}
+      value =  ((NspSMatrix *) O)->S[0];
+
+      agstr = nsp_string_copy(attr);
+      if ( agstr == NULL) return RET_BUG;
+      /* a =*/ agsafeset(obj,agstr,value,"");
+      nsp_string_destroy(&agstr);
+      /*
+	if ( a == FALSE) 
+	{
+	  Scierror("Error: failed to add a node attribute %s=%s\n",
+		   attr,((NspSMatrix *) O)->S[0]);
+	  return RET_BUG;
+	}
+      */
+    }
+  return 0;
+} 
+
+/*-------------------------------------------------
+ *  utilities for writing graph methods
+ *-------------------------------------------------*/
+
+static NspAgraph *nsp_agparent(NspAgraph * G)
+{
+  Agraph_t *g = ((Agraph_t *) G->obj->graph);
+  Agraph_t *p;
+  NspAgraph *P;
+  if (( p = agparent(g))== NULL) 
+    {
+      Scierror("Error: failed to obtain parent graph\n");
+      return NULL;
+    }
+  if ((P = nsp_agraph_create(NVOID,p,NULL, NULL)) == NULL) 
+    {
+      Scierror("Error: failed to create a graph\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(p,AGRAPH,+1);
+  return P;
+}
+
+static NspAgraph *nsp_agroot(NspAgraph * G)
+{
+  Agraph_t *g = ((Agraph_t *) G->obj->graph);
+  Agraph_t *r;
+  NspAgraph *R;
+  if (( r = agroot(g))== NULL) 
+    {
+      Scierror("Error: failed to obtain parent graph\n");
+      return NULL;
+    }
+  if (( R = nsp_agraph_create(NVOID,r,NULL, NULL)) == NULL) 
+    {
+      Scierror("Error: failed to create a graph\n");
+      return NULL;
+    }
+  /* take care that the two graphs share the same (Agraph_t *) */
+  nsp_agattr_refcount_set(g,AGRAPH,+1);
+  return R;
+}
+
+
+static NspAgnode *nsp_agfstnode(NspAgraph * g)
+{
+  Agnode_t *n ;
+  if ((n = agfstnode(g->obj->graph))== NULL)
+    {
+      Scierror("Error: first node was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(n,AGNODE,+1);
+  return nsp_agnode_create(NVOID,n,NULL);
+}
+
+static NspAgnode *nsp_aglstnode(NspAgraph * g)
+{
+  Agnode_t *n ;
+  if ((n = aglstnode(g->obj->graph))== NULL)
+    {
+      Scierror("Error: last node was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(n,AGNODE,+1);
+  return nsp_agnode_create(NVOID,n,NULL);
+}
+
+static NspAgnode *nsp_agnxtnode(NspAgraph * g, NspAgnode *n)
+{
+  Agnode_t *n1 ;
+  if ((n1 = agnxtnode(g->obj->graph,n->obj->node))== NULL)
+    {
+      Scierror("Error: next node was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(n1,AGNODE,+1);
+  return nsp_agnode_create(NVOID,n1,NULL);
+}
+
+static NspAgnode *nsp_agprvnode(NspAgraph * g, NspAgnode *n)
+{
+  Agnode_t *n1 ;
+  if ((n1 = agprvnode(g->obj->graph,n->obj->node))== NULL)
+    {
+      Scierror("Error: previous node was not found\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(n1,AGNODE,+1);
+  return nsp_agnode_create(NVOID,n1,NULL);
+}
+
+static NspAgnode *nsp_agfindnode_by_name(NspAgraph * g, char *name)
+{
+  Agnode_t *n ;
+  if ((n = agfindnode(g->obj->graph,name) )== NULL)
+    {
+      Scierror("Error: node with name=%s was not found\n",name);
+      return NULL;
+    }
+  nsp_agattr_refcount_set(n,AGNODE,+1);
+  return nsp_agnode_create(NVOID,n,NULL);
+}
+
+/* add nodes to the graph given their names 
+ */
+
+static int nsp_agaddnodes(NspAgraph *G, NspSMatrix *S)
+{
+  int i;
+  for ( i = 0 ; i < S->mn ; i++) 
+    if ( agnode(G->obj->graph, S->S[i],1) == NULL) 
+      {
+	return i;
+      }
+  return -1; /* success */
+}
+
+/* add edges to the graph given their names 
+ */
+
+static int nsp_agaddedges(NspAgraph *G, NspSMatrix *S)
+{
+  int i;
+  if ( S->n != 2 ) 
+    {
+      Scierror("add_deges: argument should have two columns\n");
+      return FALSE;
+    }
+  for ( i = 0 ; i < S->m ; i++) 
+    {
+      Agnode_t *t, *h;
+      if ((t = agfindnode(G->obj->graph, S->S[i]))== NULL) 
+	{
+	  Scierror("Error: in add_deges tail %s of arc %d is not a node name\n",S->S[i],i);
+	  return FALSE;
+	}
+      if ((h = agfindnode(G->obj->graph, S->S[i+S->m]))== NULL) 
+	{
+	  Scierror("Error: in add_deges head %s of arc %d is not a node name\n",S->S[i+S->m],i);
+	  return FALSE;
+	}
+      if ( agedge(G->obj->graph, t,h,0,1)  == NULL) 
+	{
+	  Scierror("add_deges: failed to add arc %s->%s\n",t,h);
+	  return FALSE;
+	}
+    }
+  return TRUE;
+}
+
+
+static char *nsp_agnameof_g(NspAgraph * G)
+{
+  char *str = agnameof(G->obj->graph);
+  if ( str == NULL) return NULL;
+  return nsp_new_string(str,-1);
+}
+
+static char *nsp_agnameof_n(NspAgnode * N)
+{
+  char *str= agnameof(N->obj->node);
+  if ( str == NULL) return NULL;
+  return nsp_new_string(str,-1);
+}
+
+static char *nsp_agnameof_e(NspAgedge * E)
+{
+  char *str=agnameof(E->obj->edge);
+  if ( str == NULL) return NULL;
+  return nsp_new_string(str,-1);
+}
+
+/*---------------------------------------------------------
+ *  utilities for writing graph methods related to subgraph 
+ *---------------------------------------------------------*/
+
+static NspAgraph *nsp_agsubg(NspAgraph * G, char *name) 
+{
+  Agraph_t *g = ((Agraph_t *) G->obj->graph);
+  Agraph_t *s;
+  NspAgraph *S;
+  if (( s = agsubg(g,name,1))== NULL) 
+    {
+      Scierror("Error: failed to create a subgraph\n");
+      return NULL;
+    }
+  if (( S = nsp_agraph_create(NVOID,s,NULL, NULL)) == NULL) 
+    {
+      Scierror("Error: failed to create a subgraph\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(s,AGRAPH,+1);
+  return S;
+}
+
+static NspAgraph *nsp_agfstsubg(NspAgraph * G)
+{
+  Agraph_t *g = ((Agraph_t *) G->obj->graph);
+  Agraph_t *s;
+  NspAgraph *S;
+  if (( s = agfstsubg(g))== NULL) 
+    {
+      Scierror("Error: failed to find a subgraph\n");
+      return NULL;
+    }
+  if (( S = nsp_agraph_create(NVOID,s,NULL, NULL)) == NULL) 
+    {
+      Scierror("Error: failed to create a graph\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(s,AGRAPH,+1);
+  return S;
+}
+
+static NspAgraph *nsp_agnxtsubg(NspAgraph * G)
+{
+  Agraph_t *g = ((Agraph_t *) G->obj->graph);
+  Agraph_t *s;
+  NspAgraph *S;
+  if (( s = agnxtsubg(g))== NULL) 
+    {
+      Scierror("Error: failed to find next subgraph\n");
+      return NULL;
+    }
+  if (( S = nsp_agraph_create(NVOID,s,NULL, NULL)) == NULL) 
+    {
+      Scierror("Error: failed to create a graph\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(s,AGRAPH,+1);
+  return S;
+}
+
+static int nsp_agdelsubg(NspAgraph * G,NspAgraph * Gsub)
+{
+  Agraph_t *g = ((Agraph_t *) G->obj->graph);
+  Agraph_t *gsub = ((Agraph_t *) Gsub->obj->graph);
+  agdelsubg(g,gsub);
+  return OK;
+}
+
+/*-------------------------------------------------
+ *  utilities for writing node methods
+ *-------------------------------------------------*/
+
+static NspAgraph *nsp_agraphof(NspAgnode * N)
+{
+  NspAgraph *G;
+  Agraph_t *g = agraphof(N->obj->node);
+  if ( g == NULL) return NULL;
+  if ((G = nsp_agraph_create(NVOID,g,NULL, NULL)) == NULL) 
+    {
+      Scierror("Error: failed to create a graph\n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(g,AGRAPH,+1);
+  return G;
+}
+
+/*-------------------------------------------------
+ *  utilities for writing edge methods
+ *-------------------------------------------------*/
+
+static NspAgnode *nsp_aghead(NspAgedge* E)
+{
+  Agnode_t *n ;
+  Agedge_t *e = (Agedge_t *) E->obj->edge ;
+  if ((n = aghead(e)) == NULL)
+    {
+      char * str = agnameof(e);
+      if ( str != NULL) 
+	Scierror("Error: failed to get the head of edge %s\n",agnameof(e));
+      else
+	Scierror("Error: failed to get the head of an edge \n");
+      return NULL;
+    }
+  nsp_agattr_refcount_set(n,AGNODE,+1);
+  return nsp_agnode_create(NVOID,n,NULL);
+}
+
+static NspAgnode *nsp_agtail(NspAgedge* E)
+{
+  Agnode_t *n ;
+  Agedge_t *e = (Agedge_t *) E->obj->edge ;
+  if ((n = agtail(e)) == NULL)
+    {
+      char * str = agnameof(e);
+      if ( str != NULL) 
+	Scierror("Error: failed to get the tail of edge %s\n",agnameof(e));
+      else
+	Scierror("Error: failed to get the tail of an edge \n");
+    }
+  nsp_agattr_refcount_set(n,AGNODE,+1);
+  return nsp_agnode_create(NVOID,n,NULL);
+}
+
+/*-------------------------------------------------
+ *  utilities for graph creation 
+ *-------------------------------------------------*/
+
+int nsp_agraph_fill_from_b(Agraph_t *g, NspBMatrix *B)
+{
+  int i,j;
+  char buf[512];
+  for ( i = 0 ; i < B->m ; i++) 
+    {
+      snprintf(buf,511,"N%d",i);
+      if ( agnode(g, buf ,1) == NULL) 
+	{
+	  return FAIL;
+	}
+    }    
+  for ( i = 0 ; i < B->m ; i++)
+    {
+      Agnode_t *t, *h;
+      snprintf(buf,511,"N%d",i);
+      if ((t = agfindnode(g, buf ))== NULL) 
+	{
+	  Scierror("Error: failed to create an arc, node %s not found\n",buf);
+	  return FAIL;
+	}
+      for ( j = 0 ; j < B->n ; j++)
+	{
+	  if ( B->B[i+j*B->m] == 1) 
+	    {
+	      snprintf(buf,511,"N%d",j);
+	      if ((h = agfindnode(g, buf)) == NULL)
+		{
+		  Scierror("Error: failed to create an arc, node %s not found\n",buf);
+		  return FAIL;
+		}
+	      if ( agedge(g, t,h,0,1)  == NULL) 
+		{
+		  Scierror("add_deges: failed to add arc %s->%s\n",t,h);
+		  return FAIL;
+		}
+	    }
+	}
+    }
+  return OK;
+}
+
+int nsp_agdelnode(NspAgraph *g, NspAgnode *n)
+{
+  return agdelnode(g->obj->graph,n->obj->node);
+}
+
+int nsp_agdeledge(NspAgraph *g,NspAgedge *e)
+{
+  return agdeledge(g->obj->graph,e->obj->edge);
+}
+
+/*-------------------------------------------------
+ * to be checked 
+ *-------------------------------------------------
+ */
+
+void nsp_agflatten(NspAgraph * g, int flag){ };
+int nsp_agisflattened(NspAgraph * g){return FAIL;}
+
+NspAgedge *nsp_agsubedge(NspAgraph * g, NspAgedge * e, int createflag){ return NULL;}
+int nsp_agrelabel(void *obj, char *name){return FAIL;}	/* scary */
+int nsp_agrelabel_node(NspAgnode * n, char *newname){return FAIL;}
+int nsp_agdelete(NspAgraph * g, void *obj){return FAIL;}
+NspAgsym *nsp_agattrsym(void *obj, char *name){ return NULL;}
+NspAgsym *nsp_agnxtattr(NspAgraph * g, int kind, NspAgsym * attr){ return NULL;}
+void *nsp_agbindrec(void *obj, char *name, unsigned int size,
+		       int move_to_front){ return NULL;}
+int nsp_agdelrec(void *obj, char *name){return FAIL;}
+void nsp_agclean(NspAgraph * g, int kind, char *rec_name){}
+void nsp_agflatten(NspAgraph * g, int flag);
+int nsp_agisflattened(NspAgraph * g);
+NspAgedge *nsp_agidedge(NspAgnode * t, NspAgnode * h, unsigned long id, int createflag);
+NspAgedge *nsp_agsubedge(NspAgraph * g, NspAgedge * e, int createflag);
+int nsp_agrelabel(void *obj, char *name);	/* scary */
+int nsp_agrelabel_node(NspAgnode * n, char *newname);
+int nsp_agdelete(NspAgraph * g, void *obj);
+int nsp_agisarootobj(void *);
+void *nsp_agbindrec(void *obj, char *name, unsigned int size,  int move_to_front);
+/* Agrec_t *nsp_aggetrec(void *obj, char *name, int move_to_front);*/
+int nsp_agdelrec(void *obj, char *name);
+void nsp_aginit(NspAgraph * g, int kind, char *rec_name,
+		   int rec_size, int move_to_front);
+void nsp_agclean(NspAgraph * g, int kind, char *rec_name);
+
+
+static int nsp_agattr_refcount_set(void *vo,int itype, int offset)
+{
+  Agraph_t *obj = vo;
+  /* Agsym_t *a = NULL; */
+  gulong l;
+  gchar *end, buf[32];
+  gchar *ret = agget(obj,"refcount");
+  if ( ret == NULL) 
+    {
+      l=1;
+    }
+  else
+    {
+      l = strtoul (ret, &end,10);
+    }
+  l += offset;
+  sprintf(buf,"%ld",l);
+  agsafeset(obj,"refcount",buf,"");
+  /* a = agattr( obj->root,itype,"refcount",buf); 
+  if ( a == NULL) 
+    {
+      Sciprintf("Error: failed to add refcount attribute to object.\n");
+    }
+  */
+  return l;
+} 
+
+#if 0
+static int nsp_agattr_refcount_get(Agraph_t *obj,int itype)
+{
+  gchar *end;
+  gchar *ret = agget(obj,"refcount");
+  return ( ret == NULL) ? 1 : strtol (ret, &end,10);
+}
+#endif 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

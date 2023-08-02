@@ -1,0 +1,41 @@
+# top-level PVM3 makefile
+#
+SHELL	=	/bin/sh
+
+.NOTPARALLEL:
+
+include ../Path.incl
+
+SILENT=$(findstring -s,$(MFLAGS))
+
+SUBDIRS= src tracer console pvmgs hoster
+
+all: install
+
+install clean distclean ::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making $@ in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) $(FLAGS) DIR=$(DIR)$$i/ $@ ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done
+
+ALL_ARCH = HPPA SGI ALPHA LINUXALPHA LINUX LINUXSPARC SUN4SOL2 SUNMP MINGW
+
+# make a distclean on one architecture and removes binaries for other 
+# architectures 
+
+super_distclean:
+	@for arch in $(ALL_ARCH) ;\
+        do \
+	( aimkop="-here -f ./conf/$$arch.def -f ./Makefile.aimk" ;\
+	 PVM_ROOT=`pwd` ; export PVM_ROOT; ./lib/aimk $$aimkop clean ; \
+	 $(RM) -rf lib/$$arch bin/$$arch pvmgs/$$arch  \
+            ); \
+        done

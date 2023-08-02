@@ -1,0 +1,97 @@
+% -*- mode: latex -*-
+\mansection{x\_choices}
+\begin{mandesc}
+  \shortunder{x\_choices}{x_choices}{Interactive dialog using a small subset of Gtk widgets}\\ % @mandesc@
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+  \begin{verbatim}
+    [Lres,L,rep]=x_choices(title,items [,flag])   
+  \end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{title}: string matrix which gives the title of the popup window.
+    \vname{items}: a list of items, where each \verb!item! is itself a list 
+    describing an entry to be selected. The item list should be given as follows 
+    \begin{verbatim}
+      item=list(type,title,def,choices) 
+    \end{verbatim} 
+    where 
+    \begin{varlist}
+      \vname{type}: is a string among \verb+'combo'+, \verb+'entry'+,\verb+'matrix'+, 
+      \verb+'colors'+, \verb+'save'+, \verb+'open'+, \verb+'folder'+,  \verb+'spin'+, \verb+'range'+ and 
+      \verb+'button'+.
+    \vname{title}: is a string describing the entry. 
+    \vname{def}: is an integer which semantics depends on the type field. It is used to describe a default choice or set 
+      a default parameter. \verb+def+ is ignored by \verb+'save'+ 
+      \verb+'load'+, \verb+'folder'+ \verb+'spin'+ and \verb+'range'+. 
+      For \verb+'matrix'+, \verb+'def'+ gives the size of entry used for matrix edition.
+    \vname{choices}: is a string matrix, or a vector of scalars (for \verb+range+ and \verb+spin+),
+    or a list (for \verb+button+) giving the possible choices or one initial value. For an 
+      \verb+'open'+ entry it is a default answer followed be a list of file filters (See example below). For 
+      \verb+'spin'+ or \verb+'range'+ it is a vector used to specify the parameters of the spin or range widget.
+      For a \verb+'button'+ choices must be a list like a \verb+items+ list since \verb+'button'+ when activated 
+      will open a new \verb+x_choices+ panel.
+    \end{varlist}
+    \vname{flag}: optional boolean which changes the way titles are displayed. 
+    \vname{L}: is a copy of \verb+items+ but in which the default values are replaced by the user's choices. 
+    \vname{Lres}: is a list filed with the user answers or a null list in case of cancel.
+    \vname{rep}: is a vector giving the user choices when this choice can be expressed as a scalar 
+    i.e in the \verb+'combo'+, \verb+'colors'+, \verb+'spin'+ and \verb+'range'+ cases. For other widgets 
+    the \verb+rep+ entry is not relevant.
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  Select items through toggle lists and return in \verb!rep! the selected items
+\end{mandescription}
+  %--example 
+\begin{examples}
+\paragraph{First example}
+
+\begin{mintednsp}{nsp}
+l1=list('combo','combo title',1,['choice 1','choice 2','choice 3']);
+l2=list('entry','entry title',1,['initial']); // 1 is unused 
+l3=list('matrix','enter matrix',10,string(rand(6,2)));// l(3) is for entry size
+l4=list('colors','colors choice 4',29,['']);
+// here choices is used to give a default file name 
+l5=list('save','file save',1,['foo.sav']); // initial value 
+// the default file name if given l6(4)(1) must be a valid full pathname.
+l6=list('open','file open',1,['','*.eps','*.pdf']); // answer, filter 
+// 
+l7=list('folder','choose a folder',1,['']); // answer, filter unused 
+L= list(l1,l2,l3,l4,l5,l6,l7);
+[Lres,L]=x_choices('Toggle Menu',L,%t);
+\end{mintednsp}
+
+\paragraph{Second example}
+
+\begin{mintednsp}{nsp}
+l1=list('combo','combo title',1,['choice 1','choice 2','choice 3']);
+// v8=[value,lower,upper,step_increment,page_increment,page_size,climb_rate,digits] 
+v8=[5,0,100,0.5,10,20,3,3];    
+l2=list('spin','double with spin',0,v8);// l(3) is unused
+l3=list('range','double with range',0,v8);// l(3) is unused
+L= list(l1,l2,l3);
+[Lres,L]=x_choices('Toggle Menu',L,%t);
+[Lres,L]=x_choices('Toggle Menu',L,%f);
+\end{mintednsp}
+
+\paragraph{Third example with a recursive call}
+
+\begin{mintednsp}{nsp}
+l1=list('combo','combo title',1,['choice 1','choice 2','choice 3']);
+// v8=[value,lower,upper,step_increment,page_increment,page_size,climb_rate,digits] 
+v8=[5,0,100,0.5,10,20,3,3];    
+l2=list('spin','double with spin',0,v8);// l(3) is unused
+l3=list('range','double with range',0,v8);// l(3) is unused
+L= list(l1,l2,l3);
+      
+l1=list('matrix','enter matrix',60,string(rand(6,2)));// l(3) is for entry size
+l2=list('button','New panel',0,L);
+L=list(l1,l2);
+[Lres,L]=x_choices('Toggle Menu',L,%t);
+\end{mintednsp}
+\end{examples}
+

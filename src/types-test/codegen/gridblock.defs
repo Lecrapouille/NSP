@@ -1,0 +1,21 @@
+;; -*- scheme -*-
+
+(register "graphic-types.defs")
+(register "block-types.defs")
+
+(define-objectref GridBlock
+  (in-module "Block")
+  (parent "Block")
+  (c-name "NspGridBlock")
+  (implements "GRint")
+  (fields
+   '("void*" "diagram" "hidden" "NULL"); a NspDiagram
+   )
+  (gtype-id "GridBlock")
+)
+
+(define-method edit
+  (of-object "GridBlock")
+  (c-name "gridblock_edit")
+  (return-type "int")
+  )

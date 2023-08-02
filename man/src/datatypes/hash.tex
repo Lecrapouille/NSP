@@ -1,0 +1,144 @@
+% -*- mode: latex -*-
+
+\mansection{hash tables}
+\begin{mandesc}
+  \short{Hash}{Hash table data type} \\
+  \short{hash}{create hash tables}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+L = hash_create(size,var1,...,varn,name1=val1,...)
+L = hash(size,var1,...,varn,name1=val1,...)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{size}: an integer, giving initial expected size of the hash table.
+    \vname{var1,...,varn}:  any nsp objects having a name. 
+    \vname{val1}: any nsp expression which evaluates to a nsp object.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+The \emph{hash} data type is useful to maintain a collection of objects 
+which can be accessed using their names as access key. A hash table
+could be created with the \verb+hash_create+ function (you can use
+either the shortly name +hash+).  
+Internally nsp hash tables are implemented as hash tables with open adressing. 
+They are dynamically resized according to the number of stored
+objects.
+
+\end{mandescription}
+
+\paragraph{Operations on hashs}
+\itemdesc{attributes}
+  \begin{varlist}
+    \vname{.__keys} return a string matrix containing all the keys present in the hash 
+    table.
+  \end{varlist}
+
+\itemdesc{methods}
+  \begin{varlist}
+  \vname{.delete[O1,...,On]}: delete the entries whose keys are present in the objects
+  \verb+O1,...,On+. \verb+Oi+ can be string matrices or hash tables. If \verb+Oi+ is 
+  a string matrix the keys are the entries of \verb+Oi+, if \verb+Oi+ is a hash table the 
+  keys are given by the hash table keys i.e \verb+Oi.__keys+.
+  \vname{.remove[O1,...,On]}: same as delete for compatibility with list.
+  \vname{.enter[var1,...,varn,name1=val1,...]}: enter new objects in the hash table with keys 
+  given by their names or by explicit naming (\verb+name=val+). Note that if some keys 
+  already preexist in the hash table, their value are replaced by new ones. 
+  \vname{.find[S1,...,Sn,def=obj]}: returns on the calling stack for each key given by the values of 
+  the string matrices \verb+S1,...,Sn+ the corresponding stored objet if present or an 
+  error if one key is not present in the hash table. Thus, this method returns a variable 
+  number of values. If an optional argument \verb+def+ is given, then its value will be 
+  returned as a default value for keys not found in the hash table.
+  \vname{.iskey[S1,...,Sn]}: returns on the calling stack for each given entry key a boolean 
+  which states if the given key is present or not in the hash table.
+  \vname{.merge[H]}: insert the entries of hash table \verb+H+ in the hash table object.
+  \end{varlist}
+
+\itemdesc{extraction, insertion, deletion}
+\begin{itemize}
+\item If \verb+key+ is a string \verb+H(key)+ returns the element of \verb+H+ given by \verb+key+. 
+  This is therefore equivalent to \verb+H.find[key]+. It is also possible to use 
+  the syntax \verb+H.name+ (Note that in that case name given the key name not an expression 
+  which evaluates to a string) 
+\item \verb+H(:)+ puts all the elements of \verb+H+ on the calling stack but as named 
+  optional arguments. Thus is can be usefull to pass a set of named options to a function. 
+  (\verb+H=hash_create(color=3,size=5)+ and \verb+f(70,H(:))+ is equivalent to 
+  \verb+f(70,color=3,size=5)+).
+\item \verb+H(key)=e+ or \verb+H.key=e+ insert the rhs value in the hash table with key name 
+  given by \verb+key+.
+\end{itemize}
+
+\itemdesc{Some functions}
+\begin{itemize}
+   \item \verb+length(H)+ return the number of objets stored in \verb+H+
+   \item \verb+size(H)+ return \verb+[m,n]+ where \verb+m+ stands for the number 
+     of objets stored in \verb+H+ and \verb+n+ is the size of internal size of 
+     the hash table.
+   \item \verb+l2h+ creates a hash table given a list an a string matrix.
+   \item \verb+h2l+ creates a list given a hash table an a string matrix givings the keys to extract.
+   \item \verb+s2h+ creates a hash table given a two column string matrix giving the keys in the first column and the string values in the second column.
+\end{itemize}
+
+\begin{examples}
+\begin{itemize}
+\item Basic operations.
+\begin{mintednsp}{nsp}
+ A = rand(4,4);
+ H = hash_create(5,A,B=34,C="foo"); 
+ // or shortly H = hash(5,A,B=34,C="foo");
+ H.delete['A',['B','C']];
+ H.enter[A,B='foo',C=3.56];
+ [a,b,c]=H.find['A',['B','C']]
+ [a,bc]=H.iskey['A',['B','C']]
+ H.merge[hash_create(P=89,Q=67)];
+ H.A = 56 
+ str = 'A'
+ H(str) = 45;
+\end{mintednsp}
+\item Using a hash table to provide optional named arguments.
+\begin{mintednsp}{nsp}
+ function y=f(a=1,b=2,c=3);y=[a,b,c];endfunction;
+ H = hash_create(a=67,b=45);
+ y=f(H(:));
+\end{mintednsp}
+\item Using method \verb+find+ to fill a cell or scalar matrix.
+\begin{mintednsp}{nsp}
+  H= hash_create(Cervin=4478, Eiger=3970, LesDrus=3754);
+  K= H.__keys;
+  n = size(K,'*');
+  // fill a cell with all the members of H
+  V=cell(0,0);
+  V{1,1:n}=H.find[K];
+  // fill a scalar matrix with all the hash table values 
+  V=ones(0,0);
+  V{1,1:n} = H.find[K];
+  // fills a list with all the hash table values 
+  L=list();
+  L(1:n)= H.find[K];
+\end{mintednsp}
+\item Using \verb+l2h+ and \verb+h2l+ and \verb+s2h+
+\begin{mintednsp}{nsp}
+  H= hash_create(Cervin=4478, Eiger=3970, LesDrus=3754);
+  L=h2l(H,['Cervin','LesDrus','LeGer']);
+\end{mintednsp}
+\begin{mintednsp}{nsp}
+  L=list(6,7,8);S=['item1','item2','item3'];
+  H=l2h(L,S);
+\end{mintednsp}
+\begin{mintednsp}{nsp}
+  S=['item1','key1';'item2','key2';'item3','key3'];
+  H=s2h(S);
+\end{mintednsp}
+\end{itemize}
+\end{examples}
+
+% -- Authors
+\begin{authors}
+  Jean-Philippe Chancelier
+\end{authors}

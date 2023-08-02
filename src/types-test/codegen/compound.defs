@@ -1,0 +1,19 @@
+;; -*- scheme -*-
+
+(include "compound-types.defs")
+
+;; overriden 
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_compound
+  (c-name "nsp_extractelts_compound")
+  (return-type "none")
+)
+(define-function setrowscols_compound
+  (c-name "nsp_setrowscols_compound")
+  (return-type "none")
+)
+
+
+

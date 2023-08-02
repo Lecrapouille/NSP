@@ -1,0 +1,21 @@
+
+make_scope_order.sci,33
+function make_scope_order(5,117
+
+return_capt.sci,20
+function txt=5,130
+
+return_dial_param.sci,20
+function txt=8,369
+
+return_size_dial.sci,20
+function txt=6,223
+
+return_size_scs_diagr2.sci,20
+function txt=6,169
+
+return_size_scs_diagr.sci,20
+function txt=9,391
+
+return_size_super.sci,20
+function txt=9,349

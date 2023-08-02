@@ -1,0 +1,456 @@
+? poo.txt
+Index: Makefile
+===================================================================
+RCS file: /u/cermics/m/stochopt/cvsroot/nsp2_dev/contribs/compilers/modelicac/Makefile,v
+retrieving revision 1.3
+diff -w -r1.3 Makefile
+75a76
+> CAML_BYT_LIBS=zarith.cma
+98c99
+< CAML_INCLUDES= -I src 
+---
+> CAML_INCLUDES= -I src -I +zarith
+Index: src/optimization.ml
+===================================================================
+RCS file: /u/cermics/m/stochopt/cvsroot/nsp2_dev/contribs/compilers/modelicac/src/optimization.ml,v
+retrieving revision 1.2
+diff -w -r1.2 optimization.ml
+26a27,39
+> (* emulate with Zarith *)
+> 
+> let power_num num num' = 
+>   let num = Q.num num
+>   and den = Q.den num
+>   and exp = (Q.to_int num') in 
+>   if Q.lt num' Q.zero then
+>     Q.make (Z.pow den (-exp)) (Z.pow num (-exp))
+>   else
+>     Q.make (Z.pow num exp) (Z.pow den exp)
+> 
+> let minus_num num =  Q.neg num
+> 
+152c165
+< let scaling_factor = Num.power_num (Num.Int 10) (Num.Int 16)
+---
+> let scaling_factor = power_num (Q.of_int 10) (Q.of_int  16)
+167,168c180,181
+<     let e' = Num.power_num (Num.Int 2) (Num.num_of_int e) in
+<     Num.div_num (Num.mult_num (Num.num_of_string s) e') scaling_factor
+---
+>     let e' = power_num (Q.of_int 2) (Q.of_int e) in
+>     Q.div (Q.mul (Q.of_string s) e') scaling_factor
+170c183
+<   if f = 0.0 then Num.Int 0
+---
+>   if f = 0.0 then Q.zero
+173c186
+<     Num.minus_num num
+---
+>     minus_num num
+834c847
+<           | Derivative (expr, num) when num = Num.Int 1 ->
+---
+>           | Derivative (expr, num) when num = Q.one ->
+1275,1276c1288,1290
+<                   | Number (Num.Int (-1)), Variable j |
+<                     Variable j, Number (Num.Int (-1)) ->
+---
+> 		| Number num, Variable j  
+>                 | Variable j, Number num  ->
+> 		      if Q.equal num Q.minus_one then 
+1281a1296
+> 		      else ()
+1302c1317
+<     if not (List.memq (symbolic_derive var (Num.Int 1)) ders) then begin
+---
+>     if not (List.memq (symbolic_derive var Q.one) ders) then begin
+Index: src/scicosCodeGeneration.ml
+===================================================================
+RCS file: /u/cermics/m/stochopt/cvsroot/nsp2_dev/contribs/compilers/modelicac/src/scicosCodeGeneration.ml,v
+retrieving revision 1.2
+diff -w -r1.2 scicosCodeGeneration.ml
+23c23
+< open Num
+---
+> (* open Num *)
+26a27
+> let floor_num num =  Q.of_bigint (Q.to_bigint num)  
+309a311,319
+> (* utilities *) 
+> 
+> let is_integer_num num = Q.equal (floor_num num) num 
+> 
+> let number_classify num =
+>   if is_integer_num num then
+>   ( if Q.lt num Q.zero then 12 else 14)
+>   else 11
+> 
+333c343
+<       | Multiplication _ | Number (Ratio _) -> 11
+---
+>       | Multiplication _ -> 11 
+342a353
+>       (* | Number (Ratio _) -> 11
+345c356,358
+<       | RationalPower (_, num) when eq_num num (Int (-1)) -> 11
+---
+>       *)
+>       | Number num -> number_classify num 
+>       | RationalPower (_, num) when Q.equal num Q.minus_one -> 11
+368c381
+<     | Derivative (expr', num') when num' = Num.Int 1 ->
+---
+>     | Derivative (expr', num') when num' = Q.one ->
+401c414
+<     | Number num -> bufferize_float (float_of_num num) model_info
+---
+>     | Number num -> bufferize_float (Q.to_float num) model_info
+527c540
+<               | Number num when lt_num num (Int 0) -> false
+---
+>               | Number num when Q.lt num Q.zero -> false
+533c546
+<                           | RationalPower (_, num) when lt_num num (Int 0) ->
+---
+>                           | RationalPower (_, num) when Q.lt num Q.zero ->
+541c554
+<                             | Number num when lt_num num (Int 0) -> false
+---
+>                             | Number num when Q.lt num Q.zero -> false
+565c578
+<             | RationalPower (expr'', num) when eq_num num (Int (-1)) &&
+---
+>             | RationalPower (expr'', num) when Q.equal num Q.minus_one &&
+576c589
+<               | Number (Int -1) ->
+---
+>               | Number num when Q.equal num Q.minus_one  ->
+612c625
+<       if eq_num num (Int (-1)) then begin
+---
+>       if Q.equal num Q.minus_one then begin
+620c633
+<         Printf.bprintf model_info.code_buffer ", %d)" (int_of_num num);
+---
+>         Printf.bprintf model_info.code_buffer ", %d)" (Q.to_int num);
+625c638
+<         bufferize_float (float_of_num num) model_info;
+---
+>         bufferize_float (Q.to_float num) model_info;
+800c813
+<                           (create_derivative (create_variable k) (Num.Int 1))
+---
+>                           (create_derivative (create_variable k) Q.one)
+859c872
+<                           (create_derivative (create_variable l) (Num.Int 1))
+---
+>                           (create_derivative (create_variable l) Q.one) 
+Index: src/symbolicExpression.ml
+===================================================================
+RCS file: /u/cermics/m/stochopt/cvsroot/nsp2_dev/contribs/compilers/modelicac/src/symbolicExpression.ml,v
+retrieving revision 1.2
+diff -w -r1.2 symbolicExpression.ml
+23c23
+< open Num;;
+---
+> (* open Num;; *)
+51c51
+<   | Derivative of t * num
+---
+>   | Derivative of t * Q.t
+66c66
+<   | Number of num
+---
+>   | Number of Q.t
+71c71
+<   | RationalPower of t * num
+---
+>   | RationalPower of t * Q.t
+300c300
+<     | Derivative (node', num') -> node1 == node' && eq_num num num'
+---
+>     | Derivative (node', num') -> node1 == node' && Q.equal num num'
+428c428
+<     | Number num' -> eq_num num' num
+---
+>     | Number num' -> Q.equal num' num
+495c495
+<         argumentNode == node1 && (eq_num num' num)
+---
+>         argumentNode == node1 && (Q.equal num' num)
+545,547c545,547
+< let zero_num = Int 0
+< let one_num = Int 1
+< let two_num = Int 2
+---
+> let zero_num = Q.zero 
+> let one_num = Q.one 
+> let two_num = Q.of_int  2
+549c549
+< let minus_one = NodeSet.find_or_add (Int (-1)) numberNodeSet
+---
+> let minus_one = NodeSet.find_or_add Q.minus_one numberNodeSet
+553,554c553,554
+< let ten = NodeSet.find_or_add (Int 10) numberNodeSet
+< let one_over_two = NodeSet.find_or_add (div_num (one_num) two_num) numberNodeSet
+---
+> let ten = NodeSet.find_or_add (Q.of_int 10) numberNodeSet
+> let one_over_two = NodeSet.find_or_add (Q.div (one_num) two_num) numberNodeSet
+556c556
+<   NodeSet.find_or_add (div_num (Int (-1)) two_num) numberNodeSet
+---
+> NodeSet.find_or_add (Q.div Q.minus_one two_num) numberNodeSet
+645,648c645,648
+< let create_number = function
+<   | Int 0 -> zero
+<   | Int 1 -> one
+<   | num -> NodeSet.find_or_add num numberNodeSet
+---
+> let create_number n = 
+>  if Q.equal n Q.zero then zero 
+>  else if Q.equal n Q.one then one 
+>  else NodeSet.find_or_add n numberNodeSet
+676a677,717
+> (*  utility *)
+> 
+> let floor_num num =  Q.of_bigint (Q.to_bigint num)
+> 
+> let is_integer_num num = Q.equal (floor_num num) num 
+> 
+> let succ_num num =
+>  if is_integer_num num then
+>    (Q.of_bigint (Z.succ (Q.to_bigint num)))
+>  else assert false
+>   
+> let pred_num num =
+>   if Q.equal num Q.zero then assert false
+>   else if is_integer_num num then
+>      (Q.of_bigint (Z.pred (Q.to_bigint num))) 
+>   else assert false
+> 
+> let minus_num num =  Q.neg num 
+> 
+> (* num' is checked to be an integer *) 
+> 
+> let power_num num num' = 
+>   let num = Q.num num
+>   and den = Q.den num
+>   and exp = (Q.to_int num') in 
+>   if Q.lt num' Q.zero then
+>     Q.make (Z.pow den (-exp)) (Z.pow num (-exp))  
+>   else
+>     Q.make (Z.pow num exp) (Z.pow den exp)
+>   
+> let mod_num num num' =
+>   let a = Q.to_bigint (Q.div num num') in
+>   Q.sub num (Q.mul (Q.of_bigint a) num')
+> 
+> let mult_num num num' = Q.mul num num'
+> 
+> let add_num num num' = Q.add num num'
+> 
+> let sign_num num = Q.sign num
+> 
+> let string_of_num num = Q.to_string num 
+740c781
+< and symbolic_derive node' num = match num with
+---
+> (* and symbolic_derive node' num = match num with
+744c785,791
+<   | _ -> assert false
+---
+>   | _ -> assert false *) 
+> 
+> and symbolic_derive node' num =
+>  if Q.equal num Q.zero then node'
+>  else if is_integer_num num && Q.gt num Q.zero then 
+>      symbolic_derive (symbolic_derivative node') ( pred_num num)
+>  else assert false
+804c851
+<     | Number num, Number num' -> create_booleanValue (eq_num num num')
+---
+>     | Number num, Number num' -> create_booleanValue (Q.equal num num')
+813c860
+<   | Number num, Number num' -> create_booleanValue (ge_num num num')
+---
+>   | Number num, Number num' -> create_booleanValue (Q.geq num num')
+817c864
+<   | Number num, Number num' -> create_booleanValue (gt_num num num')
+---
+>   | Number num, Number num' -> create_booleanValue (Q.gt num num')
+835c882
+<     | Number num -> create_number (div_num (one_num) num)
+---
+>     | Number num -> create_number (Q.div (one_num) num)
+940c987
+<   | Integer i -> symbolic_rationalPower node (num_of_int (Int32.to_int i))
+---
+>   | Integer i -> symbolic_rationalPower node (Q.of_int (Int32.to_int i))
+961c1008
+<   | Number num -> create_number (Int (sign_num num))
+---
+>   | Number num -> create_number (Q.of_int (sign_num num))
+1184a1232,1236
+> and number_classify num precedence =
+>   if is_integer_num num then
+>   ( if Q.lt num Q.zero then  75 else 1000)
+>   else precedence
+> 
+1203c1255,1256
+<     | Number (Ratio _) -> mult_precedence
+---
+>     | Number num -> number_classify num mult_precedence
+>     (* | Number (Ratio _) -> mult_precedence
+1205c1258
+<     | Number (Int _) | Number (Big_int _)  -> 1000
+---
+>     | Number (Int _) | Number (Big_int _)  -> 1000 *)
+1207c1260
+<     | RationalPower (_, num) when lt_num num zero_num -> mult_precedence
+---
+>     | RationalPower (_, num) when Q.lt num Q.zero -> mult_precedence
+1217c1270
+<             | Number num when lt_num num zero_num -> false
+---
+>             | Number num when Q.lt num Q.zero -> false
+1223c1276
+<                         | RationalPower (_, num) when lt_num num zero_num ->
+---
+>                         | RationalPower (_, num) when Q.lt num Q.zero ->
+1231c1284
+<                           | Number num when lt_num num zero_num -> false
+---
+>                           | Number num when Q.lt num Q.zero -> false
+1293c1346
+<           | Number (Ratio _ as num) ->
+---
+> 	  (* | Number (Ratio _ as num) ->
+1297c1350
+<             if eq_num numerator one_num then
+---
+>             if Q.equal numerator one_num then
+1302c1355,1366
+<           | RationalPower (node'', num) when eq_num num (Int (-1)) ->
+---
+>           *)
+>           | Number num ->
+> 	  if is_integer_num num then (node :: nodes), nodes'
+> 	  else
+> 	   let numerator = Q.num num
+> 	   and denominator = Q.den num in
+> 	   if Z.equal numerator Z.one then
+>  	    nodes, (create_number (Q.of_bigint denominator) :: nodes')
+> 	  else
+>             (create_number (Q.of_bigint numerator) :: nodes),
+>             (create_number (Q.of_bigint denominator) :: nodes')
+> 	  | RationalPower (node'', num) when Q.equal num Q.minus_one  ->
+1304c1368
+<           | RationalPower (node'', num) when lt_num num zero_num ->
+---
+>           | RationalPower (node'', num) when Q.lt num Q.zero ->
+1314c1378
+<               | Number (Int -1) ->
+---
+>               | Number num when Q.equal num Q.minus_one ->
+1347c1411
+<         let s = string_of_float (float_of_num num) in
+---
+>         let s = string_of_float (Q.to_float num) in
+1363c1427
+<     | RationalPower (node', num) when ge_num num zero_num ->
+---
+>     | RationalPower (node', num) when Q.geq num Q.zero ->
+1365,1367c1429,1431
+<         begin match num with
+<           | Int _ | Big_int _ -> output_string' (string_of_num num)
+<           | Ratio _ ->
+---
+>         if is_integer_num num then 
+> 	output_string' (string_of_num num)
+> 	else
+1370,1371c1434
+<         end
+<     | RationalPower (node', num) when eq_num num (Int (-1)) ->
+---
+>     | RationalPower (node', num) when Q.equal num Q.minus_one ->
+1376,1378c1439,1440
+<         begin match num with
+<           | Int _ | Big_int _ -> output_string' (string_of_num (minus_num num))
+<           | Ratio _ ->
+---
+> 	if is_integer_num num then  output_string' (string_of_num (minus_num num))
+> 	else
+1381d1442
+<         end
+1642c1703
+<     | Number num -> num <>/ zero_num
+---
+>     | Number num -> if Q.equal num Q.zero then false else true
+1700c1761
+<       when is_integer_num num && eq_num (mod_num num two_num) zero_num -> None
+---
+>       when is_integer_num num && Q.equal (mod_num num two_num) zero_num -> None
+1706c1767
+<           (symbolic_rationalPower right (one_num // num))
+---
+>           (symbolic_rationalPower right (Q.div one_num num)) (* was // *)
+Index: src/symbolicExpression.mli
+===================================================================
+RCS file: /u/cermics/m/stochopt/cvsroot/nsp2_dev/contribs/compilers/modelicac/src/symbolicExpression.mli,v
+retrieving revision 1.1
+diff -w -r1.1 symbolicExpression.mli
+27c27,29
+< open Num
+---
+> (* open Num *)
+> 
+> open Q
+49c51
+<     | Derivative of t * num
+---
+>     | Derivative of t * Q.t (* num *)
+64c66
+<     | Number of num
+---
+>     | Number of Q.t
+69c71
+<     | RationalPower of t * num
+---
+>     | RationalPower of t * Q.t
+209c211
+< val create_derivative: t -> num -> t
+---
+> val create_derivative: t -> Q.t -> t
+273c275
+< val create_number: num -> t
+---
+> val create_number: Q.t -> t
+295c297
+< val create_rationalPower: t -> num -> t
+---
+> val create_rationalPower: t -> Q.t -> t
+381c383
+< val symbolic_derive: t -> num -> t
+---
+> val symbolic_derive: t -> Q.t -> t
+507c509
+< val symbolic_rationalPower: t -> num -> t
+---
+> val symbolic_rationalPower: t -> Q.t -> t
+Index: src/xMLCodeGeneration.ml
+===================================================================
+RCS file: /u/cermics/m/stochopt/cvsroot/nsp2_dev/contribs/compilers/modelicac/src/xMLCodeGeneration.ml,v
+retrieving revision 1.2
+diff -w -r1.2 xMLCodeGeneration.ml
+192c192
+<     | SymbolicExpression.Derivative (expr, Num.Int 1) ->
+---
+>     | SymbolicExpression.Derivative (expr, num ) when Q.equal num Q.one ->
+256c256
+<         let s = Printf.sprintf "%.16g" (Num.float_of_num num) in
+---
+>         let s = Printf.sprintf "%.16g" (Q.to_float num) in
+296c296
+<           (Num.string_of_num num) in
+---
+>           (Q.to_string num) in

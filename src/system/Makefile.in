@@ -1,0 +1,60 @@
+SHELL = /bin/sh
+SCIDIR=../..
+SCIDIR1=..\..
+
+LIBRARY = nsp.a
+
+F_unix=	tcl/unix/tclCmdAZ.o \
+	tcl/unix/tclEnv.o \
+	tcl/unix/tclfiles.o \
+	tcl/unix/tclIOUtil.o \
+	tcl/unix/tclUnixFCmd.o \
+	tcl/unix/tclUnixFile.o \
+	tcl/unix/tclUnixInit.o \
+	tcl/unix/Tobedone.o \
+	tcl/unix/tclUtil.o 
+
+F_win= tcl/win/tclCmdAZ.o \
+	tcl/win/tclEnv.o \
+	tcl/win/tclfiles.o \
+	tcl/win/tclIOUtil.o \
+	tcl/win/tclUtil.o \
+	tcl/win/tclWinError.o \
+	tcl/win/tclWinFCmd.o \
+	tcl/win/tclWinFile.o \
+	tcl/win/tclWinInit.o \
+	tcl/win/Tobedone.o \
+	registry.o 
+
+OBJSC =  System-IN.o timer.o files.o realtime.o \
+	spawn.o regexp.o dstring.o $(F_@SYST_FILES@)
+
+tcl/@SYST_FILES@/%.o: 
+	@cd tcl/@SYST_FILES@ && $(MAKE) $*.o
+
+include ../../Makefile.incl
+
+CFLAGS = $(CC_OPTIONS) 
+
+include ../Make.lib
+
+timer.o: timer.c ../include/nsp/machine.h
+
+SUBDIRS = tcl/@SYST_FILES@
+
+SILENT=$(findstring -s,$(MFLAGS))
+DIR=
+
+clean distclean ::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making $@ in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) DIR=$(DIR)$$i/ $@ ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done

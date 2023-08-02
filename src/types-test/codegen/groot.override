@@ -1,0 +1,19 @@
+/* -*- Mode: C -*- */
+%%
+headers
+#include <nsp/objects.h> 
+#include <nsp/figuredata.h>
+#include <nsp/figure.h>
+
+%%
+init 
+
+Init portion 
+
+%%
+ignore-glob
+  *_get_type
+
+%%
+last
+

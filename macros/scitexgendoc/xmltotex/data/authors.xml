@@ -1,0 +1,1114 @@
+<DATA flag="auth">
+
+  <AUTHORS name='ABS_VALUE' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ABS_VALUEi' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ACTUATOR_f' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='AFFICH_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ANDBLK' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ANDLOG_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='AUTOMAT' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Actuator' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Assignment' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='AtanTF' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BACKLASH' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BITCLEAR' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BITSET' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BOUNCEXY' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BPLATFORM' type='XML'>
+    <AUTHOR name='M. Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BUSCREATOR' type='XML'>
+    <AUTHOR name='F. Nassif' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BUSIN_f' type='XML'>
+    <AUTHOR name='F. Nassif' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BUSOUT_f' type='XML'>
+    <AUTHOR name='F. Nassif' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BUSSELECTOR' type='XML'>
+    <AUTHOR name='F. Nassif' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='BUSSPLIT' type='XML'>
+    <AUTHOR name='F. Nassif' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CANIMXY' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CANIMXY3D' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA' >      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CBLOCK' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CBLOCK4' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CCS' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CEVENTSCOPE' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CFSCOPE' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLINDUMMY_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLKFROM' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLKGOTO' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLKGotoTagVisibility' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLKINV_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLKOUTV_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLKSOMV_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLOCK_c' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLOCK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLR_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CLSS_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CMAT3D' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CMATVIEW' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CMSCOPE' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CONSTRAINT2_c' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CONSTRAINT_c' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CONST_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CONST_m' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CONVERT' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='COSBLK_f' type='XML'>
+  </AUTHORS>
+
+  <AUTHORS name='CSCOPE' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CSCOPXY' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CSCOPXY3D' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Benoit Bayol' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CUMSUM' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CURVE_c' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CURV_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CVS' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='C_macros' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='C_struct' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='C_utils' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='CodeGeneration' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Constant' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Context' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Counter' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DEADBAND' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DEBUG_SCICOS' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DEMUX' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+
+  <AUTHORS name='DERIV' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DFLIPFLOP' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DIFF_c' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DLATCH' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DLR_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DLSS_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DOLLAR_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='DOLLAR_m' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ENDBLK' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='END_c' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ESELECT_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EVTDLY' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EVTDLY_c' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EVTDLY_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EVTGEN_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EVTVARDLY' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EXPBLK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EXPRESSION' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EXTRACT' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EXTRACTBITS' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EXTRACTOR' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='EXTTRI' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='FROM' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='FROMMO' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='FROMWSB' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='FROMWS_c' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Feedback' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='FirstOrder' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ForIterator' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GAINBLK' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GAINBLK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GENSIN_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GENSQR_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GEN_SQR' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GOTO' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GOTOMO' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Gain' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GotoTagVisibility' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='GotoTagVisibilityMO' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Ground_g' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Gyrator' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='HALT_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='HYSTHERESIS' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='IFTHEL_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='INIMPL_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='INTEGRAL' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='INTEGRAL_m' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='INTMUL' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='INTRP2BLK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='INTRPLBLK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='INVBLK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='IN_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ISELECT_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='IdealTransformer' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Iterators_pal' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='JKFLIPFLOP' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='LOGBLK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='LOGIC' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='LOGICAL_OP' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='LOOKUP2D' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='LOOKUP_c' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='LOOKUP_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Limiter' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Loop_Breaker' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Lorentz_diagr' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATBKSL' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATCATH' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATCATV' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATDET' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATDIAG' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATDIV' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATEIG' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATEXPM' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATINV' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATLU' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATMAGPHI' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATMUL' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATPINV' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATRESH' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATSING' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATSUM' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATTRAN' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATZCONJ' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MATZREIM' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MAXMIN' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MBLOCK' type='XML'>
+    <AUTHOR name='M. Najafi/A. Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MPBLOCK' type='XML'>
+    <AUTHOR name='M. Najafi/A. Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='MUX' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='M_SWITCH' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='M_freq' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ModelicaBlocks' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Modulo_Count' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Multiwindow' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='NEGTOPOS_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='NMOS' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='NPN' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='NRMSOM_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='OUTIMPL_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='OUT_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='OpAmp' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PAL_f' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PDE' type='XML'>
+    <AUTHOR name='EADS 2005-01-16' affiliation='EADS'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PENDULUM_ANIM' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PI' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PID' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PID2' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PMOS' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PNP' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='POSTONEG_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='POWBLK_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PRODUCT' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PROD_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PT1' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='PULSE_SC' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='QUANT_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RAMP' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RAND_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RAND_m' type='XML'>
+    <AUTHOR name='Fady Nassif' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RATELIMITER' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='READAU_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='READC_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='REGISTER' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='REGISTER_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RELATIONALOP' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RELAY_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RAUTHORS_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='RICC' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ROOTCOEF' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SAMPHOLD_m' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SAMPLEHOLD_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SATURATION' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SAWTOOTH_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SCALAR2VECTOR' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SELECT_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SELECT_m' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SENSOR_f' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SHIFT' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SIGNUM' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SQRT' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SRFLIPFLOP' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='STEP_FUNCTION' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SUBMAT' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SUMMATION' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SUM_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SUPER_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SWITCH2' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SWITCH2_m' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SWITCH2_s' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SWITCH_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SampleCLK' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SecondOrder' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Sensor' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SetString' type='XML'>
+    <AUTHOR name='Alan Layec'>	METALAU Project-Team      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Setup_Scicos' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'>      </AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Sigbuilder' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Sine' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SineTF' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SineVoltage' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='Switch' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='SyncTag' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='TCLSS_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='TEXT_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='TIME_DELAY' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='TIME_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='TKSCALE' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='TOWS_c' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='TanTF' type='XML'>
+    <AUTHOR url='www.modelica.org' ></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='VARIABLE_DELAY' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='VirtualCLK0' type='XML'>
+    <AUTHOR name='Fady NASSIF' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='WAUTHORS_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='WRITEAU_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='WRITEC_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='WhileIterator' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='ZCROSS_f' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='block_type' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='buildouttb' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='c_block' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='callblk' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='coserror' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='create_gif' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='create_palette' type='XML'>
+    <AUTHOR name='RN/AL' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='curblock' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='data2sig' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='data_type' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='fortran_block' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='freq_div' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='generic_block2' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='generic_block3' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='get_scicos_version' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='getscicosparam' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='getscicosvars' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='iGUI' type='XML'>
+    <AUTHOR name='Masoud Najafi' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='lincos' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='model2blk' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='sci_struct' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='scicos_block4_rout' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='scicos_codegeneration' type='XML'>
+    <AUTHOR name='A.Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='scicos_debug' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='scicos_simulate' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='scicosim' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='scifunc_block5' type='XML'>
+    <AUTHOR name='Scicos Team' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='set_blockerror' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='setscicosparam' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='sig2data' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='steadycos' type='XML'>
+    <AUTHOR name='Ramine Nikoukhah' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+  <AUTHORS name='use_flag' type='XML'>
+    <AUTHOR name='Alan Layec' affiliation='INRIA'></AUTHOR>
+  </AUTHORS>
+
+</DATA>

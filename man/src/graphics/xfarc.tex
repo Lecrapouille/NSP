@@ -1,0 +1,67 @@
+% -*- mode: latex -*-
+\mansection{xfarc}
+\begin{mandesc}
+  \short{xfarc}{fill a part of an ellipse}\\ % @mandesc@
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  A=xfarc(x,y,w,h,a1,a2,options=value)
+  A=xfarc(arc,options=value)
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{x,y,w,h}: four real values defining a rectangle.
+    \vname{a1,a2}: real values defining a sector.
+    \vname{arc}: a vector of size \verb!6! 
+    \vname{background, color, thickness}: optional arguments.
+    \vname{A}: a graphical rectangle object.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  \verb!xfarc! fills a part of an ellipse contained in the rectangle 
+  \verb!(x,y,w,h)!
+  (upper-left point, width, height), and in the sector defined by 
+  the angle \verb!alpha1! and the angle \verb!alpha1+alpha2!. 
+  \verb!alpha1! and \verb!alpha2! are 
+  given respectively by \verb!a1/64! degrees and \verb!a2/64! degrees.
+  This function uses the current color and graphics scale.
+
+  The color and thickness of drawing line can be given by optional arguments
+  \verb!color! and \verb!thickness!. If optional \verb!background!
+  argument is given it is used as color to fill the rectangle.
+
+  If \verb!color! is positive it gives the color to be used for drawing,
+  if \verb!color=-1! the default color is used, if  \verb!color=-2! the
+  rectangle is not drawn.
+
+  If \verb!background! is positive it gives the color to be used for filling,
+  if \verb!background=-1! the default filling color is used,
+  if  \verb!background=-2! the rectangle is not filled.
+  
+\end{mandescription}
+
+%--example
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    xsetech(frect=[-2,-2,2,2],iso=%t,axesflag=0);
+    xfarc(-1,1,2,2,0,90*64,background=7,color=3);
+    xarc(-1.5,1.5,3,3,0,360*64)
+  \end{mintednsp}
+\end{examples}
+
+%-- see also
+\begin{manseealso}
+  \manlink{xarc}{xarc} \manlink{xarcs}{xarcs} \manlink{xfarcs}{xfarcs} 
+\end{manseealso}
+
+%-- Author
+
+\begin{authors}
+  J.Ph.C.;   
+
+\end{authors}
+

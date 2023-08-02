@@ -1,0 +1,488 @@
+/* -*- Mode: C -*- */
+%%
+include-start LinearSys
+
+%%
+include-public LinearSys
+
+/* inserted at the end of public part of include file
+ */
+extern NspObject *nsp_linearsys_get_D(  NspLinearSys *sys);
+
+%%
+include-private LinearSys
+
+/* inserted in the private part of include file
+ */
+
+%%
+headers
+#include <nsp/objects.h>
+#include <nsp/pmatrix.h>
+
+%%
+init 
+
+/ * init code  * /
+
+%%
+modulename atk
+/* %%  import gobject.GObject as GObject */
+
+%%
+ignore-glob
+  *_get_type
+
+%%
+override-size LinearSys
+
+static int nsp_linearsys_size(NspLinearSys *Mat, int flag)
+{
+  switch (flag )
+    {
+    case 0: return Mat->C->m*Mat->B->n;break;
+    case 1: return Mat->C->m;break;
+    case 2: return Mat->B->n;break;
+    case 3: return Mat->A->m;break;
+    }
+  return 0;
+}
+
+%%
+override-type-as-string LinearSys
+
+static char linearsys_type_name[]="LinearSys";
+static char linearsys_short_type_name[]="linearsys";
+
+static char *nsp_linearsys_type_as_string(void)
+{
+  return(linearsys_type_name);
+}
+
+static char *nsp_linearsys_type_short_string(NspObject *v)
+{
+  return(linearsys_short_type_name);
+}
+
+%%
+override-int-create-final LinearSys
+  /* verbatim in create/load/full_copy interface use %(ret)s for returned value */
+%%
+override-destroy-prelim  LinearSys
+  /* verbatim in destroy */
+
+%%
+override-attr LinearSys.A
+
+static NspObject *_wrap_linearsys_get_A(void *self,const char *attr)
+{
+  /* O */
+  NspMatrix *ret;
+  ret = ((NspLinearSys *) self)->A;
+  return (NspObject *) ret;
+}
+
+static NspObject *_wrap_linearsys_get_obj_A(void *self,const char *attr, int *copy)
+{
+  NspMatrix *ret;
+  *copy = FALSE;
+  ret = ((NspMatrix*) ((NspLinearSys *) self)->A);
+  return (NspObject *) ret;
+}
+
+static int _wrap_linearsys_set_A(void *self, char *attr, NspObject *O)
+{
+  NspMatrix *A = (NspMatrix *) O;
+  NspMatrix *As = ((NspLinearSys *) self)->A;
+  if ( As == A)
+    {
+      /* cheking this case avoid a crash because we should not 
+       * free A matrix in this case 
+       */
+      return OK;
+    }
+  if ( ! IsMat(O) ) return FAIL;
+  if ( As->m != A->m || As->n != A->n)
+    {
+      Scierror("Error: attribute A should be a %dx%d matrix\n",As->m,As->n);
+      return FAIL;
+    }
+  if (( A = (NspMatrix *) nsp_object_copy_and_name(attr,O)) == NULL) return FAIL;
+  if ( As != NULL ) nsp_matrix_destroy(As);
+  ((NspLinearSys *) self)->A= A;
+  return OK;
+}
+
+%%
+override-attr LinearSys.D
+
+/* always a polynomial */
+
+static NspObject *_wrap_linearsys_get_D(void *self,const char *attr)
+{
+  /* O */
+  NspPMatrix *ret;
+  ret = ((NspLinearSys *) self)->D;
+  return (NspObject *) ret;
+}
+
+static NspObject *_wrap_linearsys_get_obj_D(void *self,const char *attr, int *copy)
+{
+  NspMatrix *ret;
+  *copy = FALSE;
+  ret = ((NspMatrix*) ((NspLinearSys *) self)->D);
+  return (NspObject *) ret;
+}
+
+static int _wrap_linearsys_set_D(void *self, char *attr, NspObject *O)
+{
+  NspLinearSys *sys = self;
+  NspPMatrix *D = (NspPMatrix *) O;
+  NspPMatrix *Ds = ((NspLinearSys *) self)->D;
+
+  if ( Ds ==  D)
+    {
+      /* cheking this case avoid a crash because we should not 
+       * free A matrix in this case 
+       */
+      return OK;
+    }
+  if ( IsMat(O) )
+    {
+      NspMatrix *Dm=(NspMatrix *) D;
+      if ( Dm->m != Ds->m || Dm->n != Ds->n)
+	{
+	  Scierror("Error: attribute D should be a %dx%d matrix\n",Ds->m,Ds->n);
+	  return FAIL;
+	}
+      if (( D=nsp_matrix_to_pmatrix(Dm))== NULLPMAT) return RET_BUG;
+      switch ( sys->dom[0] )
+	{
+	case 'c': nsp_pmatrix_set_varname(D,"s");break;
+	case 'd': nsp_pmatrix_set_varname(D,"z");break;
+	case 's': nsp_pmatrix_set_varname(D,"z");break;
+	case 'u': nsp_pmatrix_set_varname(D,"s");break;
+	}
+      if ( nsp_object_set_name(NSP_OBJECT(D),"D") == FAIL)
+	return FAIL;
+    }
+  else if ( IsPMat(O) )
+    {
+      if ( Ds->m != D->m || Ds->n != D->n)
+	{
+	  Scierror("Error: attribute D should be a %dx%d matrix\n",Ds->m,Ds->n);
+	  return FAIL;
+	}
+      if (( D = (NspPMatrix *) nsp_object_copy_and_name(attr,O)) == NULL) return FAIL;
+    }
+  else
+    {
+      Scierror("Error: object should be a matrix or a polynomial matrix");
+      return FAIL;
+    }
+  if ( Ds != NULL ) nsp_pmatrix_destroy(Ds);
+  ((NspLinearSys *) self)->D= D;
+  return OK;
+}
+
+%%
+override-attr LinearSys.B
+
+static NspObject *_wrap_linearsys_get_B(void *self,const char *attr)
+{
+  NspMatrix *ret;
+  ret = ((NspLinearSys *) self)->B;
+  return (NspObject *) ret;
+}
+
+static NspObject *_wrap_linearsys_get_obj_B(void *self,const char *attr, int *copy)
+{
+  NspMatrix *ret;
+  *copy = FALSE;
+  ret = ((NspMatrix*) ((NspLinearSys *) self)->B);
+  return (NspObject *) ret;
+}
+
+static int _wrap_linearsys_set_B(void *self,const char *attr, NspObject *O)
+{
+  NspMatrix *B = (NspMatrix *) O;
+  NspMatrix *Bs = ((NspLinearSys *) self)->B;
+  
+  if ( Bs ==  B)
+    {
+      /* cheking this case avoid a crash because we should not 
+       * free A matrix in this case 
+       */
+      return OK;
+    }
+  if ( ! IsMat(O) ) return FAIL;
+  if ((B = (NspMatrix *) nsp_object_copy_and_name(attr,O)) == NULLMAT) return FAIL;
+  if ( Bs != NULL ) nsp_matrix_destroy(Bs);
+  ((NspLinearSys *) self)->B= B;
+  return OK;
+}
+
+%%
+override-attr LinearSys.C
+
+static NspObject *_wrap_linearsys_get_C(void *self,const char *attr)
+{
+  NspMatrix *ret;
+  ret = ((NspLinearSys *) self)->C;
+  return (NspObject *) ret;
+}
+
+static NspObject *_wrap_linearsys_get_obj_C(void *self,const char *attr, int *copy)
+{
+  NspMatrix *ret;
+  *copy = FALSE;
+  ret = ((NspMatrix*) ((NspLinearSys *) self)->C);
+  return (NspObject *) ret;
+}
+
+static int _wrap_linearsys_set_C(void *self,const char *attr, NspObject *O)
+{
+  NspMatrix *C = (NspMatrix *) O;
+  NspMatrix *Cs = ((NspLinearSys *) self)->C;
+  
+  if ( Cs ==  C)
+    {
+      /* cheking this case avoid a crash because we should not 
+       * free A matrix in this case 
+       */
+      return OK;
+    }
+  
+  if ( ! IsMat(O) ) return FAIL;
+  if ((C = (NspMatrix *) nsp_object_copy_and_name(attr,O)) == NULLMAT) return FAIL;
+  if ( Cs != NULL )  nsp_matrix_destroy(Cs);
+  ((NspLinearSys *) self)->C= C;
+  return OK;
+}
+
+%%
+override-intcreate LinearSys
+
+int int_linearsys_create(Stack stack, int rhs, int opt, int lhs)
+{
+  NspLinearSys *Lss;
+  char *dom = "c", *dom1;
+  double sample = 1;
+  NspMatrix *A, *B, *C, *X0;
+  NspObject *D;
+  NspPMatrix *Dp=NULL;
+  int_types T[] = {mat,mat,mat,obj,mat,new_opts, t_end} ;
+  nsp_option opts[] ={{ "dom", string,NULLOBJ,-1},
+		      { "sample",s_double,NULLOBJ,-1},
+		      { NULL,t_end,NULLOBJ,-1}};
+  if ( GetArgs(stack,rhs,opt,T,&A,&B,&C,&D,&X0,&opts,&dom,&sample) == FAIL)
+    return RET_BUG;
+  if (! ( strcmp(dom,"c") == 0 ||  strcmp(dom,"d") == 0 ||strcmp(dom,"s") == 0 ||  strcmp(dom,"u") == 0 ))
+    {
+      Scierror("Error: dom should be \"c\", \"d\", \"s\" or \"u\"");
+      return RET_BUG;
+    }
+  if ( strcmp(dom,"s") == 0 && sample <= 0)
+    {
+      Scierror("Error: when dom is \"s\" sample must be positive");
+      return RET_BUG;
+    }
+  
+  if ( A->m != A->n )
+    {
+      Scierror("Error: A should be square");
+      return RET_BUG;
+    }
+  if ( B->m != A->m)
+    {
+      Scierror("Error: B number of rows, %d, is incompatible with A size %dx%d",B->m,A->m,A->m);
+      return RET_BUG;
+      
+    }
+  if ( C->n != A->m)
+    {
+      Scierror("Error: C number of columns, %d, is incompatible with A size %dx%d",C->n,A->m,A->m);
+      return RET_BUG;
+    }
+  if ( IsMat(D)) 
+    {
+      NspMatrix *Dm=(NspMatrix *) D;
+      if ( C->m*B->n != 0 && ( Dm->m != C->m || Dm->n != B->n))
+	{
+	  Scierror("Error: D should be %dx%d", C->m,B->n);
+	  return RET_BUG;
+	}
+      if (( Dp=nsp_matrix_to_pmatrix(Dm))== NULLPMAT) return RET_BUG;
+      
+      switch ( dom[0] )
+	{
+	case 'c': nsp_pmatrix_set_varname(Dp,"s");break;
+	case 'd': nsp_pmatrix_set_varname(Dp,"z");break;
+	case 's': nsp_pmatrix_set_varname(Dp,"z");break;
+	case 'u': nsp_pmatrix_set_varname(Dp,"s");break;
+	}
+      if ( nsp_object_set_name(NSP_OBJECT(Dp),"D") == FAIL)
+	return RET_BUG;
+    }
+  else if ( IsPMat(D))
+    {
+      if (( Dp =  (NspPMatrix *)nsp_object_copy_and_name("D",NSP_OBJECT(D)) )== NULL) return RET_BUG;
+    }
+  if ( ! (( X0->m == A->m && X0->n == 1) || (X0->mn == 0)))
+    {
+      Scierror("Error: X0 should be %dx%d",A->m,1);
+      return RET_BUG;
+    }
+  if (( dom1 = nsp_string_copy(dom)) == NULL) return RET_BUG;
+  if (( A = (NspMatrix *) nsp_object_copy_and_name("A",NSP_OBJECT(A))) == NULL) return RET_BUG;
+  if (( B = (NspMatrix *) nsp_object_copy_and_name("B",NSP_OBJECT(B))) == NULL) return RET_BUG;
+  if (( C = (NspMatrix *) nsp_object_copy_and_name("C",NSP_OBJECT(C))) == NULL) return RET_BUG;
+  if (( X0 = (NspMatrix *)nsp_object_copy_and_name("X0",NSP_OBJECT(X0))) == NULL) return RET_BUG;
+  if ( Dp->mn != 0 && C->mn == 0) C->m = Dp->m;
+  if ( Dp->mn != 0 && B->mn == 0) B->n = Dp->n;
+  
+  Lss= nsp_linearsys_create(NVOID,A,B,C,Dp,X0,dom1,sample,NULL);
+  if ( Lss == NULL) return RET_BUG;
+  MoveObj(stack,1,NSP_OBJECT(Lss));
+  return Max(lhs,1);
+}
+
+%%
+override extractelts_linearsys
+
+/* compatibility with scicoslab */
+
+int _wrap_extractelts_linearsys(Stack stack, int rhs, int opt, int lhs) /* extractelts_linearsys */
+{
+  NspMatrix *M;
+  NspLinearSys *sys;
+  int ind;
+  NspObject *obj=NULL;
+    CheckRhs(2,2);
+  if ((sys = GetLinearSys(stack,1)) == NULL) return RET_BUG;
+  if (GetScalarInt (stack, 2, &ind) == FAIL) return RET_BUG;
+  switch ( ind )
+    {
+    case 2: /* A */ if ((obj = nsp_object_copy(NSP_OBJECT(sys->A)))== NULL) return RET_BUG;break;
+    case 3: /* B */ if ((obj = nsp_object_copy(NSP_OBJECT(sys->B)))== NULL) return RET_BUG;break;
+    case 4: /* C */ if ((obj = nsp_object_copy(NSP_OBJECT(sys->C)))== NULL) return RET_BUG;break;
+    case 5: /* D */ if ((obj = nsp_linearsys_get_D(sys))== NULL) return RET_BUG;break;
+    case 6: /* X */ if ((obj = nsp_object_copy(NSP_OBJECT(sys->X0)))== NULL) return RET_BUG;break;
+    case 7: /* dom*/
+      switch ( sys->dom[0] )
+	{
+	case 'c':
+	case 'd':
+	  if ( nsp_move_string(stack,1,sys->dom,-1) == FAIL) return RET_BUG; break;
+	case 's':
+	  if ( nsp_move_double(stack,1,sys->dt) == FAIL) return RET_BUG; break;
+	case 'u':
+	  if ((M= nsp_matrix_create(NVOID,'r',0,0)) == NULL) return RET_BUG;
+	  MoveObj(stack,1,NSP_OBJECT(M));
+	  break;
+	}
+      return Max(lhs,1);
+    case 8:
+      if ( nsp_move_double(stack,1,sys->dt) == FAIL) return RET_BUG; break;
+      return Max(lhs,1);
+    default:
+      Scierror("Error: cannot extract element %d\n",ind);
+      return RET_BUG;
+    }
+  MoveObj(stack,1,NSP_OBJECT(obj));
+  return Max(lhs,1);
+}
+
+
+%%
+override size_linearsys
+
+extern int int_object_size(Stack stack, int rhs, int opt, int lhs);
+
+int _wrap_size_linearsys(Stack stack, int rhs, int opt, int lhs)
+{
+  NspObject *O1,*O2,*O3;
+  CheckRhs(1,2);
+  CheckLhs(1,3);
+  if ( lhs != 3 )
+    {
+      return int_object_size(stack,rhs,opt,lhs);
+    }
+  else
+    {
+      if (( O1 =nsp_create_object_from_int(NVOID,nsp_object_get_size(NthObj(1),1))) == NULLOBJ )
+	return RET_BUG;
+      if (( O2 =nsp_create_object_from_int(NVOID,nsp_object_get_size(NthObj(1),2))) == NULLOBJ )
+	return RET_BUG;
+      if (( O3 =nsp_create_object_from_int(NVOID,nsp_object_get_size(NthObj(1),3))) == NULLOBJ )
+	return RET_BUG;
+      MoveObj(stack,1,O1);
+      MoveObj(stack,2,O2);
+      MoveObj(stack,3,O3);
+    }
+  return Max(lhs,1);
+}
+
+
+%%
+override abcd_linearsys
+
+int _wrap_abcd_linearsys(Stack stack, int rhs, int opt, int lhs)
+{
+  NspObject *A,*B,*C,*D;
+  NspLinearSys *sys;
+  CheckRhs(1,1);
+  CheckLhs(1,4);
+  if ((sys = GetLinearSys(stack,1)) == NULL) return RET_BUG;
+  if ((A = nsp_object_copy((NspObject *) sys->A)) == NULL) return RET_BUG;
+  if ( lhs >=2)
+    {
+      if ((B = nsp_object_copy((NspObject *) sys->B)) == NULL) return RET_BUG;
+    }
+  if ( lhs >= 3)
+    {
+      if ((C = nsp_object_copy((NspObject *) sys->C)) == NULL) return RET_BUG;
+    }
+  if ( lhs >= 4)
+    {
+      if ((D = nsp_linearsys_get_D(sys)) == NULL) return RET_BUG;
+    }
+  MoveObj(stack,1,NSP_OBJECT(A));
+  if ( lhs >= 2)  MoveObj(stack,2,NSP_OBJECT(B));
+  if ( lhs >= 3)  MoveObj(stack,3,NSP_OBJECT(C));
+  if ( lhs >= 4)  MoveObj(stack,4,NSP_OBJECT(D));
+  return Max(lhs,1);
+}
+
+%%
+last
+
+/* When D is a zero degree polynomial return a Matrix 
+ * else returns a PMatrix which are copies of D
+ */
+
+NspObject *nsp_linearsys_get_D(  NspLinearSys *sys)
+{
+  NspObject *D;
+  int i,maxd=0;
+  for ( i = 0 ; i < sys->D->mn ; i++ ) 
+    {
+      if ( Max(sys->D->S[i]->mn -1,0) > maxd)
+	maxd = Max(sys->D->S[i]->mn -1,0);
+    }
+  if (maxd == 0)
+    {
+      /* if degree is zero returns a matrix */
+      if ((D= (NspObject *) nsp_matrix_create(NVOID,'r',sys->D->m,sys->D->n)) == NULL)
+	return NULL;
+      for ( i = 0 ; i < sys->D->mn ; i++ )
+	{
+	  ((NspMatrix *)D)->R[i]= sys->D->S[i]->R[0];
+	}
+    }
+  else
+    {
+      if ((D = nsp_object_copy((NspObject *) sys->D)) == NULL) return NULL;
+    }
+  return D;
+}

@@ -1,0 +1,199 @@
+% -*- mode: latex -*-
+
+\mansection{derivative}
+\begin{mandesc}
+  \short{derivative}{approximation of first and second derivatives of a function}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+Ja = derivative(F,x)
+[Ja,Ha] = derivative(F,x)
+[Ja,Ha] = derivative(F,x, h=stepsize, order=1|2|4, args=Fpar, Q=dir)
+\end{verbatim}
+\end{calling_sequence}
+
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{F}: nsp function
+    \vname{x}: column vector
+    \vname{h}: optional named argument, stepsize of finite difference approximation
+    \vname{order}: optional named argument, order of the finite difference formula (default is 2)
+    \vname{args}: optional named argument, useful to pass additional parameters needed by the function F.
+    \vname{Q}: optional named argument, an orthonormal matrix (default is the identity matrix)
+    \vname{Ja}: approximate Jacobian of F at x
+    \vname{Ha}: approximate Hessean of F at x
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+
+This function computes an approximation of the Jacobian matrix of a numerical
+function $F$ (and optionaly its Hessean) at a point \verb+x+. \verb+x+
+can be a simple scalar or a column vector and \verb+F+ should return a 
+scalar or a column vector, that is: 
+$$
+    F: \left\{\begin{array}{l} R^m \rightarrow R^n  \\ 
+                               x \longmapsto F(x) 
+              \end{array} \right.
+$$
+And:
+$$
+    Ja \simeq J_F(x) = \left[ \frac{\partial F_i}{\partial x_j}(x)  
+                      \right]_{\begin{array}{l}1 \le i \le n\\1\le j
+                          \le m \end{array}}
+$$
+The approximate Hessian is given as a $(n \times m) \times m$ array
+with the $m \times m$ Hessian matrices of each component of $F$
+stacked by row:
+$$
+   Ha  \simeq H_F(x) = \left[ \begin{array}{c} H_{F_1}(x) \\ \hline \\ \dots
+     \\ \hline \\  H_{F_n}(x) \end{array} \right] \;\; \mbox{ with }
+   H_{F_k}(x) =  \left[  \frac{\partial^2 F_k}{\partial x_i \partial x_j}(x)   
+                \right]_{\begin{array}{l}1 \le i \le m\\1\le j
+                          \le m \end{array}}
+$$
+
+\itemdesc{Q argument}
+By default the derivatives are computed using directionnal derivatives
+with the canonical base vectors of $R^m$ as directions
+but any orthonormal base could be used instead. When \verb+Q+ is
+provided then the direction used are its columns.
+
+\itemdesc{usefulness}
+This function could be helpful within numerical algorithms involving
+first or second derivatives of a function (like solving $f(x)=0$
+or minimizing $f(x)$). First, instead of providing exact derivatives
+you can approximate its with this function. Second if you write a
+nsp function to compute exact derivatives you can verify it
+by comparing with the output of \verb+derivative+ on several points.
+
+\itemdesc{remark}
+Numerical approximation of derivatives is generally an unstable process.  
+The step size $h$ must be small to get a low error but if it is too small floating  
+point errors will dominate by cancellation. The default step size
+(which depends on the formula order) is adapted in most usual cases 
+but could not optimal in others, for instance if some component of $x$
+are big (in this case try something like \verb+h=sqrt(%eps)*norm(x)+). 
+You can also play with the formula order and/or
+using random orthogonal matrices Q (\verb+Q = qr(rand(m,m))+)
+
+\itemdesc{passing supplementary arguments to F}
+Additional parameters for the function $f$ could be passed using the
+named optional argument \verb+args=Fpar+  where \verb+Fpar+ is a 
+cell array with the additional parameters of $F$ : if $F$ is of the form 
+\verb+function z=F(x,p1,p2,...,pn)+ then \verb+args={p1,p2,...,pn}+. 
+Note that if $f$ has only one additional parameter it is not mandatory 
+to encapsulate it in a cell array (except when the parameter is it 
+self a cell array !). The additional parameters could be any nsp object.
+See example 3 (see also \manlink{intg}{intg} example section).
+
+\end{mandescription}
+
+\begin{examples}
+  
+\paragraph{example 1} a simple example with $f(x)=cos(x)exp(-x)$
+\begin{mintednsp}{nsp}
+function y=f(x);y=cos(x)*exp(-x);endfunction
+
+function y=df(x);y=-(sin(x)+cos(x))*exp(-x);endfunction
+
+function y=d2f(x);y=2*sin(x)*exp(-x);endfunction
+
+x = 0.5 
+
+// compute approximation of f'(x) and f''(x) 
+[ypa, yppa] = derivative(f,x) 
+
+// compute exact values 
+yp = df(x) 
+ypp = d2f(x) 
+
+// compute errors 
+abs((ypa-yp)/yp) 
+abs((yppa-ypp)/ypp) 
+
+// the same using formula of order 1 
+[ypa, yppa] = derivative(f,x,order=1) 
+
+// compute errors 
+abs((ypa-yp)/yp) 
+abs((yppa-ypp)/ypp) 
+
+// the same using formula of order 4 
+[ypa, yppa] = derivative(f,x,order=4) 
+
+// compute errors 
+abs((ypa-yp)/yp) 
+abs((yppa-ypp)/ypp)
+\end{mintednsp}
+
+\paragraph{example 2} a more complicated function:
+$$f(x,y,z) = \frac{\cos(x) z}{1+y^2} + e^{-x^2} y^3 (2z^2-1)$$.
+In the following we note $X = [x,y,z]^{\top}$:
+\begin{mintednsp}{nsp}
+function v = f(X)
+   v = cos(X(1))/(1+X(2)^2)*X(3) + exp(-X(1)^2)*X(2)^3*(2*X(3)^2-1)
+endfunction
+
+// a function providing the exact gradient and hessian: 
+function [J,H] = df(X)
+   x = X(1); y = X(2); z = X(3)
+   tx = exp(-x^2); ty = 1+y^2; tz = 2*z^2-1
+   J = [ -2*x*tx*y^3*tz - sin(x)*z/ty,...
+          3*tx*y^2*tz - 2*cos(x)*y*z/ty^2,...
+          4*tx*y^3*z + cos(x)/ty ]
+   dfxx = 2*tx*y^3*tz*(2*x^2-1)-cos(x)*z/ty
+   dfxy = 2*sin(x)*y*z/ty^2 - 6*x*tx*y^2*tz
+   dfxz = -8*x*tx*y^3*z - sin(x)/ty
+   dfyy = 6*tx*y*tz -2*cos(x)*z/ty^2*(1-4*y^2/ty)
+   dfyz = 12*tx*y^2*z - 2*cos(x)*y/ty^2
+   dfzz = 4*tx*y^3
+   H = [ dfxx ,dfxy, dfxz;...
+         dfxy, dfyy, dfyz;...
+         dfxz, dfyz, dfzz ]
+endfunction
+
+// try an a random point
+X = rand(3,1)
+
+//  exact gradient and Jacobian at X
+[J,H] = df(X)
+[Ja,Ha] = derivative(f,X)
+norm(J-Ja)/norm(J)
+norm(H-Ha)/norm(Ha)
+
+// using formula of order 4
+[Ja,Ha] = derivative(f,X,order=4)
+norm(J-Ja)/norm(J)
+norm(H-Ha)/norm(Ha)
+\end{mintednsp}
+  
+\paragraph{example 3} an easy example which shows how to pass
+supplementary arguments:
+\begin{mintednsp}{nsp}
+function y=f(x,A,b);y=dot(0.5*(A*x)-b,x);endfunction
+
+A = [1,2;2,-0.5]; b=[1;-1]; 
+x = randn(2,1); 
+[J,H] = derivative(f,x,args={A,b}) 
+
+// as the function is quadratic errors should be null with formula of 
+// order 2 and 4  but are not due to numerical noise by cancellation 
+J - (A*x-b)' 
+H - A
+\end{mintednsp}
+
+\end{examples}
+
+
+\begin{manseealso}
+  \manlink{intg}{intg}  
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+  Rainer von Seggern, Bruno Pincon
+\end{authors}

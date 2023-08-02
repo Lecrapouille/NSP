@@ -1,0 +1,200 @@
+/* -*- Mode: C -*- */
+%%
+include-start Segments
+/* inserted at the start of include file */
+#include <nsp/figure.h>
+
+%%
+include-public  Segments
+
+/* inserted at the end of public part of include file */
+
+%%
+include-private  Segments
+
+/* inserted in the private part of include file */
+
+static void nsp_draw_segments(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data);
+static void nsp_translate_segments(NspGraphic *o,const double *tr);
+static void nsp_rotate_segments(NspGraphic *o,double *R);
+static void nsp_scale_segments(NspGraphic *o,double *alpha);
+static int nsp_getbounds_segments(NspGraphic *o,double *bounds);
+
+%%
+headers
+
+%%
+init 
+
+Init portion 
+
+%%
+override-type Segments
+  /* inserted verbatim in the type definition */
+  type->gtk_methods = TRUE;
+  /* here we override the method or its father class i.e Graphic */
+  ((NspTypeGraphic *) type->surtype)->draw = nsp_draw_segments;
+  ((NspTypeGraphic *) type->surtype)->translate =nsp_translate_segments ;
+  ((NspTypeGraphic *) type->surtype)->rotate =nsp_rotate_segments  ;
+  ((NspTypeGraphic *) type->surtype)->scale =nsp_scale_segments  ;
+  ((NspTypeGraphic *) type->surtype)->bounds =nsp_getbounds_segments  ;
+  /* next method are defined in NspGraphic and need not be chnaged here for Segments */
+  /* ((NspTypeGraphic *) type->surtype)->link_figure = nsp_graphic_link_figure; */ 
+  /* ((NspTypeGraphic *) type->surtype)->unlink_figure = nsp_graphic_unlink_figure; */ 
+
+%%
+modulename atk
+/* %%  import gobject.GObject as GObject */
+
+%%
+ignore-glob
+  *_get_type
+
+
+%%
+override nsp_extractelts_segments kwargs
+
+extern function int_nspgraphic_extract;
+
+int _wrap_nsp_extractelts_segments(Stack stack, int rhs, int opt, int lhs) 
+{
+  return int_nspgraphic_extract(stack,rhs,opt,lhs);
+}
+
+%%
+override nsp_setrowscols_segments kwargs
+
+extern function int_graphic_set_attribute;
+
+int _wrap_nsp_setrowscols_segments(Stack stack, int rhs, int opt, int lhs) 
+{
+  return int_graphic_set_attribute(stack,rhs,opt,lhs);
+}
+
+
+%%
+last
+
+/* inserted verbatim at the end */
+
+static void nsp_draw_segments(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data)
+{
+  int c_width, c_color;
+  int width, color;
+  int *colors=NULL, *widths=NULL;
+  int i;
+  
+  NspSegments *P = (NspSegments *) Obj;
+  if ( Obj->obj->show == FALSE ) return;
+  if ( P->obj->x->mn == 0 )  return;
+  if ( ! nsp_graphic_intersect_rectangle(Obj, rect)) return;
+  
+  width = c_width = Xgc->graphic_engine->xget_thickness(Xgc);
+  color = c_color = Xgc->graphic_engine->xget_color(Xgc);
+  
+  if ( P->obj->color != NULLMAT && P->obj->color->mn != 0 ) 
+    {
+      colors= ( P->obj->color->mn == 1) ? NULL : P->obj->color->I;
+      color = ( P->obj->color->mn == 1) ? P->obj->color->I[0] : c_color ;
+    }
+  if ( P->obj->thickness != NULLMAT && P->obj->thickness->mn != 0 )
+    {
+      widths =  ( P->obj->thickness->mn == 1) ? NULL : P->obj->thickness->I;
+      width  =  ( P->obj->thickness->mn == 1) ? P->obj->thickness->I[0] : c_width ;
+    }
+  for (i=0 ; i < P->obj->x->mn/2 ; i++)
+    {
+      int s_col = Min(i,P->obj->color->mn-1);
+      int s_thick = Min(i,P->obj->thickness->mn-1);
+      int segment_color= (colors != NULL) ? P->obj->color->I[s_col] : color;
+      int segment_width= (widths != NULL) ? P->obj->thickness->I[s_thick]: width;
+      double cx[]={ P->obj->x->R[2*i], P->obj->x->R[2*i+1]};
+      double cy[]={ P->obj->y->R[2*i],P->obj->y->R[2*i+1]};
+      double vx[2],vy[2];
+      scale_double_to_pixels(Xgc->scales,cx,cy,vx,vy,2);
+      Xgc->graphic_engine->xset_thickness(Xgc,segment_width);
+      Xgc->graphic_engine->xset_line_style(Xgc,segment_color);
+      Xgc->graphic_engine->drawline(Xgc,vx[0],vy[0],vx[1],vy[1]);
+    }
+  width = Xgc->graphic_engine->xget_thickness(Xgc);
+  color = Xgc->graphic_engine->xget_color(Xgc);
+  /* back to default */
+  if ( c_width != width)  Xgc->graphic_engine->xset_thickness(Xgc, c_width);
+  if ( c_color != color)  Xgc->graphic_engine->xset_color(Xgc, c_color);
+}
+
+static void nsp_translate_segments(NspGraphic *Obj,const double *tr)
+{
+  int i; 
+  NspSegments *P = (NspSegments *) Obj;
+  double *x=P->obj->x->R,*y= P->obj->y->R;
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  for ( i=0; i < P->obj->x->mn ; i++) 
+    {
+      *(x++) += tr[0];
+      *(y++) += tr[1];
+    }
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_rotate_segments(NspGraphic *Obj,double *R)
+{
+  int i;
+  NspSegments *P = (NspSegments *) Obj;
+  double *x= P->obj->x->R,*y= P->obj->y->R,x1,y1;
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  for ( i=0; i < P->obj->x->mn ; i++) 
+    {
+      x1 = R[0]*(*x) -R[1]*(*y);
+      y1 = R[1]*(*x) +R[0]*(*y);
+      *(x++) =x1;
+      *(y++) =y1;
+    }
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_scale_segments(NspGraphic *Obj,double *alpha)
+{
+  int i;
+  NspSegments *P = (NspSegments *) Obj;
+  double *x= P->obj->x->R,*y= P->obj->y->R;
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  for ( i=0; i < P->obj->x->mn ; i++) 
+    {
+      *(x++) *= alpha[0];
+      *(y++) *= alpha[1];
+    }
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+/* compute in bounds the enclosing rectangle of segments 
+ *
+ */
+
+static int nsp_getbounds_segments(NspGraphic *Obj,double *bounds)
+{
+  int i;
+  NspSegments *P = (NspSegments *) Obj;
+  double *x= P->obj->x->R,*y= P->obj->y->R,dval;
+  if ( P->obj->x->mn == 0) return FALSE;
+
+  bounds[0]=*x;/* xmin */
+  bounds[1]=*y;/* ymin */
+  bounds[2]=*x;/* xmax */
+  bounds[3]=*y;/* ymax */
+  for (i = 1; i < P->obj->x->mn; i++)
+    {
+      dval = x[i];
+      if ( dval > bounds[2] )
+	bounds[2] = dval;
+      else if ( dval < bounds[0] )
+	bounds[0] = dval;
+      dval = y[i];
+      if ( dval > bounds[3] )
+	bounds[3] = dval;
+      else if ( dval < bounds[1] )
+	bounds[1] = dval;
+    }
+  return TRUE;
+}
+

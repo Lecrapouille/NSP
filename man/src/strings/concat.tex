@@ -1,0 +1,34 @@
+% -*- mode: latex -*-
+
+\mansection{concat}
+\begin{mandesc}
+  \short{concat}{string matrices concatenation} 
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+y = concat(a, b [, sep])
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{a, b, sep, y}: string matrices.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  This function is similar to the \verb-+- operator for string 
+  matrices but an optional string used as separator can be given.
+\end{mandescription}
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    A = concat("foo",string(rand(2,2)),"-");
+  \end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+  \manlink{catenate}{catenate}
+  \manlink{Smat}{Smat}  
+\end{manseealso}

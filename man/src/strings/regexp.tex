@@ -1,0 +1,57 @@
+% -*- mode: latex -*-
+
+\mansection{regexp}
+\begin{mandesc}
+  \short{regexp}{search regular expressions} \\
+  \short{regsub}{substitutions based on regular expression pattern matching} 
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+[b,A]=regexp(str,regexp, nocase=%t|%f)
+[Str,A]=regsub(Str,regexp,regsub, all=%t|%f, nocase=%t|%f)
+\end{verbatim}
+\end{calling_sequence}
+
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{str}: a string
+    \vname{Str}: a string matrix.
+    \vname{b}:  a boolean.
+    \vname{A}:  a scalar Matrix.
+    \vname{regexp,regsub}: two strings
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+\noindent \verb+regexp+ and \verb+regsub+ are used to search or substitute regular expression
+in a given string. The syntax for specifying regular expression follows the \verb+tcl+ 
+regexp syntax.
+
+\verb+regexp+ returns \verb+%t+ in a boolean \verb+b+ if a match was found and the 
+position of the matched string in the original string is returned in 
+the first line of matrix \verb+A+ (first character, last character). 
+Note that position of sub-expressions if asked (see example below) 
+are also returned in the other lines of \verb+A+. If the optional argument \verb+nocase+ 
+is set to \verb+%t+, both \verb+Str+ and \verb+regexp+ are converted to lower case before string matching.
+
+\verb+regsub+ returns the string matrix obtained after pattern matching substitutions. 
+If requested \verb+A+ is a numerical matrix which contains for each string the number of successful matches. 
+In the \verb+regsub+ string, matched sub-expressions can be specified using the 
+syntax \verb+\\n+ where \verb+n+ stands for the \verb+n+-th sub-expression of 
+\verb+regexp+. The optional argument \verb+all+ (default value \verb+%t+) can be set to 
+\verb+%f+ to limit substitution in each string to the first match. If the optional argument \verb+nocase+ 
+is set to \verb+%t+, both \verb+Str+ and \verb+regexp+ are converted to lower case before string matching 
+substitutions. 
+
+\end{mandescription}
+
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    [a,b]=regexp('pipopopopa','p(i[po]+)(pa)')
+    regsub('pipopopopa','p(i[po]+)(pa)','pop\\1')
+  \end{mintednsp}
+\end{examples}
+
+% -- see also

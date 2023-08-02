@@ -1,0 +1,115 @@
+;; -*- scheme -*-
+
+(include "bvar-types.defs")
+
+(define-method get_value
+  (of-object "Bvar")
+  (c-name "bvar_get_value")
+  (return-type "NspObject*")
+)
+
+(define-method set_value
+  (of-object "Bvar")
+  (parameters
+   '("NspObject*" "val")
+   )
+  (c-name "bvar_set_value")
+  (return-type "none")
+)
+
+(define-method get_varname
+  (of-object "Bvar")
+  (c-name "bvar_get_varname")
+  (return-type "NspObject*")
+)
+
+(define-method set_varname
+  (of-object "Bvar")
+  (c-name "bvar_set_varname")
+  (parameters
+   '("NspObject*" "args")
+   )
+  (return-type "none")
+)
+
+(define-method is_symbolic
+  (of-object "Bvar")
+  (c-name "bvar_is_symbolic")
+  (return-type "gboolean")
+)
+
+(define-method set_symbolic
+  (of-object "Bvar")
+  (c-name "bvar_set_symbolic")
+  (parameters
+   '("gboolean" "status")
+   )
+  (return-type "none")
+)
+
+
+(define-function bvar_code_getvarname
+  (c-name "bvar_code_getvarname")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+(define-function bvar_code_countvarname
+  (c-name "bvar_code_countvarname")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+(define-function bvar_code_isvarname
+  (c-name "bvar_code_isvarname")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+(define-function bvar_code_replacevarname
+  (c-name "bvar_code_replacevarname")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+(define-function bvar_code_vars
+  (c-name "bvar_code_vars")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+(define-function bvar_code_vars_used
+  (c-name "bvar_code_vars_used")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+(define-function bvar_code_replacevar
+  (c-name "bvar_code_replacevar")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+(define-function bvar_code_varstatus
+  (c-name "bvar_code_varstatus")
+  (return-type "NspObject*")
+  (parameters
+    '("NspObject*" "Obj")
+  )
+)
+
+

@@ -1,0 +1,80 @@
+;; -*- scheme -*-
+
+(include "bson-types.defs")
+
+;; methods for Bson Objects 
+
+
+(define-method show
+  (of-object "Bson")
+  (c-name "bson_show")
+  (return-type "none")
+)
+
+(define-method insert
+  (of-object "Bson")
+  (c-name "bson_insert")
+  (return-type "none")
+)
+
+(define-method to_hash
+  (of-object "Bson")
+  (c-name "bson_to_hash")
+  (return-type "int")
+)
+
+
+;; methods and functions for Mclient
+
+(define-function mclient_create
+  (c-name "mclient_create")
+  (return-type "int")
+)
+
+(define-method get_collection
+  (of-object "Mclient")
+  (c-name "mongoc_client_get_collection")
+  (return-type "int")
+)
+
+;; methods and functions for Mcollection
+
+(define-method find
+  (of-object "Mcollection")
+  (c-name "mongoc_collection_find")
+  (return-type "int")
+)
+
+(define-method insert
+  (of-object "Mcollection")
+  (c-name "mongoc_collection_insert")
+  (return-type "int")
+)
+
+(define-method delete
+  (of-object "Mcollection")
+  (c-name "mongoc_collection_delete")
+  (return-type "int")
+)
+
+
+;; methods and functions for Mcursor
+
+(define-method error
+  (of-object "Mcursor")
+  (c-name "mongoc_cursor_error")
+  (return-type "int")
+)
+
+(define-method next
+  (of-object "Mcursor")
+  (c-name "mongoc_cursor_next")
+  (return-type "int")
+)
+
+(define-method more
+  (of-object "Mcursor")
+  (c-name "mongoc_cursor_more")
+  (return-type "boolean")
+)
+

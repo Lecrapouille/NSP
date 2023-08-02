@@ -1,0 +1,37 @@
+SHELL = /bin/sh
+SCIDIR=../..
+
+LIBRARY = graphics-new.a
+
+# periGif.o
+
+OBJSC = Graphics-IN.o @PERICAIRO@ @PERIGLEXT@ \
+	periPos.o periFig.o perigen.o Contour-new.o     \
+	Axes.o Plo2dEch.o Actions.o windows.o \
+	Xcall1.o click.o periTikz.o
+
+OBJSF =
+
+include ../../Makefile.incl
+
+GTKFLAGS= -DG_DISABLE_DEPRECATED  \
+	-DGDK_PIXBUF_DISABLE_DEPRECATED \
+	-DGDK_DISABLE_DEPRECATED \
+	-DGTK_DISABLE_DEPRECATED \
+	-DPANGO_DISABLE_DEPRECATED
+
+CFLAGS = $(CC_OPTIONS) $(XFLAGS) @WINXFLAGS@
+
+FFLAGS = $(FC_OPTIONS)
+
+include ../Make.lib
+
+# with gcc compiler, do not inline "floor" function in "Format.c"
+
+Format.o: Format.c
+	@echo compiling $<
+	@$(CC) $(CFLAGS) @NOINLINE@ -c $< -o $@
+
+#--- dependencies generated with gcc ----
+
+include Makefile.deps

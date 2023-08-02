@@ -1,0 +1,52 @@
+% -*- mode: latex -*-
+
+\mansection{perms}
+\begin{mandesc}
+   \short{perms}{generate all permutations of a vector}
+\end{mandesc}
+
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+ p = perms(v)
+\end{verbatim}
+\end{calling_sequence}
+
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+   \vname{v}: vector (of numbers, strings, cells,...)
+   \vname{p}: matrix of size $n! \times n$ if $n$ is the number of
+               elements of $v$.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  Computes all permutations of a vector: each row of $p$
+  corresponds to a permutation of $v$. 
+
+\paragraph{remark}
+This function should be limited to small values of $n$ and is likely
+to fail for memory needs for $n > 11$ ($12! = 479\,001\,600$).
+
+\end{mandescription}
+
+%--example 
+\begin{examples}
+\begin{mintednsp}{nsp}
+p=perms(1:4)
+p = perms(["biniou","grand-mere","gratte"])
+\end{mintednsp}
+\end{examples}
+
+
+%-- see also
+\begin{manseealso}
+\manlink{nchoosek}{nchoosek}
+\end{manseealso}
+
+%-- Author
+\begin{authors}
+B. Pincon
+\end{authors}
+

@@ -1,0 +1,512 @@
+<DATA flag="salso">
+
+  <SEE_ALSO_ITEMS name='ACTUATOR_f' type='XML'>
+    <SEE_ALSO>SENSOR_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='BITCLEAR' type='XML'>
+    <SEE_ALSO>BITSET</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='BITSET' type='XML'>
+    <SEE_ALSO>BITCLEAR</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='BUSCREATOR' type='XML'>
+    <SEE_ALSO>BUSIN_f</SEE_ALSO>
+    <SEE_ALSO>BUSOUT_f</SEE_ALSO>
+    <SEE_ALSO>BUSSELECTOR</SEE_ALSO>
+    <SEE_ALSO>BUSSPLIT</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='BUSIN_f' type='XML'>
+    <SEE_ALSO>BUSOUT_f</SEE_ALSO>
+    <SEE_ALSO>BUSCREATOR</SEE_ALSO>
+    <SEE_ALSO>BUSSELECTOR</SEE_ALSO>
+    <SEE_ALSO>BUSSPLIT</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='BUSOUT_f' type='XML'>
+    <SEE_ALSO>BUSIN_f</SEE_ALSO>
+    <SEE_ALSO>BUSCREATOR</SEE_ALSO>
+    <SEE_ALSO>BUSSELECTOR</SEE_ALSO>
+    <SEE_ALSO>BUSSPLIT</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='BUSSELECTOR' type='XML'>
+    <SEE_ALSO>BUSIN_f</SEE_ALSO>
+    <SEE_ALSO>BUSOUT_f</SEE_ALSO>
+    <SEE_ALSO>BUSCREATOR</SEE_ALSO>
+    <SEE_ALSO>BUSSPLIT</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='BUSSPLIT' type='XML'>
+    <SEE_ALSO>BUSIN_f</SEE_ALSO>
+    <SEE_ALSO>BUSOUT_f</SEE_ALSO>
+    <SEE_ALSO>BUSCREATOR</SEE_ALSO>
+    <SEE_ALSO>BUSSELECTOR</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CANIMXY' type='XML'>
+    <SEE_ALSO>CANIMXY3D</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CANIMXY3D' type='XML'>
+    <SEE_ALSO>CANIMXY</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CBLOCK4' type='XML'>
+    <SEE_ALSO>generic_block3</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CCS' type='XML'>
+    <SEE_ALSO>CVS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CLKFROM' type='XML'>
+    <SEE_ALSO>FROM</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CLKGOTO' type='XML'>
+    <SEE_ALSO>GOTO</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CLKGotoTagVisibility' type='XML'>
+    <SEE_ALSO>GotoTagVisibility</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+
+  <SEE_ALSO_ITEMS name='CLOCK_c' type='XML'>
+    <SEE_ALSO>EVTDLY_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CLSS' type='XML'>
+    <SEE_ALSO>TCLSS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CMAT3D' type='XML'>
+    <SEE_ALSO>CMATVIEW</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CMATVIEW' type='XML'>
+    <SEE_ALSO>CMAT3D</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CONSTRAINT2_c' type='XML'>
+    <SEE_ALSO>CONSTRAINT_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CONSTRAINT_c' type='XML'>
+    <SEE_ALSO>CONSTRAINT2_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CSCOPE' type='XML'>
+    <SEE_ALSO>CMSCOPE</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CSCOPXY' type='XML'>
+    <SEE_ALSO>CSCOPXY3D</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CSCOPXY3D' type='XML'>
+    <SEE_ALSO>CSCOPXY</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CUMSUM' type='XML'>
+    <SEE_ALSO>MATSUM</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CURV_f' type='XML'>
+    <SEE_ALSO>Sigbuilder </SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='CVS' type='XML'>
+    <SEE_ALSO>CCS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='Counter' type='XML'>
+    <SEE_ALSO>Modulo_Count</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+  
+  <SEE_ALSO_ITEMS name='DEMUX' type='XML'>
+    <SEE_ALSO>MUX</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='DFLIPFLOP' type='XML'>
+    <SEE_ALSO>DLATCH</SEE_ALSO>
+    <SEE_ALSO>SRFLIPFLOP</SEE_ALSO>
+    <SEE_ALSO>JKFLIPFLOP</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='DLATCH' type='XML'>
+    <SEE_ALSO>DFLIPFLOP</SEE_ALSO>
+    <SEE_ALSO>SRFLIPFLOP</SEE_ALSO>
+    <SEE_ALSO>JKFLIPFLOP</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='ENDBLK' type='XML'>
+    <SEE_ALSO>END_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='END_c' type='XML'>
+    <SEE_ALSO>ENDBLK</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='EVTDLY_c' type='XML'>
+    <SEE_ALSO>CLOCK_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='EXTRACT' type='XML'>
+    <SEE_ALSO>EXTTRI</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='EXTRACTBITS' type='XML'>
+    <SEE_ALSO>BITSET</SEE_ALSO>
+    <SEE_ALSO>BITCLEAR</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='EXTTRI' type='XML'>
+    <SEE_ALSO>EXTRACT</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='FROM' type='XML'>
+    <SEE_ALSO>GOTO</SEE_ALSO>
+    <SEE_ALSO>GotoTagVisibility</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='FROMMO' type='XML'>
+    <SEE_ALSO>FROM</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='FROMWSB' type='XML'>
+    <SEE_ALSO>TOWS_c</SEE_ALSO>
+    <SEE_ALSO>FROMWS_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='FROMWS_c' type='XML'>
+    <SEE_ALSO>TOWS_c</SEE_ALSO>
+    <SEE_ALSO>FROMWSB</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+
+  <SEE_ALSO_ITEMS name='GAINBLK' type='XML'>
+    <SEE_ALSO>INTMUL</SEE_ALSO>
+    <SEE_ALSO>MATMUL</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+
+  <SEE_ALSO_ITEMS name='GEN_SQR' type='XML'>
+    <SEE_ALSO>GENSQR_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='GOTO' type='XML'>
+    <SEE_ALSO>FROM</SEE_ALSO>
+    <SEE_ALSO>GotoTagVisibility</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='GOTOMO' type='XML'>
+    <SEE_ALSO>GOTO</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='GotoTagVisibility' type='XML'>
+    <SEE_ALSO>GOTO</SEE_ALSO>
+    <SEE_ALSO>FROM</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='GotoTagVisibilityMO' type='XML'>
+    <SEE_ALSO>GotoTagVisibility</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='Ground_g' type='XML'>
+    <SEE_ALSO>CONST_m</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='INTMUL' type='XML'>
+    <SEE_ALSO>MATMUL</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='INTRP2BLK_f' type='XML'>
+    <SEE_ALSO>INTRPLBLK_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='INTRPLBLK_f' type='XML'>
+    <SEE_ALSO>INTRP2BLK_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='IN_f' type='XML'>
+    <SEE_ALSO>OUT_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='JKFLIPFLOP' type='XML'>
+    <SEE_ALSO>DLATCH</SEE_ALSO>
+    <SEE_ALSO>DFLIPFLOP</SEE_ALSO>
+    <SEE_ALSO>SRFLIPFLOP</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='LOGIC' type='XML'>
+    <SEE_ALSO>SRFLIPFLOP</SEE_ALSO>
+    <SEE_ALSO>JKFLIPFLOP</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='LOOKUP2D' type='XML'>
+    <SEE_ALSO>LOOKUP_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='LOOKUP_c' type='XML'>
+    <SEE_ALSO>LOOKUP2D</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='Lookup_Tables_pal' type='XML'>
+    <SEE_ALSO>Non_linear_pal</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATBKSL' type='XML'>
+    <SEE_ALSO>MATDIV</SEE_ALSO>
+    <SEE_ALSO>MATMUL</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATCATH' type='XML'>
+    <SEE_ALSO>MATCATV</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATCATV' type='XML'>
+    <SEE_ALSO>MATCATH</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATDET' type='XML'>
+    <SEE_ALSO>MATINV</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATDIAG' type='XML'>
+    <SEE_ALSO>EXTTRI</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATDIV' type='XML'>
+    <SEE_ALSO>MATBKSL</SEE_ALSO>
+    <SEE_ALSO>MATMUL</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATEIG' type='XML'>
+    <SEE_ALSO>MATSING</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATEXPM' type='XML'>
+    <SEE_ALSO>MATMUL</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATINV' type='XML'>
+    <SEE_ALSO>MATLU</SEE_ALSO>
+    <SEE_ALSO>MATPINV</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATLU' type='XML'>
+    <SEE_ALSO>MATINV</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATMAGPHI' type='XML'>
+    <SEE_ALSO>MATZREIM</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATMUL' type='XML'>
+    <SEE_ALSO>INTMUL</SEE_ALSO>
+    <SEE_ALSO>MATDIV</SEE_ALSO>
+    <SEE_ALSO>MATBKSL</SEE_ALSO>
+    <SEE_ALSO>MATEXPM</SEE_ALSO>
+    <SEE_ALSO>SUMMATION</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATPINV' type='XML'>
+    <SEE_ALSO>MATINV</SEE_ALSO>
+    <SEE_ALSO>MATSING</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATRESH' type='XML'>
+    <SEE_ALSO>EXTRACT</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATSING' type='XML'>
+    <SEE_ALSO>MATEIG</SEE_ALSO>
+    <SEE_ALSO>MATLU</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATSUM' type='XML'>
+    <SEE_ALSO>SUBMAT</SEE_ALSO>
+    <SEE_ALSO>SUMMATION</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATTRAN' type='XML'>
+    <SEE_ALSO>Matrix_pal</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATZCONJ' type='XML'>
+    <SEE_ALSO>Matrix_pal</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MATZREIM' type='XML'>
+    <SEE_ALSO>MATMAGPHI</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MBLOCK' type='XML'>
+    <SEE_ALSO>MPBLOCK</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MPBLOCK' type='XML'>
+    <SEE_ALSO>MBLOCK</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='MUX' type='XML'>
+    <SEE_ALSO>DEMUX</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='M_freq' type='XML'>
+    <SEE_ALSO>MFCLCK_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='NMOS' type='XML'>
+    <SEE_ALSO>PMOS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='NPN' type='XML'>
+    <SEE_ALSO>PNP</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='OUT_f' type='XML'>
+    <SEE_ALSO>IN_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='PMOS' type='XML'>
+    <SEE_ALSO>NMOS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='PNP' type='XML'>
+    <SEE_ALSO>NPN</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='RICC' type='XML'>
+    <SEE_ALSO>Matrix_pal</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='SENSOR_f' type='XML'>
+    <SEE_ALSO>ACTUATOR_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='SHIFT' type='XML'>
+    <SEE_ALSO>BITSET</SEE_ALSO>
+    <SEE_ALSO>BITCLEAR</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='SQRT' type='XML'>
+    <SEE_ALSO>POWBLK_f</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='SRFLIPFLOP' type='XML'>
+    <SEE_ALSO>DLATCH</SEE_ALSO>
+    <SEE_ALSO>DFLIPFLOP</SEE_ALSO>
+    <SEE_ALSO>JKFLIPFLOP</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='SampleCLK' type='XML'>
+    <SEE_ALSO>CLOCK_c</SEE_ALSO>
+    <SEE_ALSO>Counter</SEE_ALSO>
+    <SEE_ALSO>ESELECT_f</SEE_ALSO>
+    <SEE_ALSO>M_freq</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='TCLSS' type='XML'>
+    <SEE_ALSO>CLSS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='TOWS_c' type='XML'>
+    <SEE_ALSO>FROMWS_c</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='callblk' type='XML'>
+    <SEE_ALSO>model2blk</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='coserror' type='XML'>
+    <SEE_ALSO>set_blockerror</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='create_gif' type='XML'>
+    <SEE_ALSO>create_palette</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='create_palette' type='XML'>
+    <SEE_ALSO>create_gif</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='data2sig' type='XML'>
+    <SEE_ALSO>sig2data</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='getscicosparam' type='XML'>
+    <SEE_ALSO>setscicosparam</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='getscicosvars' type='XML'>
+    <SEE_ALSO>DEBUG_SCICOS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='lincos' type='XML'>
+    <SEE_ALSO>steadycos</SEE_ALSO>
+    <SEE_ALSO>scicos_simulate</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='model2blk' type='XML'>
+    <SEE_ALSO>callblk</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='pointer_xproperty' type='XML'>
+    <SEE_ALSO>set_xproperty</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='scicos' type='XML'>
+    <SEE_ALSO>scicosim</SEE_ALSO>
+    <SEE_ALSO>scicos_simulate</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='scicos_debug' type='XML'>
+    <SEE_ALSO>DEBUG_SCICOS</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='scicos_simulate' type='XML'>
+    <SEE_ALSO>scicosim</SEE_ALSO>
+    <SEE_ALSO>scicos</SEE_ALSO>
+    <SEE_ALSO>steadycos</SEE_ALSO>
+    <SEE_ALSO>lincos</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='scicosim' type='XML'>
+    <SEE_ALSO>scicos_simulate</SEE_ALSO>
+    <SEE_ALSO>scicos</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='set_xproperty' type='XML'>
+    <SEE_ALSO>pointer_xproperty</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='setscicosparam' type='XML'>
+    <SEE_ALSO>getscicosparam</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='sig2data' type='XML'>
+    <SEE_ALSO>data2sig
+    </SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='steadycos' type='XML'>
+    <SEE_ALSO>lincos</SEE_ALSO>
+    <SEE_ALSO>scicos_simulate</SEE_ALSO>
+    <SEE_ALSO>scicos</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='var2vec' type='XML'>
+    <SEE_ALSO>vec2var</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+  <SEE_ALSO_ITEMS name='vec2var' type='XML'>
+    <SEE_ALSO>var2vec</SEE_ALSO>
+  </SEE_ALSO_ITEMS>
+
+</DATA>

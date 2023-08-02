@@ -1,0 +1,16 @@
+;; -*- scheme -*-
+
+(include "grarc-types.defs")
+
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_grarc
+  (c-name "nsp_extractelts_grarc")
+  (return-type "none")
+)
+(define-function setrowscols_grarc
+  (c-name "nsp_setrowscols_grarc")
+  (return-type "none")
+)
+

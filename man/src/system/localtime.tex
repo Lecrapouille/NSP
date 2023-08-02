@@ -1,0 +1,40 @@
+% -*- mode: latex -*-
+\mansection{localtime}
+\begin{mandesc}
+  \short{localtime}{get the current time}
+\end{mandesc}
+
+\begin{calling_sequence}
+\begin{verbatim}
+  localtime()
+  x=localtime()  
+\end{verbatim}
+\end{calling_sequence}
+\begin{parameters}
+  \begin{varlist}
+    \vname{x}: a hash table.
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  \verb!localtime! returns a hash table filled with the
+  current time. The available keys are
+  \begin{varlist}
+  \vname{'sec'}: seconds ($0 \dots 59$)
+  \vname{'min'}: minutes ($0 \dots 59$)
+  \vname{'hour'}: hours ($0 \dots 24$)
+  \vname{'mday'}: the day of the month ($1 \dots 31$)
+  \vname{'mon'}: the month of the year ($0 \dots 11$)
+  \vname{'year'}: the number of years elapsed since $1900$
+  \vname{'wday'}: the day of the week ($0$ for sunday)
+  \vname{'yday'}: the day of the year ($0 \dots 365$)
+  \vname{'isdst'}: is summer time in effect. It can $0$ or $1$.
+  \end{varlist}
+\end{mandescription} 
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    T  =localtime();
+    D=gdate_create(T.mday,T.mon+1,T.year+1900);
+    D1 = gdate_create();
+    D.compare[D1]
+  \end{mintednsp}
+\end{examples}

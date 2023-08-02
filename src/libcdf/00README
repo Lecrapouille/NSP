@@ -1,0 +1,61 @@
+
+
+ipmpar and spmpar were changed to use lapack machine constant computation
+dlamch + ipmpar1.c (largestint) in calelm 
+psi and dexpm1 were renamed not to conflict with other entries 
+
+
+The following routines come from Toms708 
+They have the ACM Copyright. They have 
+to be rewriten. 
+
+    * In bratio.c 
+      * apse yields the incomplete beta ratio i(sub(1-x))(b,a) for
+      * basym uses an asymptotic expansion for ix(a,b) for large a and b.
+      * BFRAC uses a continued fraction expansion for ix(a,b) when a,b .gt. 1.
+      * BGRAT uses an asymptotic expansion for ix(a,b) when a is larger than b.
+      * BPSER uses the power series expansion for evaluating ix(a,b) when b .le. 1
+      * BUP evaluates ix(a,b) - ix(a+n,b) where n is a positive integer.
+      * BRATIO evaluates the incomplete beta function Ix(A,B).
+      * FPSER evaluates Ix(A,B) for small B and X <= 0.5.
+    * used only in bratio
+      * GRAT1 evaluates the incomplete gamma ratio functions p(a,x) and q(a,x).
+      * BRCMP1 evaluates exp(mu) * (x**a*y**b/beta(a,b))
+         * ESUM evaluates exp(mu + x).
+      * BRCOMP evaluates X**a * y**b / beta(a,b)
+
+    * BETALN evaluates the logarithm of the beta function.
+    * ERFC1 evaluates the complementary error function
+    * ERF evaluates the real error function.
+    * EXPARG reports the largest safe arguments for EXP(X).
+
+Rewriten code: 
+
+    * psi1 evaluates the digamma function.
+      using Maple Chebyshev Pade approximations.
+    * gamln evaluates ln(gamma(a)) for positive a
+      call alngam which was rewriten using 
+      Maple Chebyshev Pade approximations.
+    * gam1 computes 1/gamma(a+1) - 1 for -0.5 .le. a .le. 1.5
+      rewriten with the help of Maple Chebyshev Pade approximations.
+    * bcorr evaluates del(a0) + del(b0) - del(a0 + b0) 
+      rewriten with maple code to obtain stirling series differences and 
+      stirling series.
+    * gsumln evaluates the function ln(gamma(a + b))
+      rewriten.
+    * algdiv computes ln(gamma(b)/gamma(a+b)) when b .ge. 8
+      rewriten with maple code to obtain stirling series differences.
+    * dln1px evaluates the function ln(1 + a)
+      uses nsp_log1p 
+    * ipmpar provides the integer machine constants for the computer
+      rewriten to use dlamch 
+    * gamln1 evaluates ln(gamma(1 + a)) for -0.2 .le. a .le. 1.25
+      rewriten with the help of Maple Chebyshev Pade approximations.
+    * rexp evaluates the function exp(x) - 1.
+      rewriten with the help of Maple Chebyshev Pade approximations.
+    * rlog1 evaluates the function x - ln(1 + x)
+      rewriten with the help of Maple Chebyshev Pade approximations.
+    * spmpar provides single precision machine constants for
+      rewriten to use dlamch 
+
+

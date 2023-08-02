@@ -1,0 +1,208 @@
+-nsp->// -*- Mode: scilab -*- 
+-nsp->// test for grand 
+-nsp->prec = 1;
+-nsp->function y=norm(x) ; y=max(abs(x));endfunction ;
+-nsp->//FIXME : cdft is not tested 
+-nsp->//FIXME : grand mn is not tested 
+-nsp->//FIXME : grand mul is not tested 
+-nsp->//FIXME : add circular tests for cdf*
+-nsp->//test for beta random deviate 
+-nsp->  
+-nsp->N=10000;A=1;B=3;
+-nsp->Rdev=grand(1,N,'bet',A,B);
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfbet("PQ",RdevS,1-RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,style=2);
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for f 
+-nsp->N=10000;A=1;B=3;
+-nsp->Rdev=grand(1,N,'f',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdff("PQ",RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for mul
+-nsp-> 
+-nsp->// test for gamma 
+-nsp->N=10000;A=1;B=3;
+-nsp->Rdev=grand(1,N,'gam',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfgam("PQ",RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for nor 
+-nsp->N=10000;A=1;B=2;
+-nsp->Rdev=grand(1,N,'nor',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfnor("PQ",RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for unf 
+-nsp->N=10000;A=1;B=2;
+-nsp->Rdev=grand(1,N,'unf',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=RdevS-A;
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for uin ( a finir ) 
+-nsp->N=10000;A=1;B=10;
+-nsp->Rdev=grand(1,N,'uin',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=RdevS-A;
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->//need an other test XXX
+-nsp->//if norm(P-PS) > prec then pause,end
+-nsp->// test for lgi 
+-nsp->N=10000;
+-nsp->Rdev=grand(1,N,'lgi');
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=RdevS-A;
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->//XXXX need an other test 
+-nsp->//if norm(P-PS) > prec then pause,end
+-nsp->// test fo perm 
+-nsp->N=1000;
+-nsp->Mat=grand(N,'prm',[1:10]');
+-nsp->if sum([1:10]')/10 - sum(Mat,'c')/N > 0 then pause;end 
+-nsp->// test for nbn 
+-nsp->N=10000;A=5;B=0.7;
+-nsp->Rdev=grand(1,N,'nbn',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfnbn("PQ",RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)),(1-B)*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->//XXXX need an other test 
+-nsp->//if norm(P-PS) > prec then pause,end
+-nsp->// test for bin 
+-nsp->N=10000;A=5;B=0.7;
+-nsp->Rdev=grand(1,N,'bin',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfbin("PQ",RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)),(1-B)*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->//XXX need to change test 
+-nsp->//if norm(P-PS) > prec then pause,end
+-nsp->// test for mn 
+-nsp->// test for 'def'
+-nsp->N=10000;
+-nsp->Rdev=grand(1,N,'def');
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=RdevS;
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for nch or chn 
+-nsp->N=10000;A=5;B=4;
+-nsp->Rdev=grand(1,N,'nch',A,B); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfchn("PQ",RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for nf or fnc
+-nsp->N=10000;A=5;B=4;C=10;
+-nsp->Rdev=grand(1,N,'nf',A,B,C); 
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdffnc("PQ",RdevS,A*ones(size(RdevS)),B*ones(size(RdevS)),C*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for chi 
+-nsp->N=10000;A=5;
+-nsp->Rdev=grand(1,N,'chi',A);
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfchi("PQ",RdevS,A*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for poi 
+-nsp->N=10000;A=50;
+-nsp->Rdev=grand(1,N,'poi',A);
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->[P]=cdfpoi("PQ",RdevS,A*ones(size(RdevS)));
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->// idem need an other test P is piecewize linear and PS 
+-nsp->// linear 
+-nsp->//if norm(P-PS) > prec then pause,end
+-nsp->// test for exp 
+-nsp->N=10000;A=2;
+-nsp->Rdev=grand(1,N,'exp',A);
+-nsp->RdevS=sort(Rdev);RdevS=RdevS($:-1:1)';
+-nsp->PS=(1:N)'/N;
+-nsp->//plot2d(RdevS,PS);
+-nsp->// theorical result 
+-nsp->P=1-exp(-RdevS/A);
+-nsp->//plot2d(RdevS,P,2,"000")
+-nsp->if norm(P-PS) > prec then pause,end
+-nsp->// test for geom 
+-nsp->N=10000;p=0.5;
+-nsp->Rdev=grand(1,N,'geom',p);
+-nsp->[ind,occ,x_info]=bsearch(Rdev,1:20,match='v');
+-nsp->if norm(occ/N - p*(1-p).^(0:19)) > prec then pause,end
+-nsp->// test for markov
+-nsp->N=10000;A=[0.1,0.3,0.6;0.2,0.3,0.5;0.7,0.2,0.1];
+-nsp->Rdev=grand(N,'markov',A,1);
+-nsp->for i=1:3
+==>  [ind,occ,x_info]=bsearch(Rdev(1,:),1:3,match='v');
+==>  if norm(occ/N - A(1,:)) > prec then pause,end
+==>end 
+-nsp->// test de cdfnor 
+-nsp->v=[-5:0.1:5];
+-nsp->[P,Q]=cdfnor("PQ",v,0*ones(size(v)),1*ones(size(v)));
+-nsp->v1=cdfnor("X",0*ones(size(v)),1*ones(size(v)),P,Q);
+-nsp->if max(abs(v-v1)) > 1.e-14 then pause,end
+-nsp->M=cdfnor("Mean",1*ones(size(v)),P,Q,v);
+-nsp->if max(abs(M)) > 1.e-14 then pause,end
+-nsp->St=cdfnor("Std",P,Q,v,0*ones(size(v)));
+-nsp->// result can be false near P=0.5
+-nsp->I=find( abs(v) <= 0.1);
+-nsp->St(I)=[];
+-nsp->if max(abs(St-1)) > 0.3 then pause,end
+-nsp->// test de cdfgam
+-nsp->v=[0:0.01:3];
+-nsp->nv = numel(v);
+-nsp->[P,Q]=cdfgam("PQ",v,0.1*ones(1,nv),0.3*ones(1,nv));
+-nsp->v1=cdfgam("X",0.1*ones(1,nv),0.3*ones(1,nv),P,Q);
+-nsp->if max(abs(v-v1)) > 1.e-14 then pause,end
+-nsp->// Shape n'est pas defini pour P==0;
+-nsp->Shape=cdfgam("Shape",0.3*ones(1,nv-1),P(2:$),Q(2:$),v(2:$));
+-nsp->if max(abs(Shape(2:$)-0.1)) > 1.e-15 then pause,end
+-nsp->Scale=cdfgam("Rate",P(2:$),Q(2:$),v(2:$),0.1*ones(1,nv-1));
+-nsp->if max(abs(Scale(2:$)-0.3)) > 2.e-15 then pause,end
+-nsp->if max(abs(Scale(2:$)-0.3)) > 2.e-15 then pause,end

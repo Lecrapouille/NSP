@@ -1,0 +1,547 @@
+;; -*- scheme -*-
+; object definitions ...
+
+(include "agraph-types.defs")
+
+;; number of nodes 
+
+(define-method nnodes
+  (of-object "Agraph")
+  (c-name "nsp_agnnodes")
+  (return-type "int")
+)
+
+;; number of edges 
+
+(define-method nedges
+  (of-object "Agraph")
+  (c-name "nsp_agnedges")
+  (return-type "int")
+)
+
+;; parent graph or error 
+
+(define-method parent
+  (of-object "Agraph")
+  (c-name "nsp_agparent")
+  (return-type "NspAgraph*")
+  )
+
+;; root graph 
+
+(define-method root
+  (of-object "Agraph")
+  (c-name "nsp_agroot")
+  (return-type "NspAgraph*")
+)
+
+;; name of graph 
+
+(define-method nameof 
+  (of-object "Agraph")
+  (c-name "nsp_agnameof_g")
+  (return-type "char*")
+)
+
+;; add a set of nodes to a graph 
+;; G.add_nodes[stringmat]
+
+(define-method add_nodes
+  (of-object "Agraph")
+  (c-name "nsp_agaddnodes")
+  (return-type "boolean")
+  (parameters
+   '("NspSMatrix*" "nodes")
+  )
+)
+
+;; add a set of edges to a graph 
+;; G.add_edges[stringmat]
+
+(define-method add_edges
+  (of-object "Agraph")
+  (c-name "nsp_agaddedges")
+  (return-type "boolean")
+  (parameters
+   '("NspSMatrix*" "nodes")
+  )
+)
+
+;; G.agset[attr=value,attr=value,....]
+;; set attribute value for a graph adding attr 
+;; to the list of attributes if it was not present 
+
+(define-method agset
+  (of-object "Agraph")
+  (c-name "nsp_agset_g")
+  (parameters
+    '("char*" "attr")
+    '("char*" "value")
+    )
+)
+
+;; returns the value of an attribute 
+;; if attribute does not exists "" is returned.
+
+(define-method agget
+  (of-object "Agraph")
+  (c-name "nsp_agget")
+  (parameters
+    '("char*" "attr")
+    )
+  (return-type "char*")
+)
+
+;; add a layout. 
+
+(define-method layout 
+  (of-object "Agraph")
+  (c-name "nsp_gv_layout")
+  ;;(return-type "boolean")
+  (parameters
+   '("string" "type")
+  )
+)
+
+;; render the graph to file 
+
+(define-method render 
+  (of-object "Agraph")
+  (c-name "nsp_gv_render")
+  ;; (return-type "boolean")
+  (parameters
+   '("string" "type")
+   '("string" "fname")
+  )
+)
+
+;; set default values for graph attributes 
+
+(define-method graphattr 
+  (of-object "Agraph")
+  (c-name "nsp_agattr")
+  ;; (return-type "boolean")
+  (parameters
+   '("string" "attr")
+   '("string" "value")
+  )
+)
+
+;; get all the attribute names of a graph 
+
+(define-method graphattrs
+  (of-object "Agraph")
+  (c-name "nsp_agraphattrs")
+  (return-type "NspSMatrix*")
+)
+
+;; set default values for node attributes 
+
+(define-method nodeattr 
+  (of-object "Agraph")
+  (c-name "nsp_agattr_n")
+  ;; (return-type "boolean")
+  (parameters
+   '("string" "attr")
+   '("string" "value")
+  )
+)
+
+;; get all the attribute names 
+
+(define-method nodeattrs
+  (of-object "Agraph")
+  (c-name "nsp_agnodeattrs")
+  (return-type "NspSMatrix*")
+)
+
+;; set default values for edges attributes 
+
+(define-method edgeattr 
+  (of-object "Agraph")
+  (c-name "nsp_agattr_e")
+  ;; (return-type "boolean")
+  (parameters
+   '("string" "attr")
+   '("string" "value")
+  )
+)
+
+;; get all the attribute names 
+
+(define-method edgeattrs
+  (of-object "Agraph")
+  (c-name "nsp_agedgeattrs")
+  (return-type "NspSMatrix*")
+)
+
+;; read graph from file 
+
+(define-function agread
+  (c-name "nsp_agread")
+  (return-type "NspAgraph*")
+  (parameters
+   '("char*" "filename")
+  )
+)
+
+;; write graph to file 
+;; this is a methode for graphs.
+
+(define-method write
+  (of-object "Agraph")
+  (c-name "nsp_gv_write")
+  (return-type "int")
+  (parameters
+     '("char*" "chan")
+  )
+)
+
+;; test undirected 
+
+(define-method  isundirected
+  (of-object "Agraph")
+  (c-name "nsp_agisundirected")
+  (return-type "boolean")
+  (parameters
+    '("NspAgraph*" "g")
+  )
+)
+
+;; test directed 
+
+(define-method isdirected
+  (of-object "Agraph")
+  (c-name "nsp_agisdirected")
+  (return-type "boolean")
+  (parameters
+    '("NspAgraph*" "g")
+  )
+)
+
+;; test strict 
+
+(define-method isstrict
+  (of-object "Agraph")
+  (c-name "nsp_agisstrict")
+  (return-type "boolean")
+  (parameters
+   '("NspAgraph*" "g")
+   )
+  )
+
+;; first node 
+
+(define-method fstnode
+  (of-object "Agraph")
+  (c-name "nsp_agfstnode")
+  (return-type "NspAgnode*")
+)
+
+;; next node 
+
+(define-method nxtnode
+  (of-object "Agraph")
+  (c-name "nsp_agnxtnode")
+  (return-type "NspAgnode*")
+  (parameters
+    '("NspAgnode*" "n")
+    )
+)
+
+;; last node 
+
+(define-method lstnode
+  (of-object "Agraph")
+  (c-name "nsp_aglstnode")
+  (return-type "NspAgnode*")
+)
+
+;; prev node 
+
+(define-method prvnode
+  (of-object "Agraph")
+  (c-name "nsp_agprvnode")
+  (return-type "NspAgnode*")
+  (parameters
+    '("NspAgnode*" "n")
+    )
+)
+
+;; find a node from its name 
+
+(define-method findnode
+  (of-object "Agraph")
+  (c-name "nsp_agfindnode_by_name")
+  (return-type "NspAgnode*")
+  (parameters
+   '("char*" "name")
+   )
+  )
+
+;; first edge of a node 
+;; g.fstedge[n];
+
+(define-method fstedge
+  (of-object "Agraph")
+  (c-name "nsp_agfstedge")
+  (return-type "NspAgedge*")
+  (parameters
+   '("NspAgnode*" "n")
+  )
+)
+
+;; g.nxtedge[e,n];
+
+(define-method nxtedge
+  (of-object "Agraph")
+  (c-name "nsp_agnxtedge")
+  (return-type "NspAgedge*")
+  (parameters
+    '("NspAgedge*" "e")
+    '("NspAgnode*" "n")
+  )
+)
+
+;; g.fstin[n]
+
+(define-method fstin
+  (of-object "Agraph")
+  (c-name "nsp_agfstin")
+  (return-type "NspAgedge*")
+  (parameters
+    '("NspAgnode*" "n")
+  )
+)
+
+;; g.nxtin[e]
+
+(define-method nxtin
+  (of-object "Agraph")
+  (c-name "nsp_agnxtin")
+  (return-type "NspAgedge*")
+  (parameters
+    '("NspAgedge*" "e")
+  )
+)
+
+;; g.fstout[n]
+
+(define-method fstout
+  (of-object "Agraph")
+  (c-name "nsp_agfstout")
+  (return-type "NspAgedge*")
+  (parameters
+    '("NspAgnode*" "n")
+  )
+)
+
+;; g.nxtout[e]
+
+(define-method nxtout
+  (of-object "Agraph")
+  (c-name "nsp_agnxtout")
+  (return-type "NspAgedge*")
+  (parameters
+    '("NspAgedge*" "e")
+  )
+)
+
+;; find or define a subgraph 
+
+(define-method subg
+  (of-object "Agraph")
+  (c-name "nsp_agsubg")
+  (return-type "NspAgraph*")
+  (parameters
+   '("char*" "name")
+   )
+)
+
+;; first subgraph of a graph 
+
+(define-method fstsubg
+  (of-object "Agraph")
+  (c-name "nsp_agfstsubg")
+  (return-type "NspAgraph*")
+)
+
+;; iterator on subgraph 
+;; this is a method to be applied to fstsubg
+
+(define-method nxtsubg
+  (of-object "Agraph")
+  (c-name "nsp_agnxtsubg")
+  (return-type "NspAgraph*")
+)
+
+;; delete a subgraph
+
+(define-method delsubg
+  (of-object "Agraph")
+  (c-name "nsp_agdelsubg")
+  (parameters
+    '("NspAgraph*" "sub")
+    )
+  )
+
+(define-method delnode
+  (of-object "Agraph")
+  (c-name "nsp_agdelnode")
+  (parameters
+   '("NspAgnode*" "arg_n")
+   )
+  )
+
+(define-method deledge
+  (of-object "Agraph")
+  (c-name "nsp_agdeledge")
+  (parameters
+   '("NspAgedge*" "arg_n")
+   )
+  )
+
+;; degree 
+
+(define-method degree 
+  (of-object "Agraph")
+  (c-name "nsp_agdegree")
+  (parameters
+   '("NspAgnode*" "n")
+   )
+  (return-type "int")
+)
+
+
+
+;;------------
+;; Node Object 
+;; -----------
+
+;; node name 
+
+(define-method nameof 
+  (of-object "Agnode")
+  (c-name "nsp_agnameof_n")
+  (return-type "char*")
+)
+
+;; belongs to graph 
+
+(define-method graphof
+  (of-object "Agnode")
+  (c-name "nsp_agraphof")
+  (return-type "NspAgraph*")
+)
+
+;; get attribute value 
+
+(define-method agget
+  (of-object "Agnode")
+  (c-name "nsp_agget")
+  (parameters
+    '("char*" "attr")
+    )
+  (return-type "char*")
+)
+
+;; set attribute value 
+
+(define-method agset
+  (of-object "Agnode")
+  (c-name "nsp_agset_n")
+  (parameters
+    '("char*" "attr")
+    '("char*" "value")
+    )
+)
+
+;;------------
+;; Edges 
+;; -----------
+
+;; name 
+
+(define-method nameof 
+  (of-object "Agedge")
+  (c-name "nsp_agnameof_e")
+  (return-type "char*")
+)
+
+;; head 
+
+(define-method head 
+  (of-object "Agedge")
+  (c-name "nsp_aghead")
+  (return-type "NspAgnode*")
+)
+
+;; tail 
+
+(define-method tail 
+  (of-object "Agedge")
+  (c-name "nsp_agtail")
+  (return-type "NspAgnode*")
+)
+
+;; get value 
+
+(define-method agget
+  (of-object "Agedge")
+  (c-name "nsp_agget")
+  (parameters
+    '("char*" "attr")
+    )
+  (return-type "char*")
+)
+
+;; set value 
+
+(define-method agset
+  (of-object "Agedge")
+  (c-name "nsp_agset_e")
+  (parameters
+    '("char*" "attr")
+    '("char*" "value")
+    )
+)
+
+;;------------------------
+;; usefull ? 
+;;------------------------
+
+;; (define-function agsubedge
+;;   (c-name "nsp_agsubedge")
+;;   (return-type "NspAgedge*")
+;;   (parameters
+;;     '("NspAgraph*" "g")
+;;     '("NspAgedge*" "e")
+;;     '("int" "createflag")
+;;   )
+;; )
+
+;; (define-function agattrsym
+;;   (c-name "nsp_agattrsym")
+;;   (return-type "NspAgsym*")
+;;   (parameters
+;;     '("void*" "obj")
+;;     '("char*" "name")
+;;   )
+;; )
+
+;; (define-function agnxtattr
+;;   (c-name "nsp_agnxtattr")
+;;   (return-type "NspAgsym*")
+;;   (parameters
+;;     '("NspAgraph*" "g")
+;;     '("int" "kind")
+;;     '("NspAgsym*" "attr")
+;;   )
+;; )
+
+;;X	 { (char *)"agsafeset", _wrap_agsafeset, METH_VARARGS, NULL},
+;;X	 { (char *)"agattrname", _wrap_agattrname, METH_VARARGS, NULL},
+;;X	 { (char *)"agattrdefval", _wrap_agattrdefval, METH_VARARGS, NULL},
+;;X	 { (char *)"agsafeset_label", _wrap_agsafeset_label, METH_VARARGS, NULL}
+;;X	 { (char *)"agattr_label", _wrap_agattr_label, METH_VARARGS, NULL},
+

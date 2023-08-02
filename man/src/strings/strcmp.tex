@@ -1,0 +1,34 @@
+% -*- mode: latex -*-
+
+\mansection{strcmp}
+\begin{mandesc}
+  \short{strcmp}{compare two string with strcmp}
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+ res=strcmp(S1,S2)  
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{S1,S2}: two string matrices of same size (with the convention that
+  scalar string are promoted).
+    \vname{res}: a numerical matrix (made of $-1$, $0$ and $1$).
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  \verb!res=strcmp(S1,S2)! returns in a matrix the results of strcmp.
+\end{mandescription}
+% --example 
+\begin{examples}
+  \begin{mintednsp}{nsp}
+     c=strcmp(['atom','nsp','zen'],'nsp')
+  \end{mintednsp}
+\end{examples}
+% -- see also
+\begin{manseealso}
+  \manlink{String}{String} 
+\end{manseealso}
+

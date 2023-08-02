@@ -1,0 +1,87 @@
+% -*- mode: latex -*-
+\mansection{champ}
+\begin{mandesc}
+  \short{champ}{2D vector field plot}\\ % @mandesc@
+  \short{champ1}{2D vector field plot}\\ % @mandesc@
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  champ(x,y,fx,fy,arfact=,rect=,strf=)
+  champ1(x,y,fx,fy,arfact=,rect=,strf=)
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{x,y}: two vectors which define the grid points
+    \vname{fx,fy}: two matrices which describes the x and y component of the vector field.
+    \vname{arfact}: an optional argument of type real which gives a scale factor
+    for the drawing of the arrows head (default value is 1.0)
+    \vname{rect}: a vector \verb!rect=[xmin,ymin,xmax,ymax]! which gives
+    the boundaries of the graphics frame to use.
+    \vname{strf}: a string of length 3 "xyz" which has the same meaning as the
+    \verb!strf! parameter of \verb!plot2d!. The first
+    character x has no effect with \verb!champ!.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  The functions \verb!champ! and \verb!champ1! are used to draw two dimensional
+  vector fields. When using \verb!champ!, the length of the arrows is proportional to the intensity of the field.
+  When using \verb!champ1! the color id used to draw the arrow is proportional to the intensity of the field.
+\end{mandescription}
+%--example
+\begin{examples}
+
+  \noindent A simple example with \verb!champ!
+  \begin{mintednsp}{nsp}
+    champ(-5:5,-5:5,rand(11,11),rand(11,11));
+  \end{mintednsp}
+  \noindent A simple example with \verb!champ1!
+  \begin{mintednsp}{nsp}
+    champ1(-5:5,-5:5,rand(11,11),rand(11,11),arfact=2,rect=[-10,-10,10,10]);
+  \end{mintednsp}
+  \noindent Add a grid and a mark at each point of the grid.
+  \begin{mintednsp}{nsp}
+    x=linspace(-%pi,%pi,20);
+    y=x;
+    gray=xget('lastpattern')+3;
+    xsegs([x;x],[min(y)*ones(size(x));max(y)*ones(size(x))],style=gray);
+    xsegs([min(x)*ones(size(y));max(x)*ones(size(y))],[y;y],style=gray);
+    champ1(x,y,sin(x'*y),cos(x'*y));
+    [X,Y]=ndgrid(x,y);
+    plot2d(X(:),Y(:),line_color=-2,mark=13,mark_size=3,mark_color=1);
+  \end{mintednsp}
+
+  \noindent An example mixed with \verb!ode!
+
+  \begin{mintednsp}{nsp}
+    function y=f(t,x)
+      y=[0.8*x(1)*(1 - 0.5*x(2));
+      0.2*x(2)*(x(1)-3)];
+    endfunction
+    x=linspace(0,6,20);y=x;
+    [X,Y]=ndgrid(x,y);
+    m=size(x,'*');n=size(y,'*');
+    fx=zeros(m,n);fy=fx;
+    for i=1:size(X,'*');
+      yv=f(0,[X(i);Y(i)]);
+      fx(i)=yv(1); fy(i)=yv(2);
+    end
+    n=size(x,'*');
+    fx.redim[n,-1];fy.redim[n,-1];
+    xset('colormap',jetcolormap(64));
+    champ1(x,y,fx,fy);
+
+    t = linspace(0,10,100);
+    xo = ode([4;3],0,t,f);
+    plot2d(xo(1,:),xo(2,:),line_color=1,line_thickness=2)
+  \end{mintednsp}
+
+\end{examples}
+%-- see also
+%-- Author
+\begin{authors}
+  J.-Ph. C.
+\end{authors}

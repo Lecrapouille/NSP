@@ -1,0 +1,481 @@
+/* -*- Mode: C -*- */
+%%
+include-start Compound 
+/* inserted at the start of include file */
+#include <nsp/figure.h>
+
+%%
+include-public Compound
+
+/* inserted at the end of public part of include file */
+extern NspCompound *nsp_figure_get_axe_elts_as_compound(char *name,NspFigure *F);
+
+%%
+include-private Compound
+
+/* inserted in the private part of include file */
+
+static void nsp_draw_compound(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data);
+static void nsp_draw_default_mark_compound(BCG *Xgc,NspGraphic *Obj);
+static void nsp_translate_compound(NspGraphic *o,const double *tr);
+static void nsp_rotate_compound(NspGraphic *o,double *R);
+static void nsp_scale_compound(NspGraphic *o,double *alpha);
+static int nsp_getbounds_compound(NspGraphic *o,double *bounds);
+static int nsp_compound_compute_inside_bounds(NspGraphic *Obj);
+static void nsp_compound_link_figure(NspGraphic *G, void *F, void *A);
+static void nsp_compound_unlink_figure(NspGraphic *G, void *F);
+static NspList *nsp_compound_children(NspGraphic *Obj);
+
+%%
+headers
+
+%%
+init 
+
+Init portion 
+
+%%
+override-type Compound
+  /* inserted verbatim in the type definition */
+  type->gtk_methods = TRUE;
+  /* here we override the method or its father class i.e Graphic */
+  ((NspTypeGraphic *) type->surtype)->draw = nsp_draw_compound;
+  ((NspTypeGraphic *) type->surtype)->translate =nsp_translate_compound ;
+  ((NspTypeGraphic *) type->surtype)->rotate =nsp_rotate_compound  ;
+  ((NspTypeGraphic *) type->surtype)->scale =nsp_scale_compound  ;
+  ((NspTypeGraphic *) type->surtype)->bounds =nsp_getbounds_compound  ;
+  ((NspTypeGraphic *) type->surtype)->link_figure = nsp_compound_link_figure; 
+  ((NspTypeGraphic *) type->surtype)->unlink_figure = nsp_compound_unlink_figure; 
+  ((NspTypeGraphic *) type->surtype)->children = (children_func *) nsp_compound_children ;
+%%
+modulename atk
+/* %%  import gobject.GObject as GObject */
+
+%%
+ignore-glob
+  *_get_type
+
+
+%%
+override umfpack_action_do_action
+
+static int _wrap_kiko_action_do_action(NspKiko *self,Stack stack,int rhs,int opt,int lhs)
+{
+  int_types T[] = {s_int,t_end};
+  int i, ret;
+
+  if ( GetArgs(stack,rhs,opt,T,&i) == FAIL) return RET_BUG;
+  if ( nsp_move_boolean(stack,1,ret)==FAIL) return RET_BUG;
+  return 1;
+}
+
+%%
+override-attr Compound.rho 
+/* override set rho */
+static int _wrap_compound_set_rho(void *self, char *attr, NspObject *O)
+{
+  double rho;
+  if ( DoubleScalar(O,&rho) == FAIL) return FAIL;
+
+  if ( ((NspCompound *) self)->obj->rho != rho) 
+    {
+      ((NspCompound *) self)->obj->rho = rho;
+      nsp_graphic_invalidate((NspGraphic *) self);
+    }
+  return OK;
+}
+
+%%
+override-attr Compound.children
+
+/* here we override get_obj  and set_obj 
+ * we want get to be followed by a set to check that 
+ * inserted value is correct thus we use copy = TRUE.
+ */
+
+static NspObject *_wrap_compound_get_obj_children(void *self,char *attr, int *copy)
+{
+  NspList *ret;
+  *copy = TRUE; 
+  ret = ((NspList*) ((NspCompound *) self)->obj->children);
+  return (NspObject *) ret;
+}
+
+/* in this function we can check that val is correct before 
+ * setting the field with val. return FAIL if val is incorrect.
+ */
+
+static int _wrap_compound_set_obj_children(void *self,NspObject *val)
+{
+  if ( ! IsList(val) ) return FAIL;
+  if ( nsp_list_check_figure((NspList *) val, ((NspGraphic *) self)->obj->Fig) == FAIL) return FAIL;
+  if (((NspCompound *) self)->obj->children != NULL ) 
+    {
+      if ( ((NspGraphic *) self)->obj->Fig != NULL) 
+	nsp_list_unlink_figure(((NspCompound *) self)->obj->children,((NspGraphic *) self)->obj->Fig);
+      nsp_list_destroy(((NspCompound *) self)->obj->children);
+    }
+  ((NspCompound *) self)->obj->children =  (NspList *) val;
+  if ( ((NspGraphic *) self)->obj->Fig != NULL) 
+    nsp_list_link_figure((NspList *) val,((NspGraphic *) self)->obj->Fig,((NspGraphic *) self)->obj->Axe);
+  nsp_compound_compute_inside_bounds(self);
+  return OK;
+}
+
+static int _wrap_compound_set_children(void *self, char *attr, NspObject *O)
+{
+  NspList *children;
+  if ( ! IsList(O) ) return FAIL;
+  if ((children = (NspList *) nsp_object_copy_and_name(attr,O)) == NULLLIST) return FAIL;
+  if (((NspCompound *) self)->obj->children != NULL ) 
+    {
+      if ( ((NspGraphic *) self)->obj->Fig != NULL) 
+	nsp_list_unlink_figure(((NspCompound *) self)->obj->children,((NspGraphic *) self)->obj->Fig);
+      nsp_list_destroy(((NspCompound *) self)->obj->children);
+    }
+  ((NspCompound *) self)->obj->children= children;
+  if ( ((NspGraphic *) self)->obj->Fig != NULL) 
+    nsp_list_link_figure((NspList *) O,((NspGraphic *) self)->obj->Fig,((NspGraphic *) self)->obj->Axe);
+  nsp_compound_compute_inside_bounds(self);
+  return OK;
+}
+
+
+%%
+override nsp_extractelts_compound kwargs
+
+extern function int_nspgraphic_extract;
+
+int _wrap_nsp_extractelts_compound(Stack stack, int rhs, int opt, int lhs) 
+{
+  return int_nspgraphic_extract(stack,rhs,opt,lhs);
+}
+
+%%
+override nsp_setrowscols_compound kwargs
+
+extern function int_graphic_set_attribute;
+
+int _wrap_nsp_setrowscols_compound(Stack stack, int rhs, int opt, int lhs) 
+{
+  return int_graphic_set_attribute(stack,rhs,opt,lhs);
+}
+
+
+%%
+last
+
+/* inserted verbatim at the end */
+
+static const int lock_size=6;
+
+static void nsp_draw_compound(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data)
+{
+  NspCompound *P = (NspCompound *) Obj;
+  NspGraphic *G =  (NspGraphic *) Obj;
+  NspList *L = P->obj->children;
+  Cell *cloc = L->first;
+  
+  if ( Obj->obj->show == FALSE ) return ;
+
+  /* check if the block is inside drawing rectangle
+   */
+
+  if ( ! nsp_graphic_intersect_rectangle(Obj, rect))
+    {
+      return ;
+    }
+
+  /* draw elements */
+  while ( cloc != NULLCELL ) 
+    {
+      if ( cloc->O != NULLOBJ ) 
+	{
+	  NspGraphic *G= (NspGraphic *) cloc->O;
+	  G->type->draw(Xgc,G,rect,data);
+	}
+      cloc = cloc->next;
+    }
+
+  /* draw rectangle if hilited */
+  if ( G->obj->hilited == TRUE ) nsp_draw_default_mark_compound(Xgc,Obj);
+}
+
+/**
+ * nsp_draw_default_mark_compound:
+ * @Xgc: 
+ * @Obj: 
+ * 
+ * mark<0 no rectangle 
+ * mark>=0 rectangle 
+ * abs(mark)>=1 two squares 
+ * abs(mark)>=2 four squares 
+ * mark_size<0 lock_size for square 
+ * 
+ * mark_size=0 0 no square 
+ * mark_size>0 mark_size*2 for square/mark_size for rectangle *
+ * 
+ **/
+
+static void nsp_draw_default_mark_compound(BCG *Xgc,NspGraphic *Obj)
+{
+  NspCompound *P = (NspCompound *) Obj;
+  NspGraphic *G =  (NspGraphic *) Obj;
+  int color = Xgc->graphic_engine->xset_color(Xgc,P->obj->hilite_color);
+  int x=lock_size,y=lock_size;
+  double xd,yd, xdd=0.0,ydd=0.0, rect[4], bounds[4];
+  
+  /* already take into accound the fact that object is 
+   * hilited in its bounds 
+   */
+  if ( nsp_getbounds_compound(G,bounds)== FALSE ) return;
+  
+  length_scale_i2f(Xgc->scales,&xd,&yd,&x,&y,1);
+  
+  /* square size */
+  if (P->obj->hilite_size>=0) {
+    int sz;
+    sz=P->obj->hilite_size;
+    if (P->obj->hilite_type >0 ) sz=sz*2;
+    length_scale_i2f(Xgc->scales,&xdd,&ydd,&sz,&sz,1);
+  } else {
+    xdd=xd; ydd=yd;
+  }
+  
+  rect[2]=xdd;
+  rect[3]=ydd;
+  
+  /* draw squares */
+  switch(Abs(P->obj->hilite_type))
+  {
+  case 2 :
+    /* four squares */
+    rect[0]=bounds[2] - xd/2 - xdd/2;
+    rect[1]=bounds[3] + ydd/2 - yd/2;
+    Xgc->graphic_engine->scale->fillrectangle(Xgc,rect);
+    rect[0]=bounds[0] - xdd/2 + xd/2;
+    rect[1]=bounds[1] + yd/2 + ydd/2;
+    Xgc->graphic_engine->scale->fillrectangle(Xgc,rect);
+    /* use 1 for the next squares */
+  case 1 :
+    /* two squares */
+    rect[0]=bounds[0] - xdd/2 + xd/2;
+    rect[1]=bounds[3] + ydd/2 - yd/2;
+    Xgc->graphic_engine->scale->fillrectangle(Xgc,rect);
+    rect[0]=bounds[2] - xd/2 - xdd/2;
+    rect[1]=bounds[1] + yd/2 + ydd/2;
+    Xgc->graphic_engine->scale->fillrectangle(Xgc,rect);
+    break;
+  default :
+    break;
+  }
+  /* draw surrounding rectangle */
+  if (P->obj->hilite_type >=0) 
+    {
+      int cwidth=Xgc->graphic_engine->xget_thickness(Xgc);
+      rect[0]=bounds[0] + xd/2.0; 
+      rect[1]=bounds[3] - yd/2.0;
+      rect[2]=bounds[2] - bounds[0] - xd;
+      rect[3]=bounds[3] - bounds[1] - yd;
+      /* rectangle thickness */
+      if (P->obj->hilite_size>0) {
+	Xgc->graphic_engine->xset_thickness(Xgc,P->obj->hilite_size);
+      }
+      Xgc->graphic_engine->scale->drawrectangle(Xgc,rect);
+      /* restore current thickness */
+      if (P->obj->hilite_size>0) 
+	{
+	  Xgc->graphic_engine->xset_thickness(Xgc,cwidth);
+	}
+    }
+  /* restore current color */
+  Xgc->graphic_engine->xset_color(Xgc,color);
+}
+
+/**
+ * nsp_grlist_compute_inside_bounds:
+ * @L: a #NspList 
+ * @bounds: pointer to an array of double of size 4.
+ * 
+ * compute the bounds of the set of objects countained in the 
+ * list. returns %FALSE when the list is empty.
+ * 
+ * Returns: %TRUE or %FALSE
+ **/
+
+int nsp_grlist_compute_inside_bounds(NspList *L,double *bounds)
+{
+  double l_bounds[4];
+  Cell *cloc = L->first ;
+  if ( cloc == NULLCELL) 
+    {
+      bounds[0]=bounds[1]=0;
+      bounds[2]=bounds[3]=0;
+      return FALSE;
+    }
+  
+  bounds[0]=bounds[1]=LARGEST_REAL;
+  bounds[2]=bounds[3]=-LARGEST_REAL;
+
+  while ( cloc != NULLCELL ) 
+    {
+      if ( cloc->O != NULLOBJ ) 
+	{
+	  NspGraphic *G= (NspGraphic *) cloc->O;
+	  G->type->bounds(G,l_bounds);
+	  if ( l_bounds[0] < bounds[0] ) 
+	    bounds[0]= l_bounds[0];
+	  if (  l_bounds[2] > bounds[2])
+	    bounds[2]= l_bounds[2];
+	  if ( l_bounds[1] < bounds[1] ) 
+	    bounds[1]= l_bounds[1];
+	  if (  l_bounds[3] > bounds[3])
+	    bounds[3]= l_bounds[3];
+	}
+      cloc = cloc->next;
+    }
+  return TRUE;
+}
+
+/**
+ * nsp_compound_compute_inside_bounds:
+ * @Obj: a #NspCompound object 
+ * 
+ * Computes the bounds of objects contained in the compound and
+ * store the result in the #NspCompound object.
+ * If the compound is empty %FALSE is returned and  #NspCompound object
+ * is not changed. 
+ * This function should only be called when children of compound are 
+ * modified.
+ * 
+ * Returns: %TRUE or %FALSE 
+ **/
+
+static int nsp_compound_compute_inside_bounds(NspGraphic *Obj)
+{
+  NspCompound *P = (NspCompound *) Obj;
+  double bounds[4];
+  if ( nsp_grlist_compute_inside_bounds(P->obj->children,bounds) == TRUE ) 
+    {
+      memcpy(P->obj->bounds->R,bounds,4*sizeof(double));
+      return TRUE;
+    }
+  return FALSE;
+}
+
+/* Note that the bounds should be changed here
+ */
+
+static void nsp_translate_compound(NspGraphic *Obj,const double *tr)
+{
+  NspCompound *P = (NspCompound *) Obj;
+  NspList *L=  P->obj->children;
+  Cell *cloc =  L->first ;
+  /* XXX */
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  while ( cloc != NULLCELL ) 
+    {
+      if ( cloc->O != NULLOBJ ) 
+	{
+	  NspGraphic *G= (NspGraphic *) cloc->O;
+	  G->type->translate(G,tr);
+	}
+      cloc = cloc->next;
+    }
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_rotate_compound(NspGraphic *Obj,double *R)
+{
+  NspCompound *P = (NspCompound *) Obj;
+  NspList *L=  P->obj->children;
+  Cell *cloc =  L->first ;
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  while ( cloc != NULLCELL ) 
+    {
+      if ( cloc->O != NULLOBJ ) 
+	{
+	  NspGraphic *G= (NspGraphic *) cloc->O;
+	  G->type->rotate(G,R);
+	}
+      cloc = cloc->next;
+    }
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_scale_compound(NspGraphic *Obj,double *alpha)
+{
+  NspCompound *P = (NspCompound *) Obj;
+  NspList *L=  P->obj->children;
+  Cell *cloc =  L->first ;
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  while ( cloc != NULLCELL ) 
+    {
+      if ( cloc->O != NULLOBJ ) 
+	{
+	  NspGraphic *G= (NspGraphic *) cloc->O;
+	  G->type->scale(G,alpha);
+	}
+      cloc = cloc->next;
+    }
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+/**
+ * nsp_getbounds_compound:
+ * @Obj: 
+ * @bounds: 
+ * 
+ * returns in @bounds the bounds of the graphic object, 
+ * taking into account the fact that the object might be hilited.
+ * 
+ * Returns: %TRUE or %FALSE 
+ **/
+
+static int nsp_getbounds_compound(NspGraphic *G,double *bounds)
+{
+  double xd=0.0,yd=0.0;
+  int x=lock_size,y=lock_size;
+  NspCompound *P = (NspCompound *) G;
+  nsp_figure *F = G->obj->Fig;
+  BCG *Xgc = ( F != NULL) ? F->Xgc : NULL;
+  /* nsp_compound_compute_inside_bounds should not always
+   * be called since P->obj->bounds->R should contain the 
+   * result. 
+   */
+  if ( nsp_compound_compute_inside_bounds(G) == FALSE ) 
+    return FALSE;
+  /* copy internal bounds in bounds */
+  memcpy(bounds,P->obj->bounds->R,4*sizeof(double));  
+  /* add  the hilite boundaries to the bounds */
+  if ( Xgc!= NULL) length_scale_i2f(Xgc->scales,&xd,&yd,&x,&y,1);
+  bounds[0] -=  xd/2.0;/* xmin*/
+  bounds[1] -=  yd/2.0;/* ymin*/
+  bounds[2] +=  xd/2.0;/* xmax*/
+  bounds[3] +=  yd/2.0;/* ymax*/
+  return TRUE;
+}
+
+static void nsp_compound_link_figure(NspGraphic *G, void *F, void *A)
+{
+  /* link toplevel, take care to use nsp_graphic field */
+  nsp_graphic_link_figure(G, F,A);
+  /* link children */
+  nsp_list_link_figure(((NspCompound *) G)->obj->children,F,A);
+}
+
+
+static void nsp_compound_unlink_figure(NspGraphic *G, void *F)
+{
+  /* link toplevel */
+  nsp_graphic_unlink_figure(G,  F);
+  /* link children */
+  nsp_list_unlink_figure(((NspCompound *) G)->obj->children,F);
+}
+
+static NspList *nsp_compound_children(NspGraphic *Obj)
+{
+  return  ((NspCompound *) Obj)->obj->children;
+}
+
+

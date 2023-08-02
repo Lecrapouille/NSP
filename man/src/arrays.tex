@@ -1,0 +1,66 @@
+\chapter*{basic array functions}\addcontentsline{toc}{chapter}{basic array functions}
+
+\hypertarget{arrays}{}
+
+Basic operations, functions or methods which apply on any kind of matrices 
+(numerical, strings, arrrays of cells, ...) and sometimes on other 
+nsp objects (list, hash table,...).
+
+\HCode{<hr>}
+basic array operations
+
+\begin{quote}
+\noindent
+\hyperlink{indexing arrays}{indexing arrays} - various ways of indexing arrays \\
+\hyperlink{sub2ind}{sub2ind} - convert multi-dimensional indexing to linear indexing \\
+\hyperlink{ind2sub}{ind2sub} - convert linear indexing to multi-dimensional indexing \\
+\hyperlink{dollar}{dollar} - shortcut notation for the last element\\
+\hyperlink{extraction assignment deletion}{extraction assignment deletion} - basic array operations\\
+\hyperlink{concatenation}{concatenation} - concatenation of matrices\\
+\hyperlink{concatr}{concatr} - method, catenate a matrix by another one on the right side\\   
+\hyperlink{concatd}{concatd} - method, catenate a matrix by another one on the down side\\   
+\hyperlink{set_diag}{set\_diag} - (method) set a diagonal of a matrix \\
+\hyperlink{repmat}{repmat} - replicate a matrix\\
+\end{quote}
+
+
+\HCode{<hr>}
+sizes, tests, reshape 
+
+\begin{quote}
+\noindent
+\hyperlink{size}{size} - dimensions of an array, size of some objects \\
+\hyperlink{length}{length} - length of an object  \\
+\hyperlink{numel}{numel} - length of an object, number of elements of an object  \\
+\hyperlink{isvector}{isvector} - vector test\\
+\hyperlink{isscalar}{isscalar} - scalar test\\
+\hyperlink{isempty}{isempty} - empty matrix or object test\\
+\hyperlink{redim}{redim} - reshape a matrix\\
+\hyperlink{matrix}{matrix} - reshape a matrix\\
+\hyperlink{reshape}{reshape} - reshape a matrix\\
+\end{quote}
+
+
+\HCode{<hr>}
+permutations and subsets
+
+\begin{quote}
+\noindent
+\hyperlink{perms}{perms} - generate all permutations of a vector\\
+\hyperlink{nchoosek}{nchoosek} - compute a binomial coefficient or all k-subsets of a set \\
+\hyperlink{perm_elem}{perm\_elem} - (method) apply (in place) an elementary permutation to a vector or matrix \\
+\end{quote}
+
+
+\input{\mansrc arrays/indexing.tex}
+\input{\mansrc arrays/sub2ind.tex}
+\input{\mansrc arrays/matconcat.tex}
+\input{\mansrc basicnumarrays/set_diag.tex}
+\input{\mansrc arrays/size.tex}
+\input{\mansrc arrays/length.tex}
+\input{\mansrc arrays/repmat.tex}
+\input{\mansrc arrays/perms.tex}
+\input{\mansrc arrays/nchoosek.tex}
+\input{\mansrc arrays/perm_elem.tex}
+\input{\mansrc arrays/redim.tex}
+\input{\mansrc arrays/isvector.tex}

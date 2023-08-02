@@ -1,0 +1,14 @@
+Makelib
+loader.sce
+libmex.c
+libmulti*.c
+.libs
+.nsp_history
+*.lo
+*.o
+*.la
+*.dia
+*.dll
+*.so
+*.dylib
+

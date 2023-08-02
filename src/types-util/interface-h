@@ -1,0 +1,27 @@
+/* -*- Mode: C -*- */
+#ifndef INC_NSP_@TYPENAME@
+#define INC_NSP_@TYPENAME@
+
+/*********************************************************************
+ * This Software is ( Copyright ENPC/CERMICS 1998-2005) 
+ * Jean-Philippe Chancelier Enpc/Cermics 
+ *********************************************************************/
+  
+/* interface @TYPENAME@ */
+
+#include "nsp/object.h"
+
+typedef struct _nsp_type_@TYPENAME@ {
+  NSP_TYPE_OBJECT__
+  /* added */
+} NspType@TYPENAME@ ; 
+
+#define @TYPEMACRO@(t) ((NspType@TYPENAME@ *) t)
+
+extern int nsp_type_@TYPEDOWNCASE@_id;
+extern NspType@TYPENAME@ *nsp_type_@TYPEDOWNCASE@;
+
+NspType@TYPENAME@ *new_type_@TYPEDOWNCASE@(type_mode mode);
+
+#endif 
+

@@ -1,0 +1,291 @@
+% -*- mode: latex -*-
+\mansection{pdf}
+\begin{mandesc}
+  \short{pdf}{probability density or mass functions}
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+y=pdf(dist_type, x [,p1,...,pk])  
+\end{verbatim}
+\end{calling_sequence}
+  %-- Parameters
+\begin{parameters}
+  \begin{varlist}
+   \vname{dist\_type}: a string giving the probability distribution (\verb!"bin"! for binomial, \verb!"nor"!
+   for normal, \verb!"poi"! for Poisson, etc ...)
+    \vname{x}: scalar or vector or matrix with abscissae where the density function must be evaluated
+   \vname{p1, ..., pk}: (scalar) parameters (reals or integers) required to define the distribution \verb!dist_type!
+   \vname{y}: values at \verb+x+ of the choosen density.
+  \end{varlist}
+  \end{parameters}
+  
+\begin{mandescription}
+  Computes various probability density functions (for continuous
+  distributions) 
+  and various probability mass functions (for discrete distributions). Most of the
+  scalar probability distributions of the \manlink{grand}{grand}
+  function are supported. 
+\begin{itemize}
+
+\item \itemdesc{\hypertarget{betapdf}{beta}}  \verb!y=pdf("bet",x,a,b)! computes the beta
+  density with shape parameters $a > 0$ and $b > 0$:
+$$
+     f(x; a, b) =
+        \frac{1}{\beta(a,b)} x^{a-1}(1-x)^{b-1}, \quad x \in (0,1)
+$$
+\href{http://en.wikipedia.org/wiki/Beta_distribution}{Wikipedia page on beta distribution}.
+
+\item \itemdesc{\hypertarget{binpdf}{binomial}} \verb!y=pdf("bin",x,n,p)!. Computes
+  the binomial mass function with parameters $p \in [0,1]$ and $n$
+  (positive integer):
+$$
+     f(x; n, p) = \frac{ n! }{ x! (n-x)!} p^x (1-p)^{n-x}, \quad x \in \{0,1,\dots,n\}
+$$
+\href{http://en.wikipedia.org/wiki/Binomial_distribution}{Wikipedia page on binomial distribution}.
+
+\item \itemdesc{\hypertarget{nbnpdf}{negative binomial}} \verb!y=pdf("nbn",x,r,p)!. Computes
+  the negative binomial mass function with parameters $r > 0$ ($r$ not
+  necessarily integer) and $p \in (0,1]$:
+$$
+     f(x; r, p) = \frac{ \Gamma(r+x) }{ x! \Gamma(r)} p^r (1-p)^x, \quad x \in \{0,1,\dots\}
+$$
+  When $r$ is integer, $f(x; r, p)$ is the probability to get $x$ failures among 
+ independant Bernoulli trials (each one with probability $p$ of success) which are
+ stopped when $r$ success has occured (so the number of Bernoulli trials is $r+x$).  
+\href{http://en.wikipedia.org/wiki/Negative_binomial_distribution}{Wikipedia page on negative binomial distribution}.
+
+\item \itemdesc{\hypertarget{caupdf}{Cauchy}} \verb!y=pdf("cau",x,sigma)! computes the Cauchy
+  density with parameter $\sigma > 0$:
+$$
+     f(x; \sigma) = \frac{ \sigma }{ \pi ( x^2 + \sigma^2 ) }
+$$
+\href{http://en.wikipedia.org/wiki/Cauchy_distribution}{Wikipedia page on Cauchy distribution}.
+
+\item \itemdesc{\hypertarget{chipdf}{chi square}} \verb!y=pdf("chi",x,nu)! computes the chi square
+  density with parameter $\nu > 0$ (number of dof):
+$$
+     f(x; \nu) = \frac{1}{2^{\nu/2} \Gamma(\nu/2)} x^{\nu/2-1} e^{-x/2}, \quad x > 0 
+$$
+\href{http://en.wikipedia.org/wiki/Chi_square_distribution}{Wikipedia page on chi square distribution}.
+
+%% \item \itemdesc{\hypertarget{nchipdf}{non central chi square}} \verb!y=pdf("nch",x,nu,xnonc)! computes the non central chi square
+%%   density with parameters $\nu > 0$ (number of dof) and $\lambda > 0$ (non centrality parameter):
+%% $$
+%%      f(x; \nu, \lambda) = \frac{1}{2} e^{-(x+\lambda)/2}\left(\frac{x}{\lambda}\right)^{\nu/4-1/2}
+%%      I_{\nu/2-1}(\sqrt{\lambda x}) \; \mbox{ for } x > 0 
+%% $$
+%% where $I$ is a modified Bessel function of the first kind.
+
+
+\item \itemdesc{\hypertarget{exppdf}{exponential}} \verb!y=pdf("exp",x,tau)! computes the exponential
+  density with parameter $\tau > 0$:
+$$
+     f(x; \tau) = \frac{1}{\tau} e^{-x/\tau}, \quad x \ge 0
+$$
+Caution: the parameter is more frequently $\lambda = 1/\tau$.
+\href{http://en.wikipedia.org/wiki/Exponential_distribution}{Wikipedia page on exponential distribution}.
+
+
+\item \itemdesc{\hypertarget{fpdf}{F variance ratio}} \verb!y=pdf("f",x,nu1,nu2)! computes
+  the variance ratio density with parameters $\nu_1 > 0$ and $\nu_2 >
+  0$ (respectively number of dof in the numerator and denominator).
+\href{http://en.wikipedia.org/wiki/F-distribution}{Wikipedia page on F distribution}.
+
+
+\item \itemdesc{\hypertarget{gampdf}{gamma}} \verb!y=pdf("gam",x,a,b)! computes the gamma
+  density with parameters $a > 0$ (shape parameter) and $b \ge 0$
+  (rate parameter):
+$$
+     f(x; a, b) = \frac{ b^a x^{a-1} e^{-bx} } {\Gamma(a)}, \quad x > 0
+$$
+Caution: second parameter is often a scale parameter, says $s = 1/b$.
+\href{http://en.wikipedia.org/wiki/Gamma_distribution}{Wikipedia page on gamma distribution}.
+
+\item \itemdesc{\hypertarget{norpdf}{Gauss Laplace}} \verb!y=pdf("nor",x,mu,sigma)! computes the normal
+  density with parameters $\mu$ and $\sigma > 0$:
+$$
+     f(x; \mu, \sigma) = \frac{ 1 }{ \sigma \sqrt{2\pi}}
+     e^{-\frac{1}{2} \left( \frac{x-\mu}{\sigma} \right)^2 }
+$$
+\href{http://en.wikipedia.org/wiki/Normal_distribution}{Wikipedia page on normal distribution}.
+
+
+\item \itemdesc{\hypertarget{geompdf}{geometric}} \verb!y=pdf("geom",x,p)!. Computes
+  the geometric mass function with parameter $p \in (0,1]$:
+$$
+     f(x; p) = (1-p)^{x-1} p, \quad x \in \{1, 2, \dots\}
+$$
+\href{http://en.wikipedia.org/wiki/Geometric_distribution}{Wikipedia page on geometric distribution}.
+
+\item \itemdesc{hypergeometric} \verb!y=pdf("hyp",x,n,r,b)! computes
+  the hypergeometric mass function with parameter $n$ (positive
+  integer) $r$ and $b$ non negative integers with $n \le r + b$. 
+$$
+     f(x; n, r,b) = 
+    \frac{\left(\begin{array}{c}r\\x\end{array}\right)
+          \left(\begin{array}{c}b\\n-x\end{array}\right)}
+         {\left(\begin{array}{c}r+b\\n\end{array}\right)},\quad x \in \{\max(0,n-b),\dots, \min(n,r)\})
+$$
+$f(x; n,r,b)$ is the probability to get $x$ red balls
+in a sample (without replacement) of $n$ balls in an urn
+with $r$ red balls and $b$ blue balls.
+
+
+\item \itemdesc{\hypertarget{lappdf}{Laplace}} \verb!y=pdf("lap",x,a)! computes the Laplace
+  density with parameter $a > 0$:
+$$
+     f(x; a) = \frac{1}{2a} e^{-\frac{|x|}{a}}
+$$
+
+\item \itemdesc{\hypertarget{logipdf}{logistic}} \verb!y=pdf("logi",x,a,b)! computes the logistic
+  density with parameter $a$ and $b > 0$:
+$$
+     f(x; a,b) = \frac{y}{b (1+y)^2}, \; \mbox{ with } y = e^{-{|x-a|}{b}}
+$$
+
+
+\item \itemdesc{\hypertarget{lognpdf}{log normal}} \verb!y=pdf("logn",x,mu,sigma)! computes
+  the log normal density with parameters $\mu$ and $\sigma > 0$:
+$$
+     f(x; \mu, \sigma) = \frac{ 1 }{ \sigma \sqrt{2\pi}}
+     e^{-\frac{1}{2} r^2 }, \; \mbox{ with } r = \frac{\log(x)-\mu}{\sigma}
+$$
+
+
+\item \itemdesc{\hypertarget{parpdf}{Pareto}} \verb!y=pdf("par",x,a,b)! computes the Pareto
+  density with shape parameter $a > 0$ and scale parameter $b > 0$:
+$$
+     f(x; a, b) = \frac{ a/b }{ (x/b)^{a+1} }, \quad x \ge b
+$$
+
+
+\item \itemdesc{\hypertarget{poipdf}{Poisson}} \verb!y=pdf("poi",x,mu)! computes
+  the Poisson mass function with parameter $\mu \ge 0$:
+$$
+     f(x; \mu) = \frac{\mu^x e^{-\mu}}{x!} , \quad x \in \{0, 1, 2, \dots\}
+$$
+
+\item \itemdesc{\hypertarget{raypdf}{Rayleigh}} \verb!y=pdf("ray",x,sigma)! computes the Rayleigh
+  density with parameter $\sigma > 0$:
+$$
+     f(x; \sigma) = \frac{x}{\sigma^2} e^{-\frac{1}{2} (x/\sigma)^2 }, \quad x \ge 0
+$$
+
+\item \itemdesc{\hypertarget{traypdf}{tail Rayleigh}} \verb!y=pdf("tray",x,sigma, a)! computes
+  the tail Rayleigh density with parameters $\sigma > 0$ and $a \ge 0$:
+$$
+     f(x; \sigma, a) = \frac{x}{\sigma^2} e^{-\frac{1}{2} (x-a)(x+a)/\sigma^2 }, \quad x \ge a
+$$
+
+
+\item \itemdesc{\hypertarget{tpdf}{Student's t}} \verb!y=pdf("t",x,nu)! computes
+  the Student's t distribution density with parameter $\nu > 0$
+  (number of dof).
+$$
+    f(x; \nu) = \frac{\Gamma(\frac{\nu+1}{2})}{\sqrt{\nu \pi}\Gamma(\frac{\nu}{2})} \left( 1 + \frac{t^2}{\nu} \right)^{-(\nu+1)/2} 
+$$
+
+
+\item \itemdesc{\hypertarget{uinpdf}{Uniform (uin)}} \verb!y=pdf("uin",x,n1,n2)! computes
+  the  uniform ($U\{n_1,n_1+1,\dots,n_2\}$) mass function with parameters $n_1$ and $n_2$
+  (integers such that $n_1 \le n_2$).
+$$
+     f(x; n_1, n_2) = \frac{ 1 }{ n_2 - n_1 + 1},  \quad x \in \{n_1,n_1+1,\dots,n_2\}
+$$
+
+\item \itemdesc{\hypertarget{unfpdf}{Uniform (unf)}} \verb!y=pdf("unf",x,a,b)! computes
+  the  uniform ($U(a,b)$) density function with parameters $a$ and $b$ ($a < b$).
+$$
+     f(x; a, b) = \frac{1}{b-a}, \quad x \in [a,b]
+$$
+
+
+\item \itemdesc{\hypertarget{weipdf}{Weibull}} \verb!y=pdf("wei",x,a,b)! computes the Weibull
+  density with parameters $a > 0$ and $b > 0$:
+$$
+     f(x; a, b) = \frac{b}{a} e^{ (b-1)\log(x/a) - (x/a)^b }, \quad x > 0
+$$
+
+\end{itemize}
+
+\end{mandescription}
+
+
+\begin{examples}
+  
+\paragraph{example 1} draw N(0,1) 
+\begin{mintednsp}{nsp}
+x = linspace(-5,5,200)';
+y = pdf("nor",x,0,1);
+xclear(); plot2d(x,y,style=2);
+xtitle("The N(0,1) density function")
+\end{mintednsp}
+  
+\paragraph{example 2} draw Gamma(5,1) empirically (with simulation and
+an histogram) and exactly (with pdf):
+\begin{mintednsp}{nsp}
+// generate a rather big sample of Gamma(5,1) variates
+X = grand(1e7,1,"gam",5,1);
+// draw an histogram using 200 classes
+xclear();histplot(200,X)
+// superpose the exact Gamma (5,1) density
+x = linspace(0,20,200)';
+y = pdf("gam",x,5,1);
+xset("thickness",2);plot2d(x,y,style=3,strf="000");xset("thickness",1)
+xtitle("Gamma (5,1) histogram and density")
+\end{mintednsp}
+
+\paragraph{example 3} using pdf and \verb+grand(..,"disc",..)+ to simulate
+binomial random variates (when many random variates must be generated
+this is faster than using directly \verb+grand(..,"bin",..)+):
+\begin{mintednsp}{nsp}
+// compute B(500,0.3) probabilities
+p = pdf("bin",0:500,500,0.3);
+// now simulate B(500,0.3)
+tic(); X = grand(1e7,1,"disc",p)-1; toc()
+// compare with grand(..,"bin",..)
+tic(); Y = grand(1e7,1,"bin",500,0.3); toc()
+// display histogram for each sample and superpose exact probabilities
+classes = (100:201 - 0.5);
+xclear();
+subplot(1,2,1); histplot(classes,X)
+plot2d2(classes,p(101:201),style=5)
+xtitle("B(500,0.3) with grand(..,""disc"",...)")
+subplot(1,2,2); histplot(classes,Y)
+plot2d2(classes,p(101:201),style=5)
+xtitle("B(500,0.3) with grand(..,""bin"",...)")
+\end{mintednsp}
+
+\paragraph{example 5} using pdf and \verb+grand(..,"disc",..)+ to simulate
+hypergeometric random variates. This is useful as grand doesn't yet
+support direct hypergeometric random generation.
+\begin{mintednsp}{nsp}
+// compute H(600,700,800) probabilities
+p = pdf("hyp",0:600,600,700,800);
+// now simulate 
+tic(); X = grand(1e7,1,"disc",p)-1; toc()
+// display histogram and superpose exact probabilities
+classes = (240:321) - 0.5;
+xclear();
+histplot(classes,X)
+plot2d2(classes,p(241:322),style=5)
+xtitle("H(600,700,800) with grand(..,""disc"",...)")
+\end{mintednsp}
+
+\end{examples}
+
+
+
+\begin{manseealso}
+  \manlink{grand}{grand}, \manlink{dist\_stat}{dist_stat}, \manlink{cdf}{cdf}, \manlink{icdf}{icdf}  
+\end{manseealso}
+
+%-- Authors
+
+\begin{authors}
+  beta, binomial, negative binomial, f, t, gamma, hypergeometric and 
+  poisson densities uses the Catherine Loader's dbinom package. Other 
+  densities and nsp interface Bruno Pincon.
+\end{authors}
+

@@ -1,0 +1,15 @@
+;; -*- scheme -*-
+
+(include "box3d-types.defs")
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_box3d
+  (c-name "nsp_extractelts_box3d")
+  (return-type "none")
+)
+(define-function setrowscols_box3d
+  (c-name "nsp_setrowscols_box3d")
+  (return-type "none")
+)
+

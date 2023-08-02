@@ -1,0 +1,33 @@
+;; -*- scheme -*-
+
+(define-objectref GMatrix
+  (in-module "GMatrix")
+  (parent "Graphic")
+  (c-name "NspGMatrix")
+  (fields
+    '("NspMatrix*" "data") ;; Matrix 
+    ;; rect = [xmin,ymin , w, h]
+    '("NspMatrix*" "rect" "std" "{0,0,1,1}" "4" )  
+    '("gboolean"   "remap")  ;; remap color mode 
+    '("NspMatrix*" "colminmax" );; 
+    '("NspMatrix*" "zminmax") ;; 
+    )
+  (gtype-id "GMatrix")
+)
+
+;; just for the name, the code is overwritten 
+
+(define-function extractelts_gmatrix
+  (c-name "nsp_extractelts_gmatrix")
+  (return-type "none")
+)
+(define-function setrowscols_gmatrix
+  (c-name "nsp_setrowscols_gmatrix")
+  (return-type "none")
+)
+
+
+
+
+
+

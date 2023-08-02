@@ -1,0 +1,286 @@
+/* -*- Mode: C -*- */
+%%
+include-start GMatrix
+/* inserted at the start of include file */
+#include <nsp/figure.h>
+
+
+%%
+include-public  GMatrix
+
+/* inserted at the end of public part of include file */
+
+%%
+include-private  GMatrix
+
+/* inserted in the private part of include file */
+static void nsp_draw_gmatrix(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data);
+static void nsp_translate_gmatrix(NspGraphic *o,const double *tr);
+static void nsp_rotate_gmatrix(NspGraphic *o,double *R);
+static void nsp_scale_gmatrix(NspGraphic *o,double *alpha);
+static int nsp_getbounds_gmatrix(NspGraphic *o,double *bounds);
+static void fill_grid_rectangles1_gen(BCG *Xgc,const int x[],const int y[],const double z[],
+				      int nr, int nc,
+				      int remap,const int *colminmax,const double *zminmax);
+
+%%
+headers
+#include <gdk/gdk.h>
+#include <nsp/objects.h>
+#include <nsp/graphics-new/Graphics.h>
+#include <nsp/figuredata.h>
+#include <nsp/figure.h>
+#include <nsp/axes.h>
+
+#ifdef  WITH_OPENGL
+extern Gengine GL_gengine;
+#endif
+
+%%
+init
+
+Init portion
+
+%%
+override-type GMatrix
+  /* inserted verbatim in the type definition */
+  type->gtk_methods = TRUE;
+  /* here we override the method or its father class i.e Graphic */
+  ((NspTypeGraphic *) type->surtype)->draw = nsp_draw_gmatrix;
+  ((NspTypeGraphic *) type->surtype)->translate =nsp_translate_gmatrix ;
+  ((NspTypeGraphic *) type->surtype)->rotate =nsp_rotate_gmatrix  ;
+  ((NspTypeGraphic *) type->surtype)->scale =nsp_scale_gmatrix  ;
+  ((NspTypeGraphic *) type->surtype)->bounds =nsp_getbounds_gmatrix  ;
+  /* next method are defined in NspGraphic and need not be chnaged here for GMatrix */
+  /* ((NspTypeGraphic *) type->surtype)->link_figure = nsp_graphic_link_figure; */
+  /* ((NspTypeGraphic *) type->surtype)->unlink_figure = nsp_graphic_unlink_figure; */
+
+%%
+modulename atk
+/* %%  import gobject.GObject as GObject */
+
+%%
+ignore-glob
+  *_get_type
+
+%%
+override nsp_extractelts_gmatrix kwargs
+
+extern function int_nspgraphic_extract;
+
+int _wrap_nsp_extractelts_gmatrix(Stack stack, int rhs, int opt, int lhs)
+{
+  return int_nspgraphic_extract(stack,rhs,opt,lhs);
+}
+
+%%
+override nsp_setrowscols_gmatrix kwargs
+
+extern function int_graphic_set_attribute;
+
+int _wrap_nsp_setrowscols_gmatrix(Stack stack, int rhs, int opt, int lhs)
+{
+  return int_graphic_set_attribute(stack,rhs,opt,lhs);
+}
+
+%%
+last
+
+/* inserted verbatim at the end */
+
+static void nsp_draw_gmatrix(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data)
+{
+  NspGMatrix *P = (NspGMatrix *) Obj;
+  int remap = P->obj->remap;
+  double xx[]={ P->obj->rect->R[0],P->obj->rect->R[2]};
+  double yy[]={ P->obj->rect->R[1],P->obj->rect->R[3]};
+  int xx1[2],yy1[2];
+  int *xm,*ym,  j;
+  int *colminmax = NULL, icolminmax[2];
+  double *zminmax = NULL;
+  if ( ((NspGraphic *) P)->obj->show == FALSE ) return;
+
+  /* check if the block is inside drawing rectangle
+   */
+  if ( ! nsp_graphic_intersect_rectangle(Obj, rect))
+    {
+      return ;
+    }
+
+  if ( P->obj->colminmax->mn == 2 )
+    {
+      icolminmax[0] = P->obj->colminmax->R[0];
+      icolminmax[1] = P->obj->colminmax->R[1];
+      colminmax = icolminmax;
+    }
+  if ( P->obj->zminmax->mn == 2 )
+    {
+      zminmax = P->obj->zminmax->R;
+    }
+
+  if  (  Xgc->scales->cosa==1.0 )
+    {
+      /* Boundaries of the matrix rectangle in pixel */
+      scale_f2i(Xgc->scales,xx,yy,xx1,yy1,2);
+      xm = graphic_alloc(0,P->obj->data->n+1,sizeof(int));
+      ym = graphic_alloc(1,P->obj->data->m+1,sizeof(int));
+      if ( xm == 0 || ym == 0 )
+	{
+	  Sciprintf("Xgray: running out of memory\n");
+	  return ;
+	}
+      for ( j =0 ; j < (P->obj->data->n+1) ; j++)
+	xm[j]= (int) (( xx1[1]*j + xx1[0]*(P->obj->data->n-j) )/((double) P->obj->data->n));
+      for ( j =0 ; j < (P->obj->data->m+1) ; j++)
+	ym[j]= (int) (( yy1[0]*j + yy1[1]*(P->obj->data->m-j) )/((double) P->obj->data->m));
+      
+      fill_grid_rectangles1_gen(Xgc,xm,ym,P->obj->data->R,
+			    P->obj->data->m,
+			    P->obj->data->n,
+			    remap,
+			    colminmax,
+			    zminmax);
+    }
+  else
+    {
+      double xp[4],yp[4];
+      const double *z =P->obj->data->R;
+      int nr =P->obj->data->m , nc=P->obj->data->n;
+      int colmin,colmax;
+      double zmin,zmax,coeff;
+      int i,j,fill[1],cpat,xz[2];
+      cpat = Xgc->graphic_engine->xget_color(Xgc);
+      Xgc->graphic_engine->xget_windowdim(Xgc,xz,xz+1);
+      nsp_remap_colors(Xgc,remap,&colmin,&colmax,&zmin,&zmax,&coeff,colminmax,zminmax,z,nr*nc);
+
+      for (i = 0 ; i < nc-1 ; i++)
+	for (j = 0 ; j < nr-1 ; j++)
+	  {
+	    fill[0]= (remap == FALSE) ? rint(z[i+nr*j]) : rint((colmax-colmin)*(z[i+nr*j] - zmin)*coeff + colmin);
+	    /* do not draw rectangles which are outside the colormap range */
+	    if ( fill[0] < colmin || fill[0] > colmax ) continue ;
+	    Xgc->graphic_engine->xset_color(Xgc,fill[0]);
+	    xp[0]= (( xx[1]*i + xx[0]*(P->obj->data->n-i) )/((double) P->obj->data->n));
+	    yp[0]= (( yy[0]*j + yy[1]*(P->obj->data->m-j) )/((double) P->obj->data->m));
+	    xp[1]= xp[0];
+	    yp[1]= (( yy[0]*(j+1) + yy[1]*(P->obj->data->m-(j+1)) )/((double) P->obj->data->m));
+	    xp[2]= (( xx[1]*(i+1) + xx[0]*(P->obj->data->n-(i+1)) )/((double) P->obj->data->n));
+	    yp[2]= yp[1];
+	    xp[3]= xp[2];
+	    yp[3]= yp[0];
+	    Xgc->graphic_engine->scale->fillpolyline(Xgc,xp,yp,4,1);
+	  }
+      Xgc->graphic_engine->xset_color(Xgc,cpat);
+    }
+
+}
+
+
+
+static void nsp_translate_gmatrix(NspGraphic *Obj,const double *tr)
+{
+  NspGMatrix *P = (NspGMatrix *) Obj;
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  P->obj->rect->R[0] += tr[0];
+  P->obj->rect->R[2] += tr[0];
+  P->obj->rect->R[1] += tr[1];
+  P->obj->rect->R[3] += tr[1];
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_rotate_gmatrix(NspGraphic *Obj,double *R)
+{
+  /* NspGMatrix *P = (NspGMatrix *) Obj; */
+  Sciprintf("we should get a double here for alpha\n");
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_scale_gmatrix(NspGraphic *Obj,double *alpha)
+{
+  NspGMatrix *P = (NspGMatrix *) Obj;
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+  P->obj->rect->R[0] *= alpha[0];
+  P->obj->rect->R[2] *= alpha[0];
+  P->obj->rect->R[1] *= alpha[1];
+  P->obj->rect->R[3] *= alpha[1];
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+/* compute in bounds the enclosing rectangle of gmatrix
+ *
+ */
+
+static int nsp_getbounds_gmatrix (NspGraphic *Obj,double *bounds)
+{
+  NspGMatrix *P = (NspGMatrix *) Obj;
+  /* get the bound in parent i.e given by wrect : upper-left w,h */
+  bounds[0]=P->obj->rect->R[0]; /* xmin */
+  bounds[1]=P->obj->rect->R[1]; /* ymin */
+  bounds[2]=P->obj->rect->R[2]; /* xmax */
+  bounds[3]=P->obj->rect->R[3]; /* ymax */
+  return TRUE;
+}
+
+
+
+/**
+ * fill_grid_rectangles1_gen:
+ * @Xgc:
+ * @x: array of int of size nc+1
+ * @y: array of int of size nr+1
+ * @z: array of double of size nr*nc
+ *
+ * A generic function for drawing a set of rectangles
+ * which is accelerated on Gtk driver (see periGtk.c)
+ *
+ *  x : of size nc+1 gives the x-values of the grid
+ *  y : of size nr+1 gives the y-values of the grid
+ *  z : of size nr*nc  gives the color to be used
+ *      on the rectangle defined by ( x[i],y[j], x[i+1],y[j+1])
+ *  if zremap = %f then z values are considered as color id
+ *  if zremap = %t zvalues are remapped to colors
+ *      if colminmax== NULL then zmin,zmax are remapped to the min and max
+ *         values of current colormap
+ *      else  the zminmax range is remapped to the colmimax range
+ *         and rectangles outside the range are not drawn
+ *
+ **/
+
+static void fill_grid_rectangles1_gen(BCG *Xgc,const int x[],const int y[],const double z[],
+				      int nr, int nc,
+				      int remap,const int *colminmax,const double *zminmax)
+{
+  int colmin,colmax;
+  double zmin,zmax,coeff;
+  int i,j,fill[1],cpat,xz[2];
+  cpat = Xgc->graphic_engine->xget_color(Xgc);
+  Xgc->graphic_engine->xget_windowdim(Xgc,xz,xz+1);
+
+  nsp_remap_colors(Xgc,remap,&colmin,&colmax,&zmin,&zmax,&coeff,colminmax,zminmax,z,nr*nc);
+
+  for (i = 0 ; i < nr ; i++)
+    for (j = 0 ; j < nc ; j++)
+      {
+	int w,h;
+	fill[0]= (remap == FALSE) ? rint(z[i+nr*j]) :
+	  rint((colmax-colmin)*(z[i+nr*j] - zmin)*coeff + colmin);
+	if ( fill[0] < colmin || fill[0] > colmax )
+	  {
+	    /* do not draw rectangles which are outside the colormap range
+	     * execpt if colout is non null
+	     */
+	    continue;
+	  }
+	Xgc->graphic_engine->xset_color(Xgc,fill[0]);
+	w=Abs(x[j+1]-x[j]);
+	h=Abs(y[i+1]-y[i]);
+	/* We don't trace rectangle which are totally out **/
+	if ( w != 0 && h != 0 && x[j] < xz[0] && y[i] < xz[1] && x[j]+w > 0 && y[i]+h > 0 )
+	  if ( Abs(x[j]) < int16max && Abs(y[i+1]) < int16max && w < uns16max && h < uns16max)
+	    {
+	      double rect[]={x[j],y[i],w,h};
+	      Xgc->graphic_engine->fillrectangle(Xgc,rect);
+	    }
+      }
+  Xgc->graphic_engine->xset_color(Xgc,cpat);
+}

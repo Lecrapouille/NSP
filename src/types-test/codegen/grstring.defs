@@ -1,0 +1,16 @@
+;; -*- scheme -*-
+
+(include "grstring-types.defs")
+
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_grstring
+  (c-name "nsp_extractelts_grstring")
+  (return-type "none")
+)
+(define-function setrowscols_grstring
+  (c-name "nsp_setrowscols_grstring")
+  (return-type "none")
+)
+

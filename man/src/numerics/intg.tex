@@ -1,0 +1,214 @@
+% -*- mode: latex -*-
+
+\mansection{intg}
+\begin{mandesc}
+  \short{intg}{one dimensional integration over a finite or infinite interval}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+Ia = intg(a,b,f)
+[Ia [,ea_estim [,ier [,neval]]]]  = intg(a, b, f, atol=ea, rtol=er, args=fpar,... 
+                                         limit=maxsub, sing=points, vecteval=b)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{a,b}:  real scalars (including \verb+-%inf+ and\verb+%inf+) defining the integration range
+    \vname{f}: nsp function defining the function to integrate
+    \vname{atol=ea}: optional named argument, requested absolute error
+                      on the result (default is 1e-14)
+    \vname{rtol=er}: optional named argument, requested relative error
+                      on the result (default is 1e-8).
+    \vname{args=fpar}: optional named argument, useful to pass
+    additional parameters needed by the function f.
+    \vname{limit=maxsub}: optional named argument, max number of
+    subdivisions allowed (default 750).
+    \vname{sing=points}: optional named argument, array of reals where the integrand
+    is known to be singular (note that you cannot use sing with an infinite range).
+    \vname{vecteval=b}: optional named argument, boolean scalar
+    (default \verb+%f+), use \verb+%t+ if you write the function
+                   \verb+f+ such that it could be evaluated on a
+                   vector argument (this speed up the computation).
+    \vname{Ia}: computed approximate result
+    \vname{ea_estim}: estimated error
+    \vname{ier}: scalar given some information about the computation (see below)
+    \vname{neval}: number of function evaluations.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+This function computes an approximation $I_a$ of:
+$$
+   I = \int_a^b f(x) dx
+$$
+such that:
+$$
+   | I - I_a | \le  \max (atol, rtol*|I|)
+$$
+together with an estimation \verb+ea_estim+ of the error  $| I - I_a |$.
+
+The \verb+ier+ variable could take values from 0 to 5: 
+\begin{itemize}
+\item ier = 0,  normal and reliable termination of the routine. It is assumed that the
+      requested  accuracy has been achieved.
+\item other values correspond to an abnormal termination of the routine. The estimates
+      for integral and error are less reliable. It is assumed that the  requested accuracy
+      has not been achieved:
+      \begin{itemize}
+      \item ier = 1: maximum number of subdivisions (the limit
+            parameter) allowed has been achieved. You can try to
+            increase limit but generally it is advised to have a close look at the
+            integrand, in order to determine the integration
+            difficulties. If the position of a local difficulty can
+            be determined (i.e.  singularity, discontinuity within
+            the interval) one will probably gain by given the singular
+            point(s) using the \verb+sing=+ optional argument (or
+            by using an appropriate special-purpose integrator 
+            designed for handling the type  of difficulty involved).
+      \item ier = 2: the occurrence of roundoff error is detected
+            which prevents the requested tolerance from being
+            achieved. The error may be under-estimated.
+      \item ier = 3: extremely bad integrand behaviour occurs at 
+            some interior points of the integration interval.
+      \item ier = 4: it is presumed that the requested tolerance 
+            cannot be achieved, and that the returned result is the
+            best which can be obtained.
+      \item ier = 5: the integral is probably divergent, or slowly
+            convergent. It must be noted that divergency can occur with
+            any other value of ier.
+      \end{itemize}
+\end{itemize}
+
+Additional parameters for the function $f$ could be passed using the
+named optional argument \verb+args=fpar+ where \verb+fpar+ is a 
+cell array with the additional parameters of $f$ : if $f$ is of the form 
+\verb+function z=f(x,p1,p2,...,pn)+ then \verb+args={p1,p2,...,pn}+. 
+Note that if $f$ has only one additional parameter it is not mandatory 
+to encapsulate it in a cell array (except when the parameter is it 
+self a cell array !). The additional parameters could be any nsp object. 
+See example 3 (and example 5) here after. 
+
+
+While the \verb+sing=+ optional parameter is first devoted to
+integrate functions with (integrable) singularities it can
+be also use to improve the first discretization in the intg 
+computing process. When the internal routine (dqagpe) computes 
+a first approximation of the integral it uses a 21 points 
+Gaussien formula on the whole $[a,b]$ interval. So if these
+points are all located on a part where the function is constant 
+then intg may return a completly false value. To begin the 
+integration approximation using 10 intervals (instead
+of just one) you can use \verb+sing=linspace(a,b,11)+.
+
+\end{mandescription}
+
+\begin{examples}
+  
+\paragraph{example 1} a simple example 
+\begin{mintednsp}{nsp}
+function y=f1(x);y=exp(x);endfunction
+[I,ea] = intg(0,1,f1)
+abs(I-(%e-1)) // exact absolute error
+\end{mintednsp}
+  
+\paragraph{example 2} comparizon with the error function
+\begin{mintednsp}{nsp}
+function y=f2(x);y=2*exp(-x^2)/sqrt(%pi);endfunction
+[Ia,ea] = intg(0,0.5,f2)
+I = erf(0.5)
+abs(I - Ia)
+\end{mintednsp}
+  
+\paragraph{example 3} passing extra parameters (see also example 5). 
+\begin{mintednsp}{nsp}
+// a function with one parameter
+function y=g(x,a);y=a*x;endfunction
+// in this case the usual syntax :
+[Ia,ea] = intg(0,2*%pi,g,args={1})  // exact result is 2*pi^2
+// could be replaced by the short cut :
+[Ia,ea] = intg(0,2*%pi,g,args=1)
+abs(Ia - 2*%pi^2)
+
+// a function with 2 parameters
+function y=g(x,a,w);y=a*x + sin(w*x);endfunction
+[Ia,ea] = intg(0,2*%pi,g,args={1,1}) // exact result is 2*pi^2
+abs(Ia - 2*%pi^2)
+\end{mintednsp}
+
+\paragraph{example 4} a difficult problem. Here we try to integrate:
+$$
+    f(x) = 2 x \cos \left(\frac{1}{x}\right) +  \sin \left(\frac{1}{x}\right)
+$$ 
+on $[0,1]$. $f$ is not continuous at $0$ and oscillate more and more
+rapidly as $x \rightarrow 0$. The antiderivative of $f$
+is:
+$$
+    F(x) = x^2  \cos \left(\frac{1}{x}\right)
+$$
+so we know the exact result ($I=\cos(1)$). We write the function in a vectorial
+manner so as to experiment also with the \verb+vecteval+ option. 
+\begin{mintednsp}{nsp}
+function y=f(x);y = 2*x.*cos(1./x) + sin(1./x); endfunction
+
+// 1/ reduce the tolerance
+[Ia,ea,ier] = intg(0,1,f, rtol=1e-6)
+
+// 2/ increase the limit parameter (trying to reach the requested precision)
+[Ia,ea,ier] = intg(0,1,f, rtol=1e-6, limit=10000)
+
+// 3/ compare ea the estimated error with the (near) exact error:
+ea_exact = abs(Ia-cos(1))
+
+// 4/ increase rtol and measure the computing time
+tic(); [Ia,ea,ier] = intg(0,1,f, rtol=1e-7, limit=10000); toc()
+
+// 5/ the same using vecteval=%t (it must be faster)
+tic(); [Ia,ea,ier] = intg(0,1,f, rtol=1e-7, limit=10000, vecteval=%t); toc()
+\end{mintednsp}
+
+  
+\paragraph{example 5} In this example we try to integrate probability 
+density functions, theorical results must be all equal to 1 (see the
+\manlink{pdf}{pdf} help page). 
+\begin{mintednsp}{nsp}
+// a function to handle all pdf functions with intg
+function y=f(x,p);y=pdf(p{1},x,p{2:$});endfunction
+
+// integrating the N(0,1) density
+[Ia, ea, ier] = intg(-%inf, %inf, f, args={{"nor",0,1}})
+
+// integrating the gamma (3,1) density
+[Ia, ea, ier] = intg(0, %inf, f, args={{"gam",3,1}})
+
+// integrate the Cauchy (100) density
+[Ia, ea, ier] = intg(-%inf, %inf, f, args={{"cau",100}})
+
+// integrate the Laplace (1000) density
+[Ia, ea, ier] = intg(-%inf, %inf, f, args={{"lap",1000}})
+
+// integrate the beta (2,6) density
+[Ia, ea, ier] = intg(0, 1, f, args={{"bet",2,6}})
+\end{mintednsp}
+  
+\paragraph{example 6} Integration with singularities.
+\begin{mintednsp}{nsp}
+function y=f(x);y = log(abs(x)); endfunction
+[Ia,ea,ier] = intg(-1,1,f, sing=0) // exact result is -2
+Ia+2
+\end{mintednsp}
+
+
+\end{examples}
+
+\begin{manseealso}
+  \manlink{intg\_splin}{intg_splin}, \manlink{int2d}{int2d},  \manlink{int3d}{int3d}  
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+  uses the routine dqagpe and dqagie (Robert Piessens and Elise de Doncker) from
+  quadpack. Nsp interface: Bruno Pincon.
+\end{authors}

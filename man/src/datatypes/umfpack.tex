@@ -1,0 +1,91 @@
+% -*- mode: latex -*-
+
+\mansection{umfpack}
+\begin{mandesc}
+  \short{Umfpack}{datatype for umfpack factorization of sparse matrices}\\
+  \shortunder{umfpack\_create}{umfpack_create}{creates a Umfpack object from a sparse matrix}\\
+  \shortunder{umfpack\_solve}{umfpack_solve}{solves a linear system with umfpack}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+Au=umfpack_create(As)
+[Au,sing]=umfpack_create(As)
+xf=umfpack_solve(As,Bf,mode=string,irstep=int)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{As}: a real or complex sparse matrix
+    \vname{Au}: an Umfpack nsp object.
+    \vname{sing}: a scalar boolean (true if the matrix is detected as singular) 
+    \vname{Bf,xf}: real or complex full matrices 
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+The \emph{Umfpack} data type (\verb+type(Au,'short')== 'umfpack'+) is used to 
+encapsulate Umfpack LU factorization of matrices (provided by Tim Davis' Umfpack library). 
+\end{mandescription}. It is possible to check using the boolean variable \verb+%umfpack+ 
+if your current nsp version has been compiled with umfpack support. The \verb+solve+ method 
+can then be used to solve linear systems. \emph{Umfpack} data type are usefull if 
+repeated use of the \verb+solve+ method for the same matrix is to be used, 
+since the factorization is kept in the \emph{Umfpack} object. When just one linear 
+system is to be solved the simplified version \verb+xf=umfpack_solve(As,Bf)+ can be used. 
+The optional arguments of \verb+umfpack_solve+ are described below in the umfpack method
+\verb+solve+.
+
+\paragraph{Operations on umfpack}
+The following methods are available for Umfpack objects:
+\begin{varlist}
+  \vname{A.solve[B,mode=string,irstep=int]}: solves the linear system \verb+A*x=B\verb+ (when mode is not given), \verb+B+ is given as a full 
+   matrix. The optional parameter \verb+irstep+ can be used to set the maximal number of refinement iterations.
+   The optional parameter \verb+mode+ can be used to specify the linear system to solve. Possible values are~:
+     \begin{itemize} 
+        \item \verb+mode='Pt_L'+ for solving \verb+P'Lx=b+
+        \item \verb+mode='L'+for solving \verb+Lx=b+
+        \item \verb+mode='Lt_P'+for solving \verb+L'Px = b+
+        \item \verb+mode='Lat_P'+for solving \verb+L.'Px=b+
+        \item \verb+mode='Lt'+for solving \verb+L.'x=b+
+        \item \verb+mode='U_Qt'+for solving \verb+UQ'x=b+
+        \item \verb+mode='U'+for solving \verb+Ux=b+
+        \item \verb+mode='Q_Ut'+for solving \verb+QU'x=b+
+        \item \verb+mode='Q_Uat'+for solving \verb+QU.'x=b+
+        \item \verb+mode='Ut'+for solving \verb+U'x=b+
+        \item \verb+mode='Uat'+for solving \verb+U.'x=b+
+     \end{itemize}
+  \vname{[L,U,p,q,r]=A.luget[]}: returns the \verb+LU+ factorization contained in Umfpack object \verb+A+ i.e the following relation should be met~: \verb+Ap= diag(1 ./ r) *A+ and 
+  \verb+L*U=Ap(p,q)+ 
+  \vname{A.isreal[]}: returns a boolean to check if the given Umfpack object comes from a real 
+  (\verb+%t+) or complex (\verb+%f+) matrix. 
+  \vname{A.det[]}: returns the determinant of Umfpack object \verb+A+.
+  \vname{A.rcond[]}: returns an estimation of the reciprocal condition
+  number in 1-norm (using lapack routines dlacon/zlacon) of Umfpack object \verb+A+.
+  \end{varlist}
+
+\begin{examples}
+\begin{mintednsp}{nsp}
+Af = sprand(10,10,0.8);
+A= umfpack_create(Af);
+A.isreal[]
+A.det[] 
+A.rcond[] 
+b=rand(10,2); 
+xu= A.solve[b]; 
+norm(Af*xu- b) 
+xu1 = umfpack_solve(Af,b);
+\end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+\manlink{Cholmod}{Cholmod}, \manlink{lu}{lu}
+\end{manseealso}
+
+
+% -- Authors
+\begin{authors}
+   umfpack lib: Tim Davis, nsp interface: Jean-Philippe Chancelier,
+   Bruno Pincon (rcond)
+\end{authors}

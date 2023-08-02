@@ -1,0 +1,670 @@
+
+man/src/blocks/ZCROSS_f.tex,0
+
+man/src/blocks/WRITEC_f.tex,0
+
+man/src/blocks/WRITEAU_f.tex,0
+
+man/src/blocks/WhileIterator.tex,0
+
+man/src/blocks/WFILE.tex,0
+
+man/src/blocks/WFILE_f.tex,0
+
+man/src/blocks/VVsourceAC.tex,0
+
+man/src/blocks/VUMETER.tex,0
+
+man/src/blocks/VsourceAC.tex,0
+
+man/src/blocks/VolumeFlow.tex,0
+
+man/src/blocks/VoltageSensor.tex,0
+
+man/src/blocks/VirtualCLK0.tex,0
+
+man/src/blocks/VariableResistor.tex,0
+
+man/src/blocks/VARIABLE_DELAY.tex,0
+
+man/src/blocks/VanneReglante.tex,0
+
+man/src/blocks/ValveDiscrete.tex,0
+
+man/src/blocks/ValveContinuous.tex,0
+
+man/src/blocks/TrigFun.tex,0
+
+man/src/blocks/TRASH_f.tex,0
+
+man/src/blocks/TRANSMIT.tex,0
+
+man/src/blocks/TOWS_c.tex,0
+
+man/src/blocks/TKSWITCH.tex,0
+
+man/src/blocks/TKSCALE.tex,0
+
+man/src/blocks/TIME_f.tex,0
+
+man/src/blocks/TIME_DELAY.tex,0
+
+man/src/blocks/TEXT_f.tex,0
+
+man/src/blocks/TCLSS.tex,0
+
+man/src/blocks/TCLSS_f.tex,0
+
+man/src/blocks/TanTF.tex,0
+
+man/src/blocks/Tank.tex,0
+
+man/src/blocks/Tank3.tex,0
+
+man/src/blocks/Tank2.tex,0
+
+man/src/blocks/TANBLK_f.tex,0
+
+man/src/blocks/SyncTag.tex,0
+
+man/src/blocks/Switch.tex,0
+
+man/src/blocks/SWITCH_f.tex,0
+
+man/src/blocks/SWITCH2.tex,0
+
+man/src/blocks/SWITCH2_s.tex,0
+
+man/src/blocks/SWITCH2_m.tex,0
+
+man/src/blocks/SUPER_f.tex,0
+
+man/src/blocks/SUMMATION.tex,0
+
+man/src/blocks/SUM_f.tex,0
+
+man/src/blocks/SUBMAT.tex,0
+
+man/src/blocks/STEP.tex,0
+
+man/src/blocks/STEP_FUNCTION.tex,0
+
+man/src/blocks/STEP_FUNC.tex,0
+
+man/src/blocks/SRFLIPFLOP.tex,0
+
+man/src/blocks/SQRT.tex,0
+
+man/src/blocks/SPLIT_f.tex,0
+
+man/src/blocks/SourceP.tex,0
+
+man/src/blocks/SOM_f.tex,0
+
+man/src/blocks/SLIDER_m.tex,0
+
+man/src/blocks/SLIDER_f.tex,0
+
+man/src/blocks/SineVoltage.tex,0
+
+man/src/blocks/SineTF.tex,0
+
+man/src/blocks/Sine.tex,0
+
+man/src/blocks/SINBLK_f.tex,0
+
+man/src/blocks/SIGNUM.tex,0
+
+man/src/blocks/Sigbuilder.tex,0
+
+man/src/blocks/SHIFT.tex,0
+
+man/src/blocks/Sensor.tex,0
+
+man/src/blocks/SENSOR_f.tex,0
+
+man/src/blocks/SELECT_m.tex,0
+
+man/src/blocks/SELECT_f.tex,0
+
+man/src/blocks/SecondOrder.tex,0
+
+man/src/blocks/scifunc_block.tex,0
+
+man/src/blocks/scifunc_block_m.tex,0
+
+man/src/blocks/scifunc_block5.tex,0
+
+man/src/blocks/SCALAR2VECTOR.tex,0
+
+man/src/blocks/SAWTOOTH_f.tex,0
+
+man/src/blocks/SATURATION.tex,0
+
+man/src/blocks/SATURATIONDYNAMIC.tex,0
+
+man/src/blocks/SAT_f.tex,0
+
+man/src/blocks/SAMPLEHOLD_f.tex,0
+
+man/src/blocks/SampleCLK.tex,0
+
+man/src/blocks/SAMPHOLD.tex,0
+
+man/src/blocks/SAMPHOLD_m.tex,0
+
+man/src/blocks/ROOTCOEF.tex,0
+
+man/src/blocks/RICC.tex,0
+
+man/src/blocks/RFILE.tex,0
+
+man/src/blocks/RFILE_f.tex,0
+
+man/src/blocks/Resistor.tex,0
+
+man/src/blocks/RELAY_f.tex,0
+
+man/src/blocks/RELATIONALOP.tex,0
+
+man/src/blocks/REGISTER.tex,0
+
+man/src/blocks/REGISTER_f.tex,0
+
+man/src/blocks/READC_f.tex,0
+
+man/src/blocks/READAU_f.tex,0
+
+man/src/blocks/RATELIMITER.tex,0
+
+man/src/blocks/RAND_m.tex,0
+
+man/src/blocks/RAND_f.tex,0
+
+man/src/blocks/RAMP.tex,0
+
+man/src/blocks/QUANT_f.tex,0
+
+man/src/blocks/PULSE_SD.tex,0
+
+man/src/blocks/PULSE_SC.tex,0
+
+man/src/blocks/PuitsP.tex,0
+
+man/src/blocks/PT1.tex,0
+
+man/src/blocks/PRODUCT.tex,0
+
+man/src/blocks/PROD_f.tex,0
+
+man/src/blocks/PressureSensor.tex,0
+
+man/src/blocks/PressionSource.tex,0
+
+man/src/blocks/POWBLK_f.tex,0
+
+man/src/blocks/PotentialSensor.tex,0
+
+man/src/blocks/POSTONEG_f.tex,0
+
+man/src/blocks/PNP.tex,0
+
+man/src/blocks/PMOS.tex,0
+
+man/src/blocks/PI.tex,0
+
+man/src/blocks/Pipe.tex,0
+
+man/src/blocks/PID.tex,0
+
+man/src/blocks/PID2.tex,0
+
+man/src/blocks/PerteDP.tex,0
+
+man/src/blocks/PENDULUM_ANIM.tex,0
+
+man/src/blocks/PDE.tex,0
+
+man/src/blocks/PAL_f.tex,0
+
+man/src/blocks/OUTIMPL_f.tex,0
+
+man/src/blocks/OUT_f.tex,0
+
+man/src/blocks/OpAmp.tex,0
+
+man/src/blocks/nspexpr.tex,0
+
+man/src/blocks/NRMSOM_f.tex,0
+
+man/src/blocks/NPN.tex,0
+
+man/src/blocks/NMOS.tex,0
+
+man/src/blocks/NEGTOPOS_f.tex,0
+
+man/src/blocks/M_VSWITCH.tex,0
+
+man/src/blocks/MUX.tex,0
+
+man/src/blocks/MUX_f.tex,0
+
+man/src/blocks/M_SWITCH.tex,0
+
+man/src/blocks/m_sin.tex,0
+
+man/src/blocks/MPBLOCK.tex,0
+
+man/src/blocks/MOTOR.tex,0
+
+man/src/blocks/Modulo_Count.tex,0
+
+man/src/blocks/MISSING_BLOCK.tex,0
+
+man/src/blocks/MIN_f.tex,0
+
+man/src/blocks/M_freq.tex,0
+
+man/src/blocks/MFCLCK_f.tex,0
+
+man/src/blocks/MEMORY_f.tex,0
+
+man/src/blocks/Medias.tex,0
+
+man/src/blocks/MCLOCK_f.tex,0
+
+man/src/blocks/MBLOCK.tex,0
+
+man/src/blocks/MAXMIN.tex,0
+
+man/src/blocks/MAX_f.tex,0
+
+man/src/blocks/MATZREIM.tex,0
+
+man/src/blocks/MATZCONJ.tex,0
+
+man/src/blocks/MATTRAN.tex,0
+
+man/src/blocks/MATSUM.tex,0
+
+man/src/blocks/MATSING.tex,0
+
+man/src/blocks/MATRESH.tex,0
+
+man/src/blocks/MATPINV.tex,0
+
+man/src/blocks/MATMUL.tex,0
+
+man/src/blocks/MATMAGPHI.tex,0
+
+man/src/blocks/MATLU.tex,0
+
+man/src/blocks/MATINV.tex,0
+
+man/src/blocks/MATEXPM.tex,0
+
+man/src/blocks/MATEIG.tex,0
+
+man/src/blocks/MATDIV.tex,0
+
+man/src/blocks/MATDIAG.tex,0
+
+man/src/blocks/MATDET.tex,0
+
+man/src/blocks/MATCATV.tex,0
+
+man/src/blocks/MATCATH.tex,0
+
+man/src/blocks/MATBKSL.tex,0
+
+man/src/blocks/Loop_Breaker.tex,0
+
+man/src/blocks/LOOKUP_f.tex,0
+
+man/src/blocks/LOOKUP_c.tex,0
+
+man/src/blocks/LOOKUP2D.tex,0
+
+man/src/blocks/LOGIC.tex,0
+
+man/src/blocks/LOGICAL_OP.tex,0
+
+man/src/blocks/LOGBLK_f.tex,0
+
+man/src/blocks/Limiter.tex,0
+
+man/src/blocks/JKFLIPFLOP.tex,0
+
+man/src/blocks/ISELECT_m.tex,0
+
+man/src/blocks/ISELECT_f.tex,0
+
+man/src/blocks/INVBLK.tex,0
+
+man/src/blocks/INVBLK_f.tex,0
+
+man/src/blocks/INTRPLBLK_f.tex,0
+
+man/src/blocks/INTRP2BLK_f.tex,0
+
+man/src/blocks/INTMUL.tex,0
+
+man/src/blocks/INTEGRAL.tex,0
+
+man/src/blocks/INTEGRAL_m.tex,0
+
+man/src/blocks/INTEGRAL_f.tex,0
+
+man/src/blocks/INIMPL_f.tex,0
+
+man/src/blocks/IN_f.tex,0
+
+man/src/blocks/Inductor.tex,0
+
+man/src/blocks/IMPSPLIT_f.tex,0
+
+man/src/blocks/IFTHEL_f.tex,0
+
+man/src/blocks/IdealTransformer.tex,0
+
+man/src/blocks/HYSTHERESIS.tex,0
+
+man/src/blocks/HGround.tex,0
+
+man/src/blocks/HALT_f.tex,0
+
+man/src/blocks/Gyrator.tex,0
+
+man/src/blocks/GTKRANGE.tex,0
+
+man/src/blocks/Ground.tex,0
+
+man/src/blocks/Ground_g.tex,0
+
+man/src/blocks/GOTO.tex,0
+
+man/src/blocks/GotoTagVisibility.tex,0
+
+man/src/blocks/GotoTagVisibilityMO.tex,0
+
+man/src/blocks/GOTOMO.tex,0
+
+man/src/blocks/GEN_SQR.tex,0
+
+man/src/blocks/GENSQR_f.tex,0
+
+man/src/blocks/GENSIN_f.tex,0
+
+man/src/blocks/generic_block.tex,0
+
+man/src/blocks/generic_block3.tex,0
+
+man/src/blocks/generic_block2.tex,0
+
+man/src/blocks/GENERAL_f.tex,0
+
+man/src/blocks/Gain.tex,0
+
+man/src/blocks/GAIN_f.tex,0
+
+man/src/blocks/GAINBLK.tex,0
+
+man/src/blocks/GAINBLK_f.tex,0
+
+man/src/blocks/func_block.tex,0
+
+man/src/blocks/FSV_f.tex,0
+
+man/src/blocks/FROMWS_c.tex,0
+
+man/src/blocks/FROMWSB.tex,0
+
+man/src/blocks/FROM.tex,0
+
+man/src/blocks/FROMMO.tex,0
+
+man/src/blocks/freq_div.tex,0
+
+man/src/blocks/fortran_block.tex,0
+
+man/src/blocks/ForIterator.tex,0
+
+man/src/blocks/FluxSensor.tex,0
+
+man/src/blocks/Flowmeter.tex,0
+
+man/src/blocks/FirstOrder.tex,0
+
+man/src/blocks/Feedback.tex,0
+
+man/src/blocks/EXTTRI.tex,0
+
+man/src/blocks/EXTRACT.tex,0
+
+man/src/blocks/EXTRACTOR.tex,0
+
+man/src/blocks/EXTRACTBITS.tex,0
+
+man/src/blocks/Extract_Activation.tex,0
+
+man/src/blocks/EXPRESSION.tex,0
+
+man/src/blocks/EXPBLK_m.tex,0
+
+man/src/blocks/EXPBLK_f.tex,0
+
+man/src/blocks/EVTVARDLY.tex,0
+
+man/src/blocks/EVTGEN_f.tex,0
+
+man/src/blocks/EVTDLY.tex,0
+
+man/src/blocks/EVTDLY_f.tex,0
+
+man/src/blocks/EVTDLY_c.tex,0
+
+man/src/blocks/ESELECT_f.tex,0
+
+man/src/blocks/END_c.tex,0
+
+man/src/blocks/ENDBLK.tex,0
+
+man/src/blocks/EDGETRIGGER.tex,0
+
+man/src/blocks/EDGE_TRIGGER.tex,0
+
+man/src/blocks/DSUPER.tex,0
+
+man/src/blocks/DOLLAR.tex,0
+
+man/src/blocks/DOLLAR_m.tex,0
+
+man/src/blocks/DOLLAR_f.tex,0
+
+man/src/blocks/DMSCOPE.tex,0
+
+man/src/blocks/DLSS.tex,0
+
+man/src/blocks/DLSS_f.tex,0
+
+man/src/blocks/DLR.tex,0
+
+man/src/blocks/DLR_f.tex,0
+
+man/src/blocks/DLRADAPT_f.tex,0
+
+man/src/blocks/DLATCH.tex,0
+
+man/src/blocks/DISCRETE_DERIVATIVE.tex,0
+
+man/src/blocks/Diode.tex,0
+
+man/src/blocks/DIFF_f.tex,0
+
+man/src/blocks/DIFF_c.tex,0
+
+man/src/blocks/DFLIPFLOP.tex,0
+
+man/src/blocks/DERIV.tex,0
+
+man/src/blocks/DEMUX.tex,0
+
+man/src/blocks/DEMUX_f.tex,0
+
+man/src/blocks/DELAYV_f.tex,0
+
+man/src/blocks/DELAY_f.tex,0
+
+man/src/blocks/DEBUG_SCICOS.tex,0
+
+man/src/blocks/DEADBAND.tex,0
+
+man/src/blocks/CVS.tex,0
+
+man/src/blocks/CURV_f.tex,0
+
+man/src/blocks/CURVE_c.tex,0
+
+man/src/blocks/CurrentSensor.tex,0
+
+man/src/blocks/CUMSUM.tex,0
+
+man/src/blocks/CSCOPXY.tex,0
+
+man/src/blocks/CSCOPXY3D.tex,0
+
+man/src/blocks/CSCOPE.tex,0
+
+man/src/blocks/Counter.tex,0
+
+man/src/blocks/COSBLK_f.tex,0
+
+man/src/blocks/CONVERT.tex,0
+
+man/src/blocks/CONST.tex,0
+
+man/src/blocks/CONSTRAINT_c.tex,0
+
+man/src/blocks/CONSTRAINT2_c.tex,0
+
+man/src/blocks/CONST_m.tex,0
+
+man/src/blocks/CONST_f.tex,0
+
+man/src/blocks/ConstantVoltage.tex,0
+
+man/src/blocks/Constant.tex,0
+
+man/src/blocks/COMBINATORIALLOGIC.tex,0
+
+man/src/blocks/CMSCOPE.tex,0
+
+man/src/blocks/CMATVIEW.tex,0
+
+man/src/blocks/CMAT3D.tex,0
+
+man/src/blocks/CLSS.tex,0
+
+man/src/blocks/CLSS_f.tex,0
+
+man/src/blocks/CLR.tex,0
+
+man/src/blocks/CLR_f.tex,0
+
+man/src/blocks/CLOCK_f.tex,0
+
+man/src/blocks/CLOCK_c.tex,0
+
+man/src/blocks/CLKSPLIT_f.tex,0
+
+man/src/blocks/CLKSOMV_f.tex,0
+
+man/src/blocks/CLKSOM_f.tex,0
+
+man/src/blocks/CLKOUTV_f.tex,0
+
+man/src/blocks/CLKOUT_f.tex,0
+
+man/src/blocks/CLKINV_f.tex,0
+
+man/src/blocks/CLKIN_f.tex,0
+
+man/src/blocks/CLKGOTO.tex,0
+
+man/src/blocks/CLKGotoTagVisibility.tex,0
+
+man/src/blocks/CLKFROM.tex,0
+
+man/src/blocks/CLINDUMMY_f.tex,0
+
+man/src/blocks/CFSCOPE.tex,0
+
+man/src/blocks/CEVENTSCOPE.tex,0
+
+man/src/blocks/CCS.tex,0
+
+man/src/blocks/CBLOCK.tex,0
+
+man/src/blocks/c_block.tex,0
+
+man/src/blocks/CBLOCK4.tex,0
+
+man/src/blocks/Capacitor.tex,0
+
+man/src/blocks/CANIMXY.tex,0
+
+man/src/blocks/CANIMXY3D.tex,0
+
+man/src/blocks/BUSSPLIT.tex,0
+
+man/src/blocks/BUSSELECTOR.tex,0
+
+man/src/blocks/BUSOUT_f.tex,0
+
+man/src/blocks/BUSIN_f.tex,0
+
+man/src/blocks/BUSCREATOR.tex,0
+
+man/src/blocks/BPLATFORM.tex,0
+
+man/src/blocks/BOUNCEXY.tex,0
+
+man/src/blocks/BOUNCE.tex,0
+
+man/src/blocks/BITSET.tex,0
+
+man/src/blocks/BITCLEAR.tex,0
+
+man/src/blocks/BIGSOM_f.tex,0
+
+man/src/blocks/BACKLASH.tex,0
+
+man/src/blocks/Bache.tex,0
+
+man/src/blocks/AUTOMAT.tex,0
+
+man/src/blocks/Atmosphere.tex,0
+
+man/src/blocks/AtanTF.tex,0
+
+man/src/blocks/Assignment.tex,0
+
+man/src/blocks/ASSERT.tex,0
+
+man/src/blocks/ANDLOG_f.tex,0
+
+man/src/blocks/ANDBLK.tex,0
+
+man/src/blocks/AFFICH_m.tex,0
+
+man/src/blocks/AFFICH_f.tex,0
+
+man/src/blocks/Actuator.tex,0
+
+man/src/blocks/ACTUATOR_f.tex,0
+
+man/src/blocks/ABS_VALUE.tex,0
+
+man/src/blocks/ABS_VALUEi.tex,0
+
+man/src/blocks/ABSBLK_f.tex,0

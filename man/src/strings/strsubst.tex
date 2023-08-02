@@ -1,0 +1,38 @@
+% -*- mode: latex -*-
+
+\mansection{strsubst}
+\begin{mandesc}
+  \short{strsubst}{sub-string substitution in a string matrix}
+\end{mandesc}
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  B=strsubst(A,Pat,Rep)
+\end{verbatim}
+\end{calling_sequence}
+
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{B,A,Pat,Rep}: string matrices.
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  Replaces occurrences of \verb+Pat(i)+ by \verb+Rep(i)+ in string matrix \verb+A+ for \verb+i=1:size(Pat,'*')+. 
+  The replacements are done sequentially on the indices of \verb+Pat+.
+\end{mandescription}
+
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    S=strsubst('la terre est noire','noire','bleue');
+    S=strsubst(['one','two'],['one','two'],['two','three']); 
+    S=strsubst(['xne'],['x','one'],['o','two']);
+  \end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+  \manlink{regsub}{regsub}
+  \manlink{regexp}{regexp}
+  \manlink{Smat}{Smat}  
+\end{manseealso}

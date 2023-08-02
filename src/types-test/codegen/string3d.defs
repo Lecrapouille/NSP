@@ -1,0 +1,16 @@
+;; -*- scheme -*-
+
+(include "string3d-types.defs")
+
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_string3d
+  (c-name "nsp_extractelts_string3d")
+  (return-type "none")
+)
+(define-function setrowscols_string3d
+  (c-name "nsp_setrowscols_string3d")
+  (return-type "none")
+)
+

@@ -1,0 +1,15 @@
+;; -*- scheme -*-
+
+(include "contour3d-types.defs")
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_contour3d
+  (c-name "nsp_extractelts_contour3d")
+  (return-type "none")
+)
+(define-function setrowscols_contour3d
+  (c-name "nsp_setrowscols_contour3d")
+  (return-type "none")
+)
+

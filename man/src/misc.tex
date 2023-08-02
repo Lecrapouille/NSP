@@ -1,0 +1,116 @@
+\chapter*{misc}\addcontentsline{toc}{chapter}{misc}
+
+Unsorted miscellaneous functions.
+
+\HCode{<hr>}
+System
+
+\begin{quote}
+\noindent
+\hyperlink{acquire}{acquire} - search a variable in callers  \\
+\hyperlink{clear}{clear},\hyperlink{clearglobal}{clearglobal} - removes variables from current or global environnement  \\
+\end{quote}
+
+
+\HCode{<hr>}
+Programming
+
+\begin{quote}
+\noindent
+\hyperlink{parse_dim_arg}{parse\_dim\_arg} - parse a string or number corresponding to a dimensional argument \\
+\end{quote}
+
+
+\HCode{<hr>}
+Logical operators
+
+\begin{quote}
+\noindent
+\hyperlink{and}{and} - logical and operator \\
+\hyperlink{or}{or} - logical or operator \\
+\hyperlink{not}{not} - logical not operator \\
+\end{quote}
+
+\HCode{<hr>}
+Logical operator (Matlab compatibility)
+
+\begin{quote}
+\noindent
+\hyperlink{any}{any} - checks if any element is nonzero or true  \\
+\hyperlink{all}{all} - checks if all elements are nonzero or true \\
+\end{quote}
+
+\HCode{<hr>}
+Coordinates transformation functions
+
+\begin{quote}
+\noindent
+\hyperlink{sph2cart}{sph2cart},\hyperlink{cart2sph}{cart2sph} -
+cartesian to spherical coordinates transformations functions \\
+\end{quote}
+
+
+\HCode{<hr>}
+Special mathematical functions
+
+\begin{quote}
+\noindent
+\hyperlink{bincoeff}{bincoeff} - {binomial coefficients}\\
+\hyperlink{digamma}{digamma} - {logarithmic derivative of the gamma function}
+\hyperlink{erfcx}{erfcx} - {The scaled complementary error function.}\\
+\hyperlink{erfc}{erfc} - {The complementary error function.}\\
+\hyperlink{erf}{erf} - {The error function.}\\
+\hyperlink{gamma}{gamma} - {Gamma function}\\
+\hyperlink{hypot}{hypot} - {length of hypotenuse.}\\
+\hyperlink{legendre}{legendre} - associated legendre function\\
+\hyperlink{lngamma}{lngamma} - {Logarithm of gamma function}\\
+\end{quote}
+
+\HCode{<hr>}
+Polynomial
+
+\begin{quote}
+\noindent
+\hyperlink{horner}{horner} - polynomial evaluation or composition \\
+\hyperlink{hornerm}{hornerm} - substituting matrix in polynomial indeterminate \\
+\hyperlink{cofactors}{cofactors} - gcd and cofactors of polynomials \\
+\hyperlink{epdiv_fft}{epdiv\_fft} - {polynomial division using fft}\\
+\hyperlink{epdiv_lsq}{epdiv\_lsq} - {polynomial division using least square linear solver}\\
+\hyperlink{epdiv_gko}{epdiv\_gko} - { polynomial division using displacement solvers}\\
+\hyperlink{repfreq}{repfreq} - {frequency response} \\
+\end{quote}
+
+
+\HCode{<hr>}
+Geometry
+
+\begin{quote}
+\noindent
+\hyperlink{convhull2d}{convhull2d} - {convex hull of a set of 2d-points}\\
+\end{quote}
+
+\input{\mansrc misc/acquire.tex}
+\input{\mansrc misc/clear.tex}
+\input{\mansrc misc/parse_dim_arg.tex}
+\input{\mansrc misc/and.tex}
+\input{\mansrc misc/not.tex}
+\input{\mansrc misc/cart2sph.tex}
+\input{\mansrc misc/legendre.tex}
+\input{\mansrc misc/any.tex}
+\input{\mansrc misc/all.tex}
+
+\input{\mansrc polynomial/horner.tex}
+\input{\mansrc polynomial/cofactors.tex}
+\input{\mansrc polynomial/epdiv.tex}
+\input{\mansrc polynomial/repfreq.tex}
+
+\input{\mansrc spmf/bincoeff.tex}
+\input{\mansrc spmf/convhull2d.tex}
+\input{\mansrc spmf/erf.tex}
+\input{\mansrc spmf/erf.tex}
+\input{\mansrc spmf/erf.tex}
+\input{\mansrc spmf/gamma.tex}
+\input{\mansrc spmf/gamma.tex}
+\input{\mansrc spmf/gamma.tex}
+\input{\mansrc spmf/hypot.tex}
+

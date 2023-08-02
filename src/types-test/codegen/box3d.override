@@ -1,0 +1,129 @@
+/* -*- Mode: C -*- */
+%%
+include-start Box3d
+/* inserted at the start of include file */
+#include <nsp/figure.h>
+
+%%
+include-public Box3d
+/* inserted at the end of public part of include file */
+
+%%
+include-private Box3d
+/* inserted in the private part of include file */
+
+static void nsp_draw_box3d(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data);
+static void nsp_translate_box3d(NspGraphic *o,const double *tr);
+static void nsp_rotate_box3d(NspGraphic *o,double *R);
+static void nsp_scale_box3d(NspGraphic *o,double *alpha);
+static int nsp_getbounds_box3d(NspGraphic *o,double *bounds);
+
+%%
+headers
+#include <nsp/objects.h>
+#include <nsp/graphics-new/Graphics.h> 
+%%
+init 
+
+Init portion 
+
+%%
+override-type Box3d
+  /* inserted verbatim in the type definition */
+  type->gtk_methods = TRUE;
+  /* here we override the method or its father class i.e Graphic */
+  ((NspTypeGraphic *) type->surtype)->draw = nsp_draw_box3d;
+  ((NspTypeGraphic *) type->surtype)->translate =nsp_translate_box3d ;
+  ((NspTypeGraphic *) type->surtype)->rotate =nsp_rotate_box3d  ;
+  ((NspTypeGraphic *) type->surtype)->scale =nsp_scale_box3d  ;
+  ((NspTypeGraphic *) type->surtype)->bounds =nsp_getbounds_box3d  ;
+  /* next method are defined in NspGraphic and need not be chnaged here for Box3d */
+  /* ((NspTypeGraphic *) type->surtype)->link_figure = nsp_graphic_link_figure; */ 
+  /* ((NspTypeGraphic *) type->surtype)->unlink_figure = nsp_graphic_unlink_figure; */ 
+
+%%
+modulename atk
+/* %%  import gobject.GObject as GObject */
+
+%%
+ignore-glob
+  *_get_type
+
+%%
+override nsp_extractelts_box3d kwargs
+
+extern function int_nspgraphic_extract;
+
+int _wrap_nsp_extractelts_box3d(Stack stack, int rhs, int opt, int lhs) 
+{
+  return int_nspgraphic_extract(stack,rhs,opt,lhs);
+}
+
+%%
+override nsp_setrowscols_box3d kwargs
+
+extern function int_graphic_set_attribute;
+
+int _wrap_nsp_setrowscols_box3d(Stack stack, int rhs, int opt, int lhs) 
+{
+  return int_graphic_set_attribute(stack,rhs,opt,lhs);
+}
+
+
+%%
+last
+
+/* inserted verbatim at the end */
+
+static void nsp_draw_box3d(BCG *Xgc,NspGraphic *Obj, const GdkRectangle *rect,void *data)
+{
+  /* 
+  int flag[]={1,2,4};
+  double bbox[]={0,1,0,1,0,1};
+  double teta = 35, alpha=45;
+  */
+  NspBox3d *P =(NspBox3d*) Obj ;
+  if ( Obj->obj->show == FALSE ) return;
+  /* check if the block is inside drawing rectangle
+   */
+  /*
+  if ( ! nsp_graphic_intersect_rectangle(Obj, rect))
+    {
+      return ;
+    }
+  */
+
+  /* be sure that object are in canonical form */
+  Mat2double(P->obj->x);
+  Mat2double(P->obj->y);
+  Mat2double(P->obj->z);
+  /* 
+     nsp_plot3d_1(Xgc,P->obj->x->R,P->obj->y->R,P->obj->z->R,&P->obj->z->m,&P->obj->z->n,
+     &teta,&alpha,"X@Y@Z",flag,bbox);
+  */
+}
+
+static void nsp_translate_box3d(NspGraphic *Obj,const double *tr)
+{
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_rotate_box3d(NspGraphic *Obj,double *R)
+{
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+static void nsp_scale_box3d(NspGraphic *Obj,double *alpha)
+{
+  nsp_graphic_invalidate((NspGraphic *) Obj);
+}
+
+/* compute in bounds the enclosing rectangle of box3d 
+ *
+ */
+
+static int nsp_getbounds_box3d(NspGraphic *Obj,double *bounds)
+{
+  return FALSE;
+}
+

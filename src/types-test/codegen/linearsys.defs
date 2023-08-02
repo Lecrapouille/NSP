@@ -1,0 +1,19 @@
+;; -*- scheme -*-
+
+(include "linearsys-types.defs")
+
+(define-function extractelts_linearsys 
+  (c-name "extractelts_linearsys")
+  (return-type "none")
+)
+
+(define-function size_linearsys 
+  (c-name "size_linearsys")
+  (return-type "none")
+)
+
+(define-function abcd_linearsys
+  (c-name "abcd_linearsys")
+  (return-type "none")
+)
+

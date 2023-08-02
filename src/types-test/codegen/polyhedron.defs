@@ -1,0 +1,48 @@
+;; -*- scheme -*-
+
+(include "polyhedron-types.defs")
+
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_polyhedron
+  (c-name "nsp_extractelts_polyhedron")
+  (return-type "none")
+)
+(define-function setrowscols_polyhedron
+  (c-name "nsp_setrowscols_polyhedron")
+  (return-type "none")
+)
+
+;; utilities for surface conversion 
+
+(define-function surf_to_coords 
+  (c-name "nsp_surf_to_coords") 
+  (return-type "NspMatrix*")
+  (parameters
+    '("NspMatrix*" "x")
+    '("NspMatrix*" "y")
+    '("NspMatrix*" "z")
+    )
+)
+
+(define-function surf_to_faces
+  (c-name "nsp_surf_to_faces") 
+  (return-type "NspMatrix*")
+  (parameters
+    '("NspMatrix*" "x")
+    '("NspMatrix*" "y")
+    )
+)
+
+(define-function facets_to_faces
+  (c-name "nsp_facets_to_faces") 
+  (return-type "NspMatrix*")
+  (parameters
+    '("NspMatrix*" "x")
+    '("NspMatrix*" "y")
+    '("NspMatrix*" "z")
+    '("NspMatrix*" "colors")
+    )
+)
+

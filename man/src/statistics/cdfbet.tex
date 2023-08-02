@@ -1,0 +1,65 @@
+% -*- mode: latex -*-
+\mansection{cdfbet}
+\begin{mandesc}
+  \short{cdfbet}{cumulative distribution function Beta distribution} 
+\end{mandesc}
+\index{cdfbet}\label{cdfbet}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+[P,Q]=cdfbet("PQ",X,Y,A,B)  
+[X,Y]=cdfbet("XY",A,B,P,Q)  
+[A]=cdfbet("A",B,P,Q,X,Y)  
+[B]=cdfbet("B",P,Q,X,Y,A)  
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{P,Q,X,Y,A,B}: five real vectors of the same size.
+    \vname{P,Q}: (\verb+Q=1-P+) the integral from 0 to X of the beta distribution (Input range: [0, 1].)
+    \vname{Q}: 1-P
+    \vname{X,Y}, (\verb+Y=1-X+) upper limit of integration of beta density (Input range: [0,1],  Search range: [0,1]) A,B: the two parameters of the beta density (input range: (0, +infinity), Search range: [1D-300,1D300]).
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  Calculates any one parameter of the beta distribution given
+  values for the others. The beta density is given by
+  \begin{equation}
+    \frac{\Gamma(A+B)}{\Gamma(A)\Gamma(B)} x^{(A-1)} * (1-x)^{(B-1)}
+  \end{equation}
+  with domain $(0,1)$.
+  The cumulative distribution function is calculated directly by
+  code associated with the following reference: 
+  DiDinato, A. R. and Morris,  A.   H.  Algorithm 708: Significant
+  Digit Computation of the Incomplete  Beta  Function Ratios.  ACM
+  Trans. Math.  Softw. 18 (1993), 360-373.
+  Computation of other parameters involve a seach for a value that
+  produces  the desired  value  of P.   The search relies  on  the
+  monotinicity of P with the other parameter.
+\end{mandescription}
+
+\begin{mintednsp}{nspxxx}
+x=linspace(0,1,100);
+A =2;
+B =3;
+y= cdfbet("PQ",x,1-x,A*ones(size(x)),B*ones(size(x)));
+
+function y=f(x)
+  y = gamma(A+B)/(gamma(A)*gamma(B))*x^(A-1)*(1-x)^(B-1)
+endfunction;
+
+z=x;
+for i=1:length(x)
+  z(i) = intg(0,x(i),f);
+end
+err=max(abs(y-z));
+\end{mintednsp}
+
+\begin{authors}
+  Nsp interface by Jean-Philippe Chancelier. Code from DCDFLIB: 
+  Library of Fortran Routines for Cumulative Distribution
+  Functions, Inverses, and Other Parameters (February, 1994)
+  Barry W. Brown, James Lovato and Kathy Russell. The University of Texas.
+\end{authors}
+

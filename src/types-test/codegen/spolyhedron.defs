@@ -1,0 +1,16 @@
+;; -*- scheme -*-
+
+(include "spolyhedron-types.defs")
+
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_spolyhedron
+  (c-name "nsp_extractelts_spolyhedron")
+  (return-type "none")
+)
+(define-function setrowscols_spolyhedron
+  (c-name "nsp_setrowscols_spolyhedron")
+  (return-type "none")
+)
+

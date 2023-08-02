@@ -1,0 +1,109 @@
+% -*- mode: latex -*-
+%% Nsp
+%% Copyright (C) 1998-2015 Jean-Philippe Chancelier Enpc/Cermics, Bruno Pinçon Esial/Iecn
+%%
+%% This library is free software; you can redistribute it and/or
+%% modify it under the terms of the GNU General Public
+%% License as published by the Free Software Foundation; either
+%% version 2 of the License, or (at your option) any later version.
+%%
+%% This library is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+%% General Public License for more details.
+%%
+%% You should have received a copy of the GNU General Public
+%% License along with this library; if not, write to the
+%% Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+%% Boston, MA 02111-1307, USA.
+%%
+ 
+
+\mansection{rcond}
+\begin{mandesc}
+  \short{rcond}{estimation of the reciprocal condition in 1-norm}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+rc = rcond(A)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A}:  square numerical matrix
+    \vname{rc}: real scalar (should be in [0,1])
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+This function computes an estimation of:
+$$
+     \frac{1}{\kappa_1(A)} =  \frac{1}{||A||_1 ||A^{-1}||_1}
+$$
+(see \manlink{norm}{norm} for definition of matrix 1-norm).
+This can be useful for linear system solving $A x = b$. For instance
+if $x'$ is an approximate solution of the linear system ($x$ being 
+the exact solution), denoting $r = b - Ax'$ the residual we have 
+the inequality:
+$$
+\frac{||x' - x||_1}{||x||_1} \le \kappa_1(A) \frac{||r||_1}{||b||_1}
+$$
+
+A matrix with a reciprocal condition number of the order of
+epsilon machine $\epsilon_m$ (aka as the unit relative rounding 
+error, \verb+%eps+ in nsp) is considered as badly conditionned 
+(for the underlying floating point arithmetic). 
+
+When using \verb+x = A\b+ for solving a linear system $Ax=b$, this
+estimation of the reciprocal condition number is computed. When
+$rc < n \epsilon_m$ ($n$ being the matrix order) the matrix is
+considered numerically singular and a \manlink{qr}{qr}
+factorisation with rank estimation is used to get a minimum norm
+solution. Nevertheless {\bf this test is not done for a triangular 
+matrix} so using \verb+rcond+ could be interesting in this case
+to detect potential numerical problem. See example 2.
+\end{mandescription}
+
+\begin{examples}
+\paragraph{example 1}
+\begin{mintednsp}{nsp}
+A=rand(51,51);
+rc=rcond(A)
+// make a singular system:
+A(:,5) = 0.3*A(:,1) + 0.9*A(:,21) - 2*A(:,41);
+rc=rcond(A)
+// solve a Ax=b linear system (the bad conditionning is detected)
+b = rand(51,1);
+x = A\b;
+\end{mintednsp}
+
+\paragraph{example 2} a badly conditionned triangular matrix
+\begin{mintednsp}{nsp}
+// make such a triangular matrix
+T = triu(rand(500,500));
+b = rand(500,1);
+// solve T x = b with backslash: no warning occurs
+x = T\b;
+// computing rcond
+rc = rcond(T)
+// computing the relative residual
+norm(T*x-b)/norm(b)
+// solve in least square meaning with rank detection
+x = lsq(T,b);
+// the relative residual is now better
+norm(T*x-b)/norm(b)
+\end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+  \manlink{lu}{lu}, \manlink{qr}{qr}, \manlink{norm}{norm}  
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+   interface : Bruno Pincon and Jean-Philippe Chancelier. Internally
+   lapack routines dgecon, zgecon, dtrcon, ztrcon could be used.
+\end{authors}

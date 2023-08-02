@@ -1,0 +1,47 @@
+#/* -*- Mode: Makefile -*- */
+# used to compile a set of sci files
+# contained in a directory
+
+SHELL=/bin/sh
+
+SILENT=$(findstring -s,$(MFLAGS))
+GNUMAKEFLAGS=--no-print-dir
+
+ifndef NSP
+NSP=$(SCIDIR)/bin/scilex
+endif
+
+all	::
+	@if test "x$(SILENT)" != "x-s"; then \
+		echo "processing *.sci files"; \
+	fi
+	@$(NSP) -nw -ns -dir ./
+
+clean distclean	::
+	@if test "x$(SILENT)" != "x-s"; then \
+		echo "cleaning"; \
+	fi
+	@$(RM) *.bin
+
+PP=$(patsubst %.sci,%_pp.sci,$(wildcard *.sci))
+
+pp : $(PP) 
+
+%_pp.sci : %.sci
+	@echo "pretty print $*.sci"
+	@$(SCIDIR)/bin/scilex -nw -ns -e "pretty_printer('$*.sci');quit"
+	@diff -riw $*.sci $*_pp.sci && ([ $$? -eq 0 ] && echo -n "") || echo -n "" 
+
+PPTEX=$(patsubst %.sci,%.tex,$(wildcard *.sci))
+
+pptex : $(PPTEX) 
+
+%.tex : %.sci
+	@echo "pretty print $*.sci to $*.tex"
+	@$(SCIDIR)/bin/scilex -nw -ns -e "pretty_printer('$*.sci',target='latex',color=%t);quit"
+
+clean	::
+	@$(RM) $(PP) $(PPTEX) 
+
+
+

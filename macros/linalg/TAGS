@@ -1,0 +1,539 @@
+
+aff2ab.sci,164
+  function l=24,1061
+  function V=43,1611
+function aff2ab_test(77,2307
+  function Y=80,2398
+  function Y=90,2789
+  function Y=100,3144
+  function y=115,3573
+
+classmarkov.sci,96
+function 19,838
+  perm=38,1592
+  perm=[];for i=1:size(L,'*'), perm = [perm,L{i}];end;38,1592
+
+coff.sci,146
+function 1,0
+    clean(28,1094
+  if isempty(m) then n=[];d=34,1263
+  n=39,1457
+  if norm(imag(m),1)==0 then n=real(n);d=49,1661
+  n=50,1714
+
+colcomp.sci,122
+function 1,0
+  if isempty(A) then W=[];rk=27,1219
+function 38,1627
+  end60,2575
+  if isempty(A) then W=[];rk=63,2600
+
+cond.sci,16
+function c=1,0
+
+eigenmarkov.sci,374
+function 19,838
+  perminv=31,1372
+  rec1=33,1424
+  nr=34,1488
+  T=35,1536
+  T=Mn(nr+1:$,nr+1:$);L=35,1536
+  p=36,1577
+  p=0;V=36,1577
+    v=L(:,p+1:p+k);V=38,1602
+    p=39,1639
+  LL=41,1656
+  p=42,1687
+    p=45,1746
+  Q=47,1769
+  Q=48,1801
+  p=49,1819
+  p=0;M=49,1819
+    p=52,1884
+    Mres=53,1902
+    w=54,1930
+    M=55,1970
+  M=57,2004
+  M=58,2050
+
+fullrfk.sci,269
+function 1,0
+  if nargin <= 1 then k=1;end 23,1040
+  if k==0 then Bk=eye(n,n);Ck=26,1156
+  if k==1 then [Bk,Ck]=fullrf(A); return; end 27,1202
+  [Bk,Ck]=fullrf(A);B=28,1249
+  [Bk,Ck]=fullrf(A);B=Bk;C=28,1249
+    Bk=31,1319
+    Bk=Bk*B;Ck=31,1319
+  end;32,1386
+
+fullrf.sci,250
+function 1,0
+  if na1 < 1.d-10 then Q=[];M=25,1021
+  if na1 < 1.d-10 then Q=[];M=[];rk=25,1021
+  args=27,1102
+  if nargin <= 1 then args=hash(tol=sqrt(%eps)*na1);end28,1118
+  sq=30,1203
+  Q=31,1246
+  Q=U*sq;M=31,1246
+  Q=Q(:,1:rk);M=32,1264
+
+genmarkov.sci,19
+function M=19,838
+
+givens.sci,29
+function 1,0
+    u 33,1203
+
+glever.sci,288
+function 1,0
+  if nargin==3 then s=poly(0,s);end31,1443
+  k=33,1512
+  a0=35,1541
+  B=36,1549
+  SiASi=37,1557
+  chis=38,1574
+  Bfs=39,1589
+    alfa=43,1639
+    B=44,1667
+    chis=45,1684
+  Bis=48,1744
+  AAD=49,1754
+  P=50,1768
+    Bis=54,1822
+  Bfs=56,1860
+  chis=57,1885
+
+householder.sci,16
+function u=1,0
+
+im_inv.sci,233
+function 1,0
+  if rB >= nA then X=eye(mA,mA);dim=37,1609
+  if rB >= nA then X=eye(mA,mA);dim=mA,return;end;37,1609
+  if rB ==0 then [X,k1]=colcomp(A);dim=38,1660
+  up=1:rB;low=40,1721
+  A=41,1744
+  Aup=46,1843
+  Alow=47,1859
+
+jordan.sci,139
+function NB_blks=43,1931
+    function NB_blks=257,8806
+    function dims=331,10246
+    function L=357,10718
+    function Ll=370,10955
+
+kernel.sci,74
+function 1,0
+    if isempty(rk) then rk=0;end;57,1939
+    kerA 58,1973
+
+kroneck.sci,22
+  function W=46,2108
+
+linsolve.sci,819
+function 1,0
+  Ab=23,1029
+  W=25,1080
+  W=W(:,1:na-rk);last=25,1080
+    printf('Conflicting linear constraints!\n');x0=28,1155
+    printf('Conflicting linear constraints!\n');x0=[];kerA=28,1155
+  W=30,1231
+  kerA=31,1241
+  piv=38,1403
+  piv=W(na,na-rk);x0=38,1403
+function 41,1459
+  Ab=46,1653
+  W=48,1704
+  W=W(:,1:na-rk);last=48,1704
+    printf('Conflicting linear constraints!\n');x0=51,1779
+    printf('Conflicting linear constraints!\n');x0=[];kerA=51,1779
+  W=53,1855
+  kerA=54,1865
+  piv=61,2027
+  piv=W(na,na-rk);x0=61,2027
+  %tol=tol66,2114
+    A=[A;sparse([],[],[na-ma,na])];b=68,2175
+    b=A'*b;A=A'*A;ma=72,2315
+  As=74,2346
+  rkA 76,2397
+  nma=86,2637
+  Y=88,2733
+  kerA=89,2791
+    res=92,2840
+    ww=93,2888
+    kerA=94,2908
+  if ma>na then kerA=kerA(1:na,:);x0=103,3135
+
+lsmr.sci,2418
+   elseif is(147,7771
+   msg 157,8073
+   hdg1 166,8595
+   hdg2 167,8651
+   pfreq 168,8702
+   pcount 169,8767
+   u 174,8930
+   beta 175,8943
+      v 187,9194
+   minDim 196,9526
+   localOrtho 215,10143
+      localOrtho 218,10210
+      localVQueueFull 219,10233
+      localV 226,10572
+   itn 231,10685
+   zetabar 232,10702
+   alphabar 233,10728
+   rho 234,10749
+   rhobar 235,10766
+   cbar 236,10783
+   sbar 237,10800
+   h 239,10818
+   hbar 240,10831
+   x 241,10853
+   betadd 244,10928
+   betad 245,10951
+   rhodold 246,10971
+   tautildeold 247,10991
+   thetatilde 248,11011
+   zeta 249,11031
+   d 250,11051
+   normA2 253,11135
+   maxrbar 254,11157
+   minrbar 255,11173
+   normb 258,11234
+   istop 259,11252
+   ctol 260,11267
+   ctol   = 0;         if conlim > 0 then, ctol = 1/conlim; end;260,11267
+   normr 261,11332
+   normAr 265,11382
+      test2 272,11524
+      printf('\n%6g %12.5e'  , itn  , x(274,11597
+      elseif itn 292,12228
+	 u = uu - alpha*u; clear uu;298,12554
+	 u 300,12595
+      beta 302,12630
+	       localPointer 309,12848
+	       localPointer = 1;  localVQueueFull 309,12848
+	    v 317,13005
+	       v 328,13308
+	 alpha 332,13367
+      alphahat 339,13553
+      chat 340,13595
+      shat 341,13631
+      rhoold 344,13721
+      rho 345,13743
+      c 346,13783
+      s 347,13814
+      thetanew 348,13841
+      alphabar 349,13867
+      rhobarold 352,13958
+      zetaold 353,13984
+      thetabar 354,14008
+      rhotemp 355,14036
+      rhobar 356,14064
+      cbar 357,14109
+      sbar 358,14144
+      zeta 359,14179
+      zetabar 360,14213
+      hbar 363,14279
+      x 364,14341
+      h 365,14389
+      betaacute 370,14500
+      betacheck 371,14534
+      betahat 374,14610
+      betadd 375,14643
+      thetatildeold 380,14759
+      rhotildeold 381,14793
+      ctildeold 382,14841
+      stildeold 383,14884
+      thetatilde 384,14928
+      rhodold 385,14969
+      betad 386,15012
+      tautildeold 391,15141
+      taud 392,15214
+      d 393,15277
+      normr 394,15316
+      normA2 397,15405
+      normA 398,15444
+      normA2 399,15480
+      maxrbar 402,15550
+      condA 406,15666
+      normAr 411,15812
+      normx 412,15842
+      test1 417,15990
+      test2 418,16020
+      test3 419,16058
+      t1 420,16088
+      rtol 421,16136
+	    pcount 458,17421
+	    printf('\n%6g %12.5e'  , itn  , x(459,17447
+
+nlev.sci,243
+function[function1,0
+  k=34,1372
+  k=1;m=34,1372
+  k=1;m=[];v=34,1372
+  k=1;m=[];v=0*z+ ones(1,n1);den=34,1372
+  for n=bs;k1=36,1433
+    h=38,1485
+    d=45,1618
+    l=48,1663
+    m=50,1726
+    k=51,1747
+  end;52,1758
+  m=53,1765
+
+orth.sci,14
+function 1,0
+
+pbig.sci,396
+function 1,0
+  thres=30,1351
+    function 33,1470
+  elseif flag=34,1545
+    function 36,1646
+  end39,1787
+  Q=43,1908
+  Y1=45,1964
+  E=47,1994
+  else50,2041
+    [X,dsmall] = schur(Ab,sort=%smallei,args=list(thres));X1=53,2119
+    [X,dsmall] = schur(Ab,sort=%smallei,args=list(thres));X1=X*X0;Q=53,2119
+    [Y,dbig] = schur(Ab,sort=%bigeig,args=list(thres));Y1=54,2203
+    M=56,2301
+
+pen2ea.sci,38
+function 1,0
+  a=21,892
+  e=22,916
+
+pencan.sci,88
+function 1,0
+  if nargin==1 then [E,A]=pen2ea(E);end30,1250
+  M=35,1387
+  Q=36,1400
+
+penlaur.sci,302
+function 1,0
+  seed=28,1242
+  tests=30,1285
+  conditions=31,1316
+  conditions=0*tests;k=31,1316
+  for s0=tests, conditions(k)=cond(s0*E-A);k=32,1342
+  for s0=tests, conditions(k)=cond(s0*E-A);k=k+1;end32,1342
+  s0=37,1500
+  J=38,1516
+  order=41,1595
+  Si=42,1609
+  Pi=43,1620
+  Di=44,1634
+
+pinv.sci,14
+function 1,0
+
+polar.sci,85
+function 1,0
+  ro1=25,987
+  ro=26,1033
+  z=32,1146
+  lw=33,1165
+  teta=34,1188
+
+proj.sci,71
+function 1,0
+  [w,n]=rowcomp(x1);w1=21,931
+  x1t=22,964
+  y=23,982
+
+projspec.sci,812
+function 1,0
+  if nargin <= 1 then tol=1.d-6;end;28,1169
+    P=eye(size(A)),D=A,S=0*P;index=31,1243
+    S=inv(A),P=0*eye(size(A));D=35,1340
+    S=inv(A),P=0*eye(size(A));D=P;index=35,1340
+  end;36,1390
+  index=39,1471
+    P=eye(n,n);S=42,1517
+    P=eye(n,n);S=0*P;D=42,1517
+  Ck=44,1556
+  Ck=C;Bk=44,1556
+  tst=45,1622
+    M=inv(C*B);P=48,1708
+    M=inv(C*B);P=eye(size(A))-B*M*C;S=48,1708
+    M=inv(C*B);P=eye(size(A))-B*M*C;S=B*M*M*C;D=48,1708
+      P=eye(n,n);S=54,1861
+      P=eye(n,n);S=0*P;D=54,1861
+      P=eye(n,n);S=0*P;D=A;index=54,1861
+    end;55,1904
+    Bk=56,1913
+    Bk=Bk*B;Ck=56,1913
+    index=57,1981
+      P=61,2163
+      S=62,2225
+      D=63,2274
+  end;65,2312
+  P=66,2319
+  P=eye(n,n);S=66,2319
+  P=eye(n,n);S=0*P;D=66,2319
+  P=eye(n,n);S=0*P;D=A;index=66,2319
+
+psmall.sci,396
+function 1,0
+  thres=30,1391
+    function 33,1511
+  elseif flag=36,1595
+    function 38,1697
+  end41,1841
+  Q=45,1962
+  Y1=47,2018
+  E=49,2048
+  else52,2095
+    [X,dsmall] = schur(Ab,sort=%smallei,args=list(thres));X1=55,2173
+    [X,dsmall] = schur(Ab,sort=%smallei,args=list(thres));X1=X*X0;Q=55,2173
+    [Y,dbig] = schur(Ab,sort=%bigeig,args=list(thres));Y1=56,2257
+    M=58,2355
+
+quaskro.sci,254
+function 1,0
+    [E,A]=pen2ea(E);tol=37,1647
+  end42,1847
+  Q=44,1872
+  Q=eye(na,na);Z=44,1872
+  if ~isempty(E) then nE=norm(E,1);else nE=45,1901
+  if ~isempty(E) then nE=norm(E,1);else nE=0;end45,1901
+    tol=51,2091
+  Qd=55,2194
+  Zd=56,2237
+
+randpencil.sci,84
+function F=1,0
+  function j=48,1975
+  function Lk=50,2051
+  function Lk=59,2295
+
+range.sci,136
+function 1,0
+  if nargin <= 1 then k=1;end 21,903
+  if k==0 then dim=m;U=24,1034
+  if k==0 then dim=m;U=eye(m,m);return; end24,1034
+
+rowcomp.sci,444
+function 1,0
+  if isempty(A) then W=[];rk=24,1130
+  if isempty(A) then W=[];rk=0;return;end24,1130
+   case 'qr' then 29,1322
+   case 'qr' then [q,r,p,rk]=qr(A,tol=tol);W=29,1322
+   case 'svd' then [u,s,v,rk]=svd(A,tol=tol);W=30,1371
+function 37,1524
+  if isempty(A) then W=[];rk=62,2493
+  if isempty(A) then W=[];rk=0;return;end62,2493
+  if isempty(tol) then tol=sqrt(%eps)*norm(A,1);end 65,2618
+  [q,r,p,rk]=qr(A,tol=tol);W=66,2671
+
+rowshuff.sci,470
+function 1,0
+  if nargin <= 1 then alfa=0; end26,1280
+  if rcond(E) >= 1.d-5 then Ws=eye(size(E));Fs1=29,1371
+  s=31,1457
+  s=poly(0,'s'); %zero=zero31,1457
+  Ws=35,1613
+  rk=37,1638
+  rk=0;i=37,1638
+    if i==n then error('rowshuffle: singular pencil!');W=39,1666
+    if i==n then error('rowshuffle: singular pencil!');W=[];end39,1666
+    W1=42,1782
+    W1=W(1:rk,:);W2=42,1782
+    E=43,1815
+    A=45,1843
+    Fs1=47,1876
+    Ws=49,1910
+    i=51,2024
+
+rref.sci,420
+function 20,839
+function 25,963
+  k = 1;l 32,1175
+  k = 1;l = 1;jb 32,1175
+    [p,i] = max(abs(A(k:$,l))); i 35,1303
+      l 38,1425
+      jb 40,1452
+      i 44,1620
+      k 46,1715
+      k = k + 1;l 46,1715
+function 52,1770
+  k = 1;l 59,1983
+  k = 1;l = 1;jb 59,1983
+    [p,i] = max(abs(A(k:$,l))); i 62,2111
+      l 66,2310
+      jb 68,2337
+      i 72,2508
+      k 74,2603
+      k = k + 1;l 74,2603
+
+spaninter.sci,227
+function 1,0
+  if ma*na==0 then dim=0;x=28,1237
+  if mb*nb==0 then dim=0;x=29,1286
+  [xp,ra]=rowcomp(a);x=33,1488
+  up=41,1738
+  up=1:ra;low=41,1738
+  b1=43,1790
+  bup=44,1814
+  bup=b1(up,:);blow=44,1814
+  b2=48,1940
+
+spanplus.sci,244
+function 1,0
+    dima=0;[x,dim]=rowcomp(b);x=27,1220
+  if nb*mb==0 then [x,dima]=rowcomp(a);dim=29,1269
+  if nb*mb==0 then [x,dima]=rowcomp(a);dim=dima;x=29,1269
+  b=33,1458
+  b=x*b;x=33,1458
+  low=35,1526
+  blow=36,1545
+  dim=39,1642
+
+spantwo.sci,265
+function 1,0
+  [X1,dim,dima]=spanplus(A,B);Xp=41,1717
+  B1B2B3=Xp*B;B1B2B3=42,1755
+  [W,dimb]=rowcomp(B1B2B3);W=43,1793
+  W11=44,1837
+  W11=W(1:dima,1:dima);W21=44,1837
+    B1B2=B1B2B3(1:dima,:);[W,dimb0]=rowcomp(B1B2);W=47,1942
+    Xp=50,2077
+  Q=53,2133
+
+sqroot.sci,110
+function 1,0
+  tt=21,969
+  if norm(Q,1) < sqrt(%eps) then S=[];return;end23,1085
+  S=25,1155
+  S=26,1168
+
+sva.sci,81
+function 1,0
+    rk 24,1028
+  S=35,1285
+  U=36,1298
+  U=U(:,1:rk);S=36,1298
+
+sylv_deprecated.sci,59
+function C 1,0
+  function C 18,831
+  function C 45,1576
+
+tarjan.sci,16
+function L=1,0
+
+toeplitz.sci,36
+function A=1,0
+function A=36,1290
+
+trace.sci,16
+function t=1,0
+
+vec2list.sci,36
+function l=1,0
+function V=41,1395

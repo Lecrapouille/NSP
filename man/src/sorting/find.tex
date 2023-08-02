@@ -1,0 +1,94 @@
+% -*- mode: latex -*-
+
+\mansection{find}
+\begin{mandesc}
+  \short{find}{returns indices of the true or non zeros components of a vector or matrix}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+ind = find(M)
+ind = find(M, ind_type=str)  // or ind = find(M, str)
+[indi,indj]  = find(M)
+[indi,indj]  = find(M, ind_type=str)) // or [indi,indj]  = find(M, str))
+[indi,indj,val] = find(M) // for numerical matrices M only
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{M}:  boolean or  numerical vector or matrix
+    \vname{ind, indi, indj}: vectors of indices
+    \vname{ind_type = str}: named optional argument, a string given the type for the index vector(s) (default is \verb+"double"+)
+    \vname{val}: vector with the non zeros values of M
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+With one output argument \verb+ind=find(M)+,  $ind$ contains all indices 
+corresponding to true components if $M$ is a boolean vector or matrix 
+and to non zeros components if it is a numerical matrix. If \verb+M+
+is a matrix (that is with more than one row or one
+column) the returned indices correspond to the one indexing way (aka
+linear indexing)
+that is considering the matrix as a big vector build by stacking 
+the columns (aka as fortran major order or column major order),
+see \manlink{indexing arrays}{indexing arrays}.
+
+With 2 output arguments \verb+[indi,indj]=find(M)+,
+you get the  row and column indices of the true or non zeros components.
+
+The type for the index vector(s) is \verb+"double"+ by default but you
+can obtain them as usual C integer vector(s) (IMat of itype 'int32') 
+by choosing the optional named argument \verb+ind_type="int"+
+
+The form with 3 output arguments \verb+[indi,indj,val]=find(M)+, is available
+for numerical matrix M and the last argument \verb+val+ is filled with
+the non zeros values of M.
+
+
+This function is very important to vectorize tests and even in the 
+case of a matrix the form which returns only one 
+index vector is generally more powerfull.
+\end{mandescription}
+
+\begin{examples}
+  
+\paragraph{example 1}
+\begin{mintednsp}{nsp}
+x= [0, 0.3, 0.11, -0.4, 0.5, 2, 0.6, 0.7]
+ind = find( 0.2 < x  &  x < 0.7 )  // ind as double
+ind = find( 0.2 < x  &  x < 0.7, ind_type="int")  // ind as int
+
+// reshape the vector as a 2 x 4 matrix
+x = matrix(x,2,4)
+ind=find( 0.2 < x  &  x < 0.7 ) // must give the same than before 
+[i,j]=find( 0.2 < x  &  x < 0.7 )
+\end{mintednsp}
+  
+\paragraph{example 2} using find to evaluate (on a vector) a function with a
+piecewise definition: $f(x) = (x-a)/(b-a)$, for  $x \in
+[a,b]$, $f(x) = (c-x)/(c-b)$, for $x \in [b,c]$ and otherwise $f(x) = 0$. 
+\begin{mintednsp}{nsp}
+a=-1; b=0; c=2;
+x = linspace(-2,3,101)';
+y = zeros(size(x));
+ind_a_b = find( a <= x  &  x <= b, "int");
+y(ind_a_b) = (x(ind_a_b)-a)/(b-a);
+ind_b_c = find( b < x  &  x <= c, "int");
+y(ind_b_c) = (c-x(ind_b_c))/(c-b);
+xbasc()
+plot2d(x,y,style=2)
+\end{mintednsp}
+  
+\end{examples}
+
+\begin{manseealso}
+ \manlink{indexing arrays}{indexing arrays}, \manlink{mfind}{mfind}, \manlink{has}{has}, \manlink{bsearch}{bsearch}  
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+  Jean-Philippe Chancelier, Bruno Pincon
+\end{authors}

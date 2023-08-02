@@ -1,0 +1,16 @@
+;; -*- scheme -*-
+
+(include "points3d-types.defs")
+
+
+;; just for the name, the code is overriden
+
+(define-function extractelts_points3d
+  (c-name "nsp_extractelts_points3d")
+  (return-type "none")
+)
+(define-function setrowscols_points3d
+  (c-name "nsp_setrowscols_points3d")
+  (return-type "none")
+)
+

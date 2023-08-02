@@ -1,0 +1,37 @@
+% -*- mode: latex -*-
+\mansection{x\_message}
+\begin{mandesc}
+  \shortunder{x\_message}{x_message}{A message in a Gtk window}\\ % @mandesc@
+\end{mandesc}
+\index{x\_message}\label{x-message}
+%-- Calling sequence section
+\begin{calling_sequence}
+  \begin{verbatim}
+    [num]=x_message(strings [,buttons])   
+  \end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{strings}: vector of characters strings to be displayed
+    \vname{buttons}: character string or 2 vector of character strings which specifies button(s) name(s). Default value is "Ok"
+    \vname{num}: number  of button clicked (if 2 buttons are specified)
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  Displays a message in a Gtk windows and waits for user action to continue. 
+\end{mandescription}
+%--example 
+\begin{examples}
+\begin{mintednsp}{nsp}
+x_message('foo')
+x_message('foo',"gtk-close");
+\end{mintednsp}
+\end{examples}
+%-- see also
+\begin{manseealso}
+  \manlink{x\_dialog}{x_dialog}
+  \manlink{x\_mdialog}{x_mdialog} 
+  \manlink{x\_message\_modeless}{x_message_modeless}  
+\end{manseealso}
+

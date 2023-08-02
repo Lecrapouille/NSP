@@ -1,0 +1,36 @@
+(***********************************************************************)
+(*                                                                     *)
+(*                               Interface generator                   *)
+(*                                                                     *)
+(*                   Pierre Weis, INRIA Rocquencourt                   *)
+(*                                                                     *)
+(*  Copyright 2010-2019,                                               *)
+(*  Institut National de Recherche en Informatique et en Automatique.  *)
+(*  All rights reserved.                                               *)
+(*                                                                     *)
+(*  This file is distributed under the terms of the BSD License.       *)
+(*                                                                     *)
+(***********************************************************************)
+
+(* $Id: defs_compile.ml,v 1.4 2019-05-21 11:14:30 jpc Exp $ *)
+
+let compile _src_fname =
+  let dst_efname = Configuration.get_target_file () in
+  let src_overrides_efname = Path.find (Configuration.get_overrides_source_file ()) in
+  let src_definitions_efname = Path.find (Configuration.get_definitions_source_file ()) in
+  Say.debug "Enter overrides_init";
+  Override_print.overrides_init src_overrides_efname;
+  Say.debug "Enter definitions_init";
+  Override_print.definitions_init src_definitions_efname;
+  Path.with_out_file dst_efname
+    (fun oc ->
+      let ppf = Format.formatter_of_out_channel oc in
+      Format.fprintf ppf "%a" (* XXX on devrait ici fermer la boite @. *)
+	Override_print.translate_file dst_efname)
+;;
+
+(*
+ Local Variables:
+  compile-command: "cd ../..; make"
+  End:
+*)

@@ -1,0 +1,69 @@
+\mansection{sum and prod}
+\begin{mandesc}
+  \short{sum}{sum of matrix elements}\\ % @mandesc@
+  \short{prod}{product of matrix elements}\\ % @mandesc@
+\end{mandesc}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+B=sum(A,dim=mode)  // or B=sum(A,mode)  
+B=prod(A,dim=mode) // or B=prod(A,mode)  
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A,B}: vectors or matrices
+    \vname{mode}: A string chosen among \verb+'M'+, \verb+'m'+, \verb+'full'+, \verb+'FULL'+, \verb+'row'+,
+    \verb+'ROW'+, \verb+'col'+, \verb+'COL'+ or an non ambiguous abbreviation or an integer. 
+    This argument is optional and if omitted 'full' is assumed.
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  \verb+sum+ (resp. \verb+prod+) gives the sum (resp. the product) of the elements of the given matrix
+  argument \verb+A+. 
+  The second argument gives the dimension to be used for performing the sum (resp product) of elements.
+  \begin{itemize}
+    \item 'full' or 0  $$B= \sum_{i,j} A_{i,j} \quad \left(\text{resp. } \prod_{i,j} A_{i,j} \right)$$ and thus gives a scalar.
+    \item 'row' or 1  $$B_j = \sum_{i} A_{i,j}\quad \left(\text{resp. } \prod_{i} A_{i,j} \right)$$ and thus gives a row vector.
+    \item 'col' or 2  $$B_i = \sum_{j} A_{i,j}\quad \left(\text{resp. } \prod_{j} A_{i,j}\right)$$ and thus gives a column vector.
+    \item 'm' is the sum (resp. product) along the first non singleton dimension of the given matrix 
+      for Matlab compatibility. 
+  \end{itemize}
+\end{mandescription}
+%--example 
+\begin{examples}
+\begin{mintednsp}{nsp}
+// real matrix 
+A=rand(4,5)
+sum(A)  // sum of all the elements 
+sum(A,dim=1)  // sum of each column of A
+sum(A,dim=2)  // sum of each row of A
+
+prod(A)  // product of all elements
+prod(A,dim=1)  // product of each column of A
+prod(A,dim=2)  // product of each row of A
+
+// sparse matrix 
+A = sprand(10,8,0.3)
+sum(A,dim=1)  // sum of each column of A
+sum(A,dim=2)  // sum of each row of A
+
+// integer matrix
+A = [1i, 2i, 3i;...
+     4i, 5i, 6i]
+sum(A)        // sum of all element
+prod(A)       // prod of all element
+sum(A,dim=1)
+prod(A,dim=1)
+
+// boolean matrix 
+B = rand(3,4) >= 0.5
+sum(B,dim='c')
+\end{mintednsp}
+\end{examples}
+%-- see also
+\begin{manseealso}
+  \manlink{cumsum}{cumsum}  \manlink{cumprod}{cumprod} 
+\end{manseealso}
+

@@ -1,0 +1,102 @@
+;; -*- scheme -*-
+
+(include "classa-types.defs")
+
+(define-method classa_color_change
+  (of-object "ClassA")
+  (c-name "classa_color_change")
+  (return-type "int")
+  (parameters
+    '("int" "color")
+  )
+)
+
+(define-method classa_color_show
+  (of-object "ClassA")
+  (c-name "classa_color_show")
+  (return-type "none")
+  (parameters
+    '("int" "color")
+  )
+)
+
+(define-function clatest
+  (c-name "clatest")
+  (return-type "gboolean")
+  (parameters
+    '("ClassA" "A")
+  )
+)
+
+;; this function is redirected to int_set_attribute 
+
+(define-function setrowscols_classa
+  (c-name "setrowscols_classa")
+  (return-type "none")
+)
+
+
+;; (define-function testzzz
+;;   (c-name "Ctestzzz")
+;;   (return-type "int")
+;;   (parameters
+;;     '("double" "zz")
+;;     '("int" "xx1")
+;;     '("NspMatrix*" "A1")
+;;     '("int" "xx2")
+;;     '("NspMatrix*" "A2")
+;;     '("int" "xx3")
+;;     '("NspMatrix*" "A3")
+;;     '("NspBMatrix*" "z") 
+;;   )
+;; )
+
+;; (define-function testxxx
+;;   (c-name "Ctestxxx")
+;;   (return-type "int")
+;;   (parameters
+;;    '("double" "zz1")
+;;    '("double" "zz2")
+;;    '("NspMatrix*" "A1")
+;;    '("double" "zz3")
+;;    '("NspMatrix*" "A2")
+;;    '("NspMatrix*" "A3")
+;;    '("NspBMatrix*" "z") 
+;;    '("NspCells*" "tz") 
+;;   )
+;; )
+
+
+;; (define-function "poo"
+;;   (c-name "pooxxx")
+;;   (return-type "int")
+;;   (parameters
+;;    '("GtkAnchorType" "ZZ")
+;;    ))
+
+
+
+;; (define-enum AnchorType
+;;   (in-module "Gtk")
+;;   (c-name "GtkAnchorType")
+;;   (gtype-id "GTK_TYPE_ANCHOR_TYPE")
+;;   (values
+;;     '("center" "GTK_ANCHOR_CENTER")
+;;     '("north" "GTK_ANCHOR_NORTH")
+;;     '("north-west" "GTK_ANCHOR_NORTH_WEST")
+;;     '("north-east" "GTK_ANCHOR_NORTH_EAST")
+;;     '("south" "GTK_ANCHOR_SOUTH")
+;;     '("south-west" "GTK_ANCHOR_SOUTH_WEST")
+;;     '("south-east" "GTK_ANCHOR_SOUTH_EAST")
+;;     '("west" "GTK_ANCHOR_WEST")
+;;     '("east" "GTK_ANCHOR_EAST")
+;;     '("n" "GTK_ANCHOR_N")
+;;     '("nw" "GTK_ANCHOR_NW")
+;;     '("ne" "GTK_ANCHOR_NE")
+;;     '("s" "GTK_ANCHOR_S")
+;;     '("sw" "GTK_ANCHOR_SW")
+;;     '("se" "GTK_ANCHOR_SE")
+;;     '("w" "GTK_ANCHOR_W")
+;;     '("e" "GTK_ANCHOR_E")
+;;   )
+;; )

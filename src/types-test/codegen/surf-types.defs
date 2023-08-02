@@ -1,0 +1,22 @@
+;; -*- scheme -*-
+
+(define-objectref Surf
+  (in-module "Surf")
+  (parent "Graphic")
+  (c-name "NspSurf")
+  (fields
+    '("NspMatrix*" "x")
+    '("NspMatrix*" "y")
+    '("NspMatrix*" "z")
+    '("NspMatrix*" "colors")
+    '("gboolean" "mesh" "std" "TRUE")
+    '("gboolean" "zcolor" "std" "TRUE")
+    '("int" "mesh_color" "std" "-1")
+    '("int" "face_color" "std" "-1")
+    )
+  (gtype-id "Surf")
+)
+
+
+
+

@@ -1,0 +1,15 @@
+;; -*- scheme -*-
+
+(include "grrect-types.defs")
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_grrect
+  (c-name "nsp_extractelts_grrect")
+  (return-type "none")
+)
+(define-function setrowscols_grrect
+  (c-name "nsp_setrowscols_grrect")
+  (return-type "none")
+)
+

@@ -1,0 +1,242 @@
+./src/basics/og_types.cmi : ./src/basics/og_precedence.cmi
+./src/basics/og_precedence.cmi :
+./src/basics/og_printer.cmi : ./src/basics/og_types.cmi
+./src/basics/location.cmi :
+./src/basics/location_print.cmi : ./src/basics/location.cmi
+./src/basics/path.cmi :
+./src/basics/og_precedence.cmo : ./src/basics/og_precedence.cmi
+./src/basics/og_precedence.cmx : ./src/basics/og_precedence.cmi
+./src/basics/og_printer.cmo : ./src/basics/og_precedence.cmi \
+    ./src/basics/og_printer.cmi
+./src/basics/og_printer.cmx : ./src/basics/og_precedence.cmx \
+    ./src/basics/og_printer.cmi
+./src/basics/location.cmo : ./src/basics/location.cmi
+./src/basics/location.cmx : ./src/basics/location.cmi
+./src/basics/location_print.cmo : ./src/basics/location.cmi \
+    ./src/basics/location_print.cmi
+./src/basics/location_print.cmx : ./src/basics/location.cmx \
+    ./src/basics/location_print.cmi
+./src/basics/path.cmo : ./src/basics/path.cmi
+./src/basics/path.cmx : ./src/basics/path.cmi
+./src/basics/path_print.cmo : ./src/basics/path.cmi \
+    ./src/basics/og_printer.cmi ./src/basics/og_precedence.cmi
+./src/basics/path_print.cmx : ./src/basics/path.cmx \
+    ./src/basics/og_printer.cmx ./src/basics/og_precedence.cmx
+./src/configuration/format_printer.cmi :
+./src/configuration/configuration.cmi : ./src/basics/path.cmi \
+    ./src/configuration/codegen_configuration.cmi
+./src/configuration/codegen_configuration.cmi : ./src/basics/path.cmi
+./src/configuration/say.cmi :
+./src/configuration/arguments.cmi : ./src/basics/path.cmi
+./src/configuration/configuration.cmo : ./src/basics/path.cmi \
+    ./src/configuration/codegen_configuration.cmi \
+    ./src/configuration/configuration.cmi
+./src/configuration/configuration.cmx : ./src/basics/path.cmx \
+    ./src/configuration/codegen_configuration.cmi \
+    ./src/configuration/configuration.cmi
+./src/configuration/codegen_configuration_print.cmo : \
+    ./src/basics/path_print.cmo ./src/basics/og_printer.cmi \
+    ./src/basics/og_precedence.cmi \
+    ./src/configuration/codegen_configuration.cmi
+./src/configuration/codegen_configuration_print.cmx : \
+    ./src/basics/path_print.cmx ./src/basics/og_printer.cmx \
+    ./src/basics/og_precedence.cmx \
+    ./src/configuration/codegen_configuration.cmi
+./src/configuration/say.cmo : ./src/configuration/configuration.cmi \
+    ./src/configuration/say.cmi
+./src/configuration/say.cmx : ./src/configuration/configuration.cmx \
+    ./src/configuration/say.cmi
+./src/configuration/arguments.cmo : ./src/basics/path.cmi \
+    ./src/configuration/configuration.cmi ./src/configuration/arguments.cmi
+./src/configuration/arguments.cmx : ./src/basics/path.cmx \
+    ./src/configuration/configuration.cmx ./src/configuration/arguments.cmi
+./src/parsing/override_location.cmi : ./src/basics/path.cmi
+./src/parsing/override_location.cmo : ./src/basics/location.cmi \
+    ./src/parsing/override_location.cmi
+./src/parsing/override_location.cmx : ./src/basics/location.cmx \
+    ./src/parsing/override_location.cmi
+./src/parsing/override_lexer.cmo : ./src/parsing/override_parser.cmi \
+    ./src/parsing/override_location.cmi
+./src/parsing/override_lexer.cmx : ./src/parsing/override_parser.cmx \
+    ./src/parsing/override_location.cmx
+./src/parsing/lisp_lexer.cmo : ./src/parsing/override_location.cmi \
+    ./src/parsing/lisp_parser.cmi
+./src/parsing/lisp_lexer.cmx : ./src/parsing/override_location.cmx \
+    ./src/parsing/lisp_parser.cmx
+./src/parsing/ast_node.cmi : ./src/parsing/override_location.cmi
+./src/parsing/ast_node_utils.cmi : ./src/parsing/override_location.cmi \
+    ./src/parsing/ast_node.cmi
+./src/parsing/override_ast.cmi : ./src/parsing/ast_node.cmi
+./src/parsing/override_syntaxerr.cmi : ./src/parsing/override_location.cmi
+./src/parsing/override_parser.cmi : ./src/parsing/override_ast.cmi
+./src/parsing/lisp_parser.cmi : ./src/parsing/lisp_ast.cmo
+./src/parsing/override_to_ast.cmi : ./src/basics/path.cmi \
+    ./src/parsing/override_ast.cmi
+./src/parsing/lisp_to_ast.cmi : ./src/basics/path.cmi \
+    ./src/parsing/lisp_ast.cmo
+./src/parsing/lisp_ast.cmo :
+./src/parsing/lisp_ast.cmx :
+./src/parsing/ast_node_utils.cmo : ./src/parsing/override_location.cmi \
+    ./src/parsing/ast_node.cmi ./src/parsing/ast_node_utils.cmi
+./src/parsing/ast_node_utils.cmx : ./src/parsing/override_location.cmx \
+    ./src/parsing/ast_node.cmi ./src/parsing/ast_node_utils.cmi
+./src/parsing/override_syntaxerr.cmo : ./src/parsing/override_location.cmi \
+    ./src/parsing/override_syntaxerr.cmi
+./src/parsing/override_syntaxerr.cmx : ./src/parsing/override_location.cmx \
+    ./src/parsing/override_syntaxerr.cmi
+./src/parsing/override_ast_funs.cmo : ./src/parsing/override_ast.cmi \
+    ./src/parsing/ast_node_utils.cmi
+./src/parsing/override_ast_funs.cmx : ./src/parsing/override_ast.cmi \
+    ./src/parsing/ast_node_utils.cmx
+./src/parsing/lexing_print.cmo : ./src/basics/og_printer.cmi \
+    ./src/basics/og_precedence.cmi
+./src/parsing/lexing_print.cmx : ./src/basics/og_printer.cmx \
+    ./src/basics/og_precedence.cmx
+./src/parsing/override_location_print.cmo : \
+    ./src/parsing/override_location.cmi ./src/basics/og_precedence.cmi \
+    ./src/parsing/lexing_print.cmo
+./src/parsing/override_location_print.cmx : \
+    ./src/parsing/override_location.cmx ./src/basics/og_precedence.cmx \
+    ./src/parsing/lexing_print.cmx
+./src/parsing/ast_node_print.cmo : ./src/parsing/override_location_print.cmo \
+    ./src/basics/og_precedence.cmi ./src/parsing/ast_node.cmi
+./src/parsing/ast_node_print.cmx : ./src/parsing/override_location_print.cmx \
+    ./src/basics/og_precedence.cmx ./src/parsing/ast_node.cmi
+./src/parsing/override_ast_print.cmo : ./src/parsing/override_ast.cmi \
+    ./src/basics/og_printer.cmi ./src/basics/og_precedence.cmi \
+    ./src/parsing/ast_node_print.cmo
+./src/parsing/override_ast_print.cmx : ./src/parsing/override_ast.cmi \
+    ./src/basics/og_printer.cmx ./src/basics/og_precedence.cmx \
+    ./src/parsing/ast_node_print.cmx
+./src/parsing/override_parser.cmo : ./src/parsing/override_ast_funs.cmo \
+    ./src/parsing/override_ast.cmi ./src/parsing/override_parser.cmi
+./src/parsing/override_parser.cmx : ./src/parsing/override_ast_funs.cmx \
+    ./src/parsing/override_ast.cmi ./src/parsing/override_parser.cmi
+./src/parsing/lisp_parser.cmo : ./src/parsing/lisp_ast.cmo \
+    ./src/parsing/lisp_parser.cmi
+./src/parsing/lisp_parser.cmx : ./src/parsing/lisp_ast.cmx \
+    ./src/parsing/lisp_parser.cmi
+./src/parsing/override_to_ast.cmo : ./src/basics/path.cmi \
+    ./src/parsing/override_syntaxerr.cmi ./src/parsing/override_parser.cmi \
+    ./src/parsing/override_location.cmi ./src/parsing/override_lexer.cmo \
+    ./src/parsing/override_to_ast.cmi
+./src/parsing/override_to_ast.cmx : ./src/basics/path.cmx \
+    ./src/parsing/override_syntaxerr.cmx ./src/parsing/override_parser.cmx \
+    ./src/parsing/override_location.cmx ./src/parsing/override_lexer.cmx \
+    ./src/parsing/override_to_ast.cmi
+./src/parsing/lisp_to_ast.cmo : ./src/basics/path.cmi \
+    ./src/parsing/override_location.cmi ./src/parsing/lisp_parser.cmi \
+    ./src/parsing/lisp_lexer.cmo ./src/parsing/lisp_ast.cmo \
+    ./src/parsing/lisp_to_ast.cmi
+./src/parsing/lisp_to_ast.cmx : ./src/basics/path.cmx \
+    ./src/parsing/override_location.cmx ./src/parsing/lisp_parser.cmx \
+    ./src/parsing/lisp_lexer.cmx ./src/parsing/lisp_ast.cmx \
+    ./src/parsing/lisp_to_ast.cmi
+./src/printing/genheaders.cmi : ./src/printing/stringarg.cmi
+./src/printing/override_ppf.cmi : ./src/configuration/format_printer.cmi
+./src/printing/file.cmi :
+./src/printing/stringarg.cmi :
+./src/printing/definitions.cmi : ./src/printing/stringarg.cmi \
+    ./src/parsing/lisp_ast.cmo
+./src/printing/genfunctions.cmi : ./src/printing/stringarg.cmi
+./src/printing/genmethods.cmi : ./src/printing/stringarg.cmi
+./src/printing/override_ppf.cmo : ./src/printing/override_ppf.cmi
+./src/printing/override_ppf.cmx : ./src/printing/override_ppf.cmi
+./src/printing/overrides.cmo : ./src/configuration/say.cmi \
+    ./src/printing/overrides.cmi
+./src/printing/overrides.cmx : ./src/configuration/say.cmx \
+    ./src/printing/overrides.cmi
+./src/printing/file.cmo : ./src/configuration/say.cmi \
+    ./src/printing/overrides.cmi ./src/printing/file.cmi
+./src/printing/file.cmx : ./src/configuration/say.cmx \
+    ./src/printing/overrides.cmx ./src/printing/file.cmi
+./src/printing/stringarg.cmo : ./src/configuration/say.cmi \
+    ./src/printing/overrides.cmi ./src/printing/stringarg.cmi
+./src/printing/stringarg.cmx : ./src/configuration/say.cmx \
+    ./src/printing/overrides.cmx ./src/printing/stringarg.cmi
+./src/printing/definitions.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/parsing/lisp_ast.cmo \
+    ./src/printing/definitions.cmi
+./src/printing/definitions.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/parsing/lisp_ast.cmx \
+    ./src/printing/definitions.cmi
+./src/printing/build.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/printing/build.cmi
+./src/printing/build.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/printing/build.cmi
+./src/printing/genheaders.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/basics/path.cmi \
+    ./src/printing/overrides.cmi ./src/printing/file.cmi \
+    ./src/printing/build.cmi ./src/printing/genheaders.cmi
+./src/printing/genheaders.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/basics/path.cmx \
+    ./src/printing/overrides.cmx ./src/printing/file.cmx \
+    ./src/printing/build.cmx ./src/printing/genheaders.cmi
+./src/printing/genfunctions.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/printing/overrides.cmi \
+    ./src/printing/file.cmi ./src/configuration/configuration.cmi \
+    ./src/printing/genfunctions.cmi
+./src/printing/genfunctions.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/printing/overrides.cmx \
+    ./src/printing/file.cmx ./src/configuration/configuration.cmx \
+    ./src/printing/genfunctions.cmi
+./src/printing/genmethods.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/printing/overrides.cmi \
+    ./src/printing/genfunctions.cmi ./src/printing/file.cmi \
+    ./src/printing/genmethods.cmi
+./src/printing/genmethods.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/printing/overrides.cmx \
+    ./src/printing/genfunctions.cmx ./src/printing/file.cmx \
+    ./src/printing/genmethods.cmi
+./src/printing/gengetset.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/printing/overrides.cmi \
+    ./src/printing/file.cmi ./src/printing/gengetset.cmi
+./src/printing/gengetset.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/printing/overrides.cmx \
+    ./src/printing/file.cmx ./src/printing/gengetset.cmi
+./src/printing/codegen.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/printing/overrides.cmi \
+    ./src/printing/genmethods.cmi ./src/printing/genheaders.cmi \
+    ./src/printing/gengetset.cmi ./src/printing/genfunctions.cmi \
+    ./src/printing/file.cmi ./src/printing/build.cmi \
+    ./src/printing/codegen.cmi
+./src/printing/codegen.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/printing/overrides.cmx \
+    ./src/printing/genmethods.cmx ./src/printing/genheaders.cmx \
+    ./src/printing/gengetset.cmx ./src/printing/genfunctions.cmx \
+    ./src/printing/file.cmx ./src/printing/build.cmx \
+    ./src/printing/codegen.cmi
+./src/printing/override_print.cmo : ./src/printing/stringarg.cmi \
+    ./src/configuration/say.cmi ./src/printing/overrides.cmi \
+    ./src/parsing/override_to_ast.cmi ./src/parsing/override_location.cmi \
+    ./src/parsing/override_ast.cmi ./src/parsing/lisp_to_ast.cmi \
+    ./src/printing/file.cmi ./src/printing/definitions.cmi \
+    ./src/configuration/configuration.cmi ./src/printing/codegen.cmi \
+    ./src/parsing/ast_node.cmi
+./src/printing/override_print.cmx : ./src/printing/stringarg.cmx \
+    ./src/configuration/say.cmx ./src/printing/overrides.cmx \
+    ./src/parsing/override_to_ast.cmx ./src/parsing/override_location.cmx \
+    ./src/parsing/override_ast.cmi ./src/parsing/lisp_to_ast.cmx \
+    ./src/printing/file.cmx ./src/printing/definitions.cmx \
+    ./src/configuration/configuration.cmx ./src/printing/codegen.cmx \
+    ./src/parsing/ast_node.cmi
+./src/compiler/main_gen.cmi :
+./src/compiler/defs_compile.cmi : ./src/basics/path.cmi
+./src/compiler/main_gen.cmo : ./src/parsing/override_syntaxerr.cmi \
+    ./src/parsing/override_location.cmi ./src/parsing/override_lexer.cmo \
+    ./src/configuration/configuration.cmi ./src/compiler/main_gen.cmi
+./src/compiler/main_gen.cmx : ./src/parsing/override_syntaxerr.cmx \
+    ./src/parsing/override_location.cmx ./src/parsing/override_lexer.cmx \
+    ./src/configuration/configuration.cmx ./src/compiler/main_gen.cmi
+./src/compiler/defs_compile.cmo : ./src/configuration/say.cmi \
+    ./src/basics/path.cmi ./src/printing/override_print.cmo \
+    ./src/configuration/configuration.cmi ./src/compiler/defs_compile.cmi
+./src/compiler/defs_compile.cmx : ./src/configuration/say.cmx \
+    ./src/basics/path.cmx ./src/printing/override_print.cmx \
+    ./src/configuration/configuration.cmx ./src/compiler/defs_compile.cmi
+./src/driver/driver.cmo : ./src/configuration/say.cmi \
+    ./src/compiler/main_gen.cmi ./src/compiler/defs_compile.cmi \
+    ./src/configuration/arguments.cmi
+./src/driver/driver.cmx : ./src/configuration/say.cmx \
+    ./src/compiler/main_gen.cmx ./src/compiler/defs_compile.cmx \
+    ./src/configuration/arguments.cmx

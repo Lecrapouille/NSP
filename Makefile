@@ -1,0 +1,231 @@
+#/* -*- Mode: Makefile -*- */
+# Copyright ENPC
+# main Makefile 
+
+SHELL = /bin/sh
+TOP=.
+
+ifneq ($(wildcard Path.incl),)
+include Path.incl
+endif
+ifneq ($(wildcard Makefile.incl),)
+include Makefile.incl
+endif
+
+.NOTPARALLEL:
+
+.PHONY : scilex-lib 
+
+all:: scilex-lib bin/scilex 
+
+# can be used to recreate all the .a 
+# 
+
+reset_libs: 
+	@$(RM) libs/*.a src/*/.archive_target
+
+# can be used to update path.incl 
+# note that thist is done by ./configure
+
+path.incl: 
+	./config/findpath;
+
+# directives for linking 
+
+include config/Makefile.linux
+
+distclean::
+	$(RM) bin/scilex
+
+SILENT=$(findstring -s,$(MFLAGS))
+DIR=
+
+scilex-lib::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in src ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making all in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) DIR=$(DIR)$$i/ all ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done
+
+scilex-lib::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in pvm3 ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making all in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) DIR=$(DIR)$$i/ "CC=$(CC)" ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done
+
+SUBDIRS = scripts macros demos demos3 toolboxes
+
+all :: 
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making $@ in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) DIR=$(DIR)$$i/ $@ ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done
+
+SUBDIRS_CLEAN=  src pvm3 $(SUBDIRS)
+
+clean distclean ::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS_CLEAN) ;\
+	do \
+		(cd $$i && if test "x$(SILENT)" != "x-s"; then echo "making $@ in $(DIR)$$i ";fi && \
+		$(MAKE) $(MFLAGS) DIR=$(DIR)$$i/ $@ ); \
+	   	IER=$$? &&\
+	   	case $$IER in\
+	    	0) ;;\
+	    	*) echo "make $@ in sub directory $$i failed"; \
+	       	   case '${MFLAGS}' in *[k]*) echo "carrying on compilation (-k used)";; *) exit $$IER;;esac;\
+	   	esac;\
+	done
+
+man::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in man;\
+	do \
+		(cd $$i ; echo "making man in $$i..."; \
+			$(MAKE) $(MFLAGS) man); \
+	done
+
+manclean:	
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in man;\
+	do \
+		(cd $$i ; echo "making manclean in $$i..."; \
+			$(MAKE) $(MFLAGS) manclean); \
+	done
+
+tests:
+	@echo "Type \"make tests\" in $(SCIDIR)/tests directory "
+	@echo "  to test the  distribution"
+
+distclean::
+	@$(RM) config.cache config.log config.status .binary foo.f foo.o \
+	  conftest conftest.c so_locations
+
+tarbindist:
+	@echo tarbindist not supported by nsp 
+	@echo use ./configure --prefix=path
+	@echo to get a binary version at path location
+
+# this are the files that really need to be installed 
+# from pvm 
+# 	pvm3/lib/pvm \
+# 	pvm3/lib/pvmd \
+# 	pvm3/lib/pvmtmparch \
+# 	pvm3/lib/pvmgetarch \
+# 	pvm3/lib/LINUXX86_64/pvmd3 \
+# 	pvm3/lib/LINUXX86_64/pvmgs \
+# 	pvm3/lib/LINUXX86_64/pvm \
+# 	pvm3/bin/LINUXX86_64/*
+
+# take care that some scripts are installed in prefix but should contain 
+# a string which is a reference to DESTDIR which can be != from $(prefix)/lib/nsp 
+# this is the case when building a deb package. 
+
+DESTDIR=$(prefix)/lib/nsp
+
+install: install-dest install-scripts install-bin
+
+# special install target for packaging
+install-packaging: install-dest install-scripts-packaging
+
+install-dest:
+	@echo "installing bin files in DESTDIR=" $(DESTDIR)
+	@find bin -type f -exec $(TOP)/config/install-sh  $(opt_PROG) {} $(DESTDIR)/{} \;
+	@echo "installing lib files"
+	@find libs -type f -exec $(TOP)/config/install-sh  $(opt_DATA) {} $(DESTDIR)/{} \;
+	@echo "installing pvm3 files"
+	@find pvm3/lib \( -type f  \) \
+		-exec $(TOP)/config/install-sh  $(opt_PROG) {} $(DESTDIR)/{} \;
+	@find pvm3/lib \( -name '*.a'  \) \
+		-exec $(TOP)/config/install-sh  $(opt_DATA) {} $(DESTDIR)/{} \;
+	@find pvm3/bin \( -type f \) \
+		-exec $(TOP)/config/install-sh  $(opt_PROG) {} $(DESTDIR)/{} \;
+	@cd src/include ; make install;
+	@echo "installing config files"
+	@cd config ; make install;
+	@echo "installing demos files"
+	@cd demos ; make install;
+	@echo "installing demos3 files"
+	@cd demos3 ; make install;
+	@echo "installing macros files"
+	@cd macros ; make install;
+	@echo "installing man files"
+	@cd man ; make install;
+	@echo "installing toolboxes"
+	@cd toolboxes ; make install;
+	@echo "install libtool"
+	@$(TOP)/config/install-sh $(opt_PROG) libtool $(DESTDIR)/
+	@$(TOP)/config/install-sh $(opt_DATA) Makefile.incl  $(DESTDIR)/
+	@echo "install end"
+
+install-scripts:
+	@echo "create nsp-inst"
+	@cd scripts; rm nsp-inst ; make nsp-inst DESTDIR=$(DESTDIR)
+	@echo "create nsplibtool-inst"
+	@cd scripts; rm nsplibtool-inst ; make nsplibtool-inst DESTDIR=$(DESTDIR)
+	@echo "create Path.incl"
+	@cd scripts; rm Path.incl ; make Path.incl DESTDIR=$(DESTDIR)
+	@echo "install scripts"
+	@$(TOP)/config/install-sh $(opt_PROG) scripts/nsp-inst $(DESTDIR)/bin/nsp
+	@$(TOP)/config/install-sh $(opt_PROG) scripts/nsplibtool-inst $(DESTDIR)/bin/nsplibtool
+	@$(TOP)/config/install-sh $(opt_DATA) scripts/Path.incl $(DESTDIR)/Path.incl
+
+# when packaging the scripts must refer to /usr/lib/nsp
+# not perfect since instalation of a packaged version could 
+# be performed on a non-standard destination 
+
+install-scripts-packaging:
+	@echo "create nsp-inst"
+	@cd scripts; rm nsp-inst ; make nsp-inst DESTDIR=/usr/lib/nsp
+	@echo "create nsplibtool-inst"
+	@cd scripts; rm nsplibtool-inst ; make nsplibtool-inst DESTDIR=/usr/lib/nsp
+	@echo "create Path.incl"
+	@cd scripts; rm Path.incl ; make Path.incl DESTDIR=/usr/lib/nsp
+	@echo "install scripts"
+	@$(TOP)/config/install-sh $(opt_PROG) scripts/nsp-inst $(DESTDIR)/bin/nsp
+	@$(TOP)/config/install-sh $(opt_PROG) scripts/nsplibtool-inst $(DESTDIR)/bin/nsplibtool
+	@$(TOP)/config/install-sh $(opt_DATA) scripts/Path.incl $(DESTDIR)/Path.incl
+
+install-bin:
+	@$(TOP)/config/install-sh $(opt_PROG) scripts/nsp-inst $(prefix)/bin/nsp 
+	@$(TOP)/config/install-sh $(opt_PROG) scripts/nsplibtool-inst $(prefix)/bin/nsplibtool
+
+cvsclean::
+
+# WIP 
+
+shared:
+	@echo "creation of shared library in bin"	
+	@$(CC) -shared -o bin/libnsp.so src/interp/lsci.o \
+		$(LIBS) -lgfortran $(EXTERNLIBS) $(FC_LDFLAGS) 
+
+
+# populate current directory with cross compiler files 
+# libraries, etc, share etc....
+# Only usefull for 
+
+cross-populate:
+	@./config/crosscopy-gtk3.sh x86_64-unknown-linux-gnu 

@@ -1,0 +1,20 @@
+;; -*- scheme -*-
+
+(define-objectref String3d
+  (in-module "String3d")
+  (parent "Graphic")
+  (c-name "NspString3d")
+  (fields
+    '("NspMatrix*" "Mcoord")
+    '("void*"      "Mcoord_l"  "hidden" "NULL" )
+    '("char*"  "str") 
+    '("int"  "font_type" "std" "-1")
+    '("int"  "font_size" "std" "-1")
+    '("int*" "pos" "hidden" )
+    )
+  (gtype-id "String3d")
+)
+
+
+
+

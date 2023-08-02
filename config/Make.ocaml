@@ -1,0 +1,54 @@
+#/* -*- Mode: Makefile -*- */
+# generated with configure
+
+OCAMLC="ocamlc"
+OCAMLOPT="ocamlopt"
+CAML_BYT_COMP_FLAGS=-strict-sequence -warn-error Ae -annot -g
+CAML_BIN_COMP_FLAGS=-strict-sequence -w Ae -unsafe -noassert -inline 10000
+OCAMLLIB="/usr/lib/ocaml"
+OCAMLLEX="ocamllex.opt"
+OCAMLYACC="ocamlyacc"
+OCAMLDEP="ocamldep"
+OCAMLDEP_FLAGS=-slash
+
+OCAMLPRINTC="ocamlprintc"
+OCAMLPRINTC_FLAGS=-c
+
+HTMLC_CONF_INCLUDES=
+HTMLC_CONF_ENV=
+HTMLC_FLAGS=-lang en -honor_line_continuation true
+HTMLC_COMMAND="no"
+
+OCAMLVERSION="4.08.1"
+OCAML_VERSION_MAJOR="4"
+OCAML_VERSION_MINOR="08"
+
+# Executable program file extension
+EXE_EXT=""
+
+# C compiled file extension
+OBJ_EXT="o"
+# C statically linked library file extension
+LIB_EXT="a"
+# C dynamically linked library file extension
+DLL_EXT="so"
+
+# C compiler names and definitions
+#   compile $(CC) $(CC_OPTIONS) -c file.c 
+#   link    $(CC) -o $(PROGRAM) $(OBJS) $(CC_LDFLAGS)
+#
+CC = gcc
+CC_OPTIONS = -g -O2 -Wall -Wno-deprecated-declarations -DGTK_DISABLE_SINGLE_INCLUDES -DGSEAL_ENABLE -I/usr/include/suitesparse -I/usr/include/suitesparse 
+CC_LDFLAGS =   -ldl -rdynamic -Wl,-relax 
+CC_PICFLAGS = -fPIC
+
+# Zlib directories
+# The option to link the C Zlib library. Usually -lz
+ZLIB_LIB=-lz
+
+# The directory containing the C Zlib library (libz.a or libz.so)
+ZLIB_LIB_DIR="/usr/lib"
+
+# The directory containing the C Zlib header file (zlib.h)
+ZLIB_INCLUDE="/usr/lib"
+

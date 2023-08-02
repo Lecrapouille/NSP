@@ -1,0 +1,17 @@
+;; -*- scheme -*-
+
+(define-objectref Epoints
+  (in-module "Epoints")
+  (parent "Object")
+  (c-name "NspEpoints")
+  (fields
+   '("char*" "ename" "hidden" );; name of entry point
+   '("void*" "func" "hidden" "NULL" "");; function adress 
+   '("int" "shid" "hidden" "-1" ) ;; id of shared file 
+   )
+  (gtype-id "Epoints")
+)
+
+
+
+

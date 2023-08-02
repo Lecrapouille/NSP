@@ -1,0 +1,33 @@
+;; -*- scheme -*-
+
+(define-objectref SPolyhedron
+  (in-module "SPolyhedron")
+  (parent "Graphic")
+  (c-name "NspSPolyhedron")
+  (fields
+   '("NspMatrix*" "Mcoord")
+   '("NspMatrix*" "Mface")
+   '("NspMatrix*" "Mval")
+   '("double" "vmin")
+   '("double" "vmax")
+   '("int" "colmin" "std" "-1" )
+   '("int" "colmax" "std" "-1")
+   '("int" "coloutmin" "std" "-1" )
+   '("int" "coloutmax"  "std" "-1")
+   '("gboolean" "mesh" "std" "TRUE")
+   '("gboolean" "mesh_only" "std" "FALSE")
+   '("int" "back_color" "std" "4") 
+   '("gboolean" "shade" "std" "FALSE")
+   ;;  extra hidden fields 
+   '("void*" "Mcoord_l"  "hidden" "NULL" )
+   '("int*" "pos" "hidden" )
+   '("int*" "fill" "hidden" )
+   '("double*" "vlevel" "hidden" )
+   '("int" "coldef" "std" "0" )
+    )
+  (gtype-id "SPolyhedron")
+)
+
+
+
+

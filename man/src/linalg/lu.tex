@@ -1,0 +1,133 @@
+% -*- mode: latex -*-
+%% Nsp
+%% Copyright (C) 1998-2015 Jean-Philippe Chancelier Enpc/Cermics, Bruno Pinçon Esial/Iecn
+%%
+%% This library is free software; you can redistribute it and/or
+%% modify it under the terms of the GNU General Public
+%% License as published by the Free Software Foundation; either
+%% version 2 of the License, or (at your option) any later version.
+%%
+%% This library is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+%% General Public License for more details.
+%%
+%% You should have received a copy of the GNU General Public
+%% License along with this library; if not, write to the
+%% Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+%% Boston, MA 02111-1307, USA.
+%%
+ 
+
+\mansection{lu}
+\begin{mandesc}
+  \short{lu}{LU factorization}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+[L, U[, p [, rc]]] = lu(A)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A}:  numerical matrix
+    \vname{L}: lower triangular matrix 
+    \vname{U}: upper triangular matrix
+    \vname{p}: permutation vector
+    \vname{rc}: real scalar
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+This function computes a $P A = L U$ factorization of the (full) matrix $A$, 
+(say $m \times n$) with (noting $p = min(m,n)$) :
+\begin{itemize}
+\item $L$ a lower  ($m \times p$) triangular matrix
+\item $U$ an upper  ($p \times n$) triangular matrix
+\item $P$ a permutation  ($m \times m$) matrix.
+      (note that the output argument \verb+p+ is not a permutation matrix
+       but a permutation vector (see hereafter)). 
+\end{itemize}
+Such a factorization is essentially useful to solve a square linear
+system $A x = b$ and in particular, to solve several square linear
+systems with the same matrix $A$ : $Ax_1=b_1$, $Ax_2 = b_2$, ... with
+differents rights hand sides $b_1$, $b_2$,... not known at the same
+time (for instance with $b_2$ depending on $x_1$). For LU factorization
+of sparse matrices see \manlink{umfpack\_create}{umfpack_create}.
+
+{\bf Caution :} when only 2 output arguments are required, then the first argument is
+equal to :
+$$
+P^{-1}L
+$$
+
+
+
+\itemdesc{reciprocal condition number} 
+In the case of a square matrix, an estimation of the reciprocal
+condition number (in 1-norm) could be provided as the fourth output argument.
+$$
+rc \simeq \frac{1}{\kappa_1(A)} = \frac{1}{||A||_1 ||A^{-1}||_1}
+$$
+If $y$ is an approximate solution and $x$ the exact solution,
+denoting $r = b - A y$ the residual we have the inequality :
+$$
+\frac{|| y - x||_1}{||x||_1} \le \kappa_1(A) \frac{||r||_1}{||b||_1}
+$$
+%The reciprocal condition number is a useful information for the
+%numerical inversibility of a matrix : with a value less than the 
+%epsilon machine (aka as unit relative rounding error) 
+ 
+Finally note that the result must be the same than the one got 
+with the function \verb+rcond+ applied on the matrix $A$.
+ 
+\itemdesc{details on the permutation vector} 
+Strictly speaking \verb+p+ is the inverse permutation associated
+to the permutation matrix $P$ (\verb+p+ is such that $PA$ is equal 
+to \verb+A(p,:)+).
+
+\itemdesc{matrix factorization} 
+Let \verb!A! be a $m \times n$ matrix with rank $r$ and let \verb![L,U,p]] = lu(A)! its LU factorization. 
+Define \verb!P!, the row permutation matrix by \verb!I=eye(size(A,1));P=I(p,:)!. Then \verb!L*U = P*A! and 
+\verb!A! and \verb!U! have same rank but the diagonal entries of the \verb!U! matrix are not necessarily 
+ordered in such a way that the last rows of \verb!U! are zeroed.
+A reliable rank determination can be obtained using the \verb!qr! or \verb!svd! factorization, 
+where an additional transformation is performed on the columns of \verb!A!.
+\end{mandescription}
+
+\begin{examples}
+\begin{mintednsp}{nsp}
+A=rand(5,5);
+[L,U,p,rc]=lu(A);
+
+// solving A x1 = b1:
+b1=rand(5,1);
+x1 = U\(L\b1(p));   // see comment next line 
+// you can also use  x1 = solve(U, solve(L,b1(p,:),mode="lo"), mode="up"); see solve help page
+norm(A*x1-b1)
+    
+// solving A x2 = b2:
+b2=rand(5,1);
+x2 = U\(L\b2(p));
+norm(A*x2-b2)
+    
+// handling multiple right hand side:
+b3=rand(5,4);
+x3 = U\(L\b3(p,:));
+A*x3 - b3
+\end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+  \manlink{solve}{solve}, \manlink{qr}{qr},\manlink{chol}{chol},\manlink{umfpack\_create}{umfpack_create}
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+   interface : Bruno Pincon and Jean-Philippe Chancelier. Internally lapack routines dgetrf in the
+   real case and zgetrf in the complex case are used (and dgecon or zgecon if
+   rcond is required).
+\end{authors}

@@ -1,0 +1,70 @@
+% -*- mode: latex -*-
+%% Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+%% Copyright (C) 1987-2016 - F. Delebecque
+%%
+%% This program is free software; you can redistribute it and/or modify
+%% it under the terms of the GNU General Public License as published by
+%% the Free Software Foundation; either version 2 of the License, or
+%% (at your option) any later version.
+%%
+%% This program is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%% GNU General Public License for more details.
+%%
+%% You should have received a copy of the GNU General Public License
+%% along with this program; if not, write to the Free Software
+%% Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+%%                                                                                                
+
+\mansection{sylv}
+\begin{mandesc}
+  \short{sylv}{Sylvester equation} \\ % 
+\end{mandesc}
+%\index{sylv}\label{sylv}
+%-- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+  sylv(A,B,C,flag)  
+\end{verbatim}
+\end{calling_sequence}
+%-- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A,B,C}: three real matrices of appropriate dimensions.
+    \vname{flag} character string (\verb!'c'! or \verb!'d'!)
+  \end{varlist}
+\end{parameters}
+\begin{mandescription}
+  \verb!X = sylv(A,B,C,'c')! computes \verb!X!, solution
+  of the "continuous time" Sylvester equation
+\begin{verbatim}
+  A*X+X*B=C 
+\end{verbatim}
+\verb!X=sylv(A,B,C,'d')! computes \verb!X!, solution
+of the "discrete time" Sylvester equation
+\begin{verbatim}
+  A*X*B-X=C
+\end{verbatim}
+If \verb![mA,nA]=size(A);[mB,nB]=size(B);[mC,nC]=size(C);!
+\verb!mA! should be equal to \verb!mC! and \verb!nB!  should be equal to
+\verb!nC!. 
+Based on Lapack routines \verb!dtrsyl! and \verb!ztrsyl!.
+\end{mandescription}
+%--example 
+\begin{examples}
+  \begin{mintednsp}{nsp}
+    A=rand(4,4);C=rand(4,3);B=rand(3,3);
+    X = sylv(A,B,C,'c');
+    norm(A*X+X*B-C)
+    X=sylv(A,B,C,'d') 
+    norm(A*X*B-X-C)
+  \end{mintednsp}
+\end{examples}
+%-- see also
+\begin{manseealso}
+  \manlink{lyap}{lyap}  
+\end{manseealso}
+\begin{authors}
+  François Delebecque
+\end{authors}

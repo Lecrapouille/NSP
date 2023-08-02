@@ -1,0 +1,31 @@
+
+demo_list_store_1.sci,63
+function demo_liststore 2,1
+  function fixed_toggled 51,1350
+
+demo_list_store_2.sci,157
+function demo_liststore1(3,39
+function demo_liststore_from_mat 9,171
+function demo_liststore_from_smat 51,1410
+function demo_liststore_from_bmat 92,2767
+
+demo_tree_store_1.sci,68
+function demo_treestore(2,1
+function demo_treestore_from_mat 7,71
+
+demo_tree_store_2.sci,228
+function tree_view=4,97
+  function message(6,132
+  function row_activated_cb 15,338
+  function selection_cb(31,990
+  function tree_model_append(39,1268
+function setup_default_icon 89,2992
+function demo_treestore1(97,3351
+
+demo_treeview_editable.sci,197
+function demo_treeview_editable(4,30
+  function add_item(6,68
+  function remove_item(11,186
+  function cell_edited 26,601
+  function add_columns 41,1047
+    function editable_toggled 60,1757

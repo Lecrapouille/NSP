@@ -1,0 +1,37 @@
+;; -*- scheme -*-
+
+(define-objectref Fec
+  (in-module "Fec")
+  (parent "Graphic")
+  (c-name "NspFec")
+  (fields
+    '("NspMatrix*" "x") ;; 
+    '("NspMatrix*" "y") ;; 
+    '("NspMatrix*" "triangles") ;; 
+    '("NspMatrix*" "func") ;; 
+    '("NspMatrix*" "colminmax" );; 
+    '("NspMatrix*" "zminmax") ;; 
+    '("gboolean"   "mesh" "std" "TRUE")   ;; draw the triangles 
+    '("gboolean"   "paint" "std" "TRUE")  ;; fill the triangles 
+    '("NspMatrix*" "colout")
+    '("gboolean"   "colorbar" "std" "TRUE");; add a colorbar 
+    )
+  (gtype-id "Fec")
+)
+
+;; just for the name, the code is overwritten 
+
+(define-function extractelts_fec
+  (c-name "nsp_extractelts_fec")
+  (return-type "none")
+)
+(define-function setrowscols_fec
+  (c-name "nsp_setrowscols_fec")
+  (return-type "none")
+)
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+;; -*- scheme -*-
+
+;; Object which can be used to 
+;; manipulate Ast of nsp programs 
+
+;; ast=pl2ast(f) can be used to obtain 
+;;    an ast from a f where f is a function.
+;; ast=parse_file(fname) can be used to obtain 
+;;    the ast associated to the nsp-code contained in file fname 
+;; ast=parse(S) can be used to obtain the 
+;;    ast associated to the nsp code store in string matrix S.
+;; 
+;; the proper way to test and ast is to use 
+;; [ok,H]=execstr(ast.sprint[]);
+;; 
+;; the op field describes the root node of the ast and 
+;; args contains the list of the arguments of the root node.
+;; Thus args is to be a list of Ast nodes.
+;; user_data can be used to decorate an ast node with informations 
+;; codes as an Nsp object.
+
+(define-object Ast
+  (in-module "Ast")
+  (parent "Object")
+  (c-name "NspAst")
+  (fields
+   '("int" "op" "hidden");    /* operator code */
+   '("int" "arity" "hidden"); /* arity for operators or tag for names etc.. */
+   '("char*" "str" "hidden" ); /* used to store a string */ 
+   '("NspObject*" "xobj" "hidden" ); /* used to store a relevant objects */ 
+   '("NspList*" "args" "hidden"); /* store arguments */
+   '("NspObject*" "user_data" "hidden"); /* store user_data */
+   '("int" "line" "hidden");  /* store a line number */
+   )
+  (gtype-id "Ast")
+)
+
+
+
+
+
+
+
+
+

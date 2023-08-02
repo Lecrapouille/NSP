@@ -1,0 +1,23 @@
+// dans scicoslab les deux gainplot donnent pas la même chose
+// suivant que l'on soit en etat ou transfert
+
+gainplot([So;Sn],1.e-5,1);
+H=ss2tf([So;Sn]);
+
+// c'est la version etat qui a l'air bonne si on compare avec un svplot
+
+// avec le H qui vient de scicoslab
+s=poly(0,'s');
+h=[ (- 7.172D-22 + 3.007D-19*s + 0.0051348*s*s + s*s*s)/(4.733D-09 + 0.0000019*s + 0.0045817*s*s + s*s*s)]
+H=[h;(- 0.0000025 + 0.0046151*s + s*s)/(0.0000047 + 0.0032219*s + s*s)]
+if exists('%nsp') then
+   gainplot(H,1.e-5,1)
+else
+   gainplot(syslin('c',H),1.e-5,1)
+end
+
+// mme sur Sn les deux résultats sont tres différents
+// Sn quand on passe en transfert est mauvais
+// est-ce que scicoslab reste en etat pour calculer les gains ?
+
+// pourquoi la fréquence min est coupée avant 1.e-5

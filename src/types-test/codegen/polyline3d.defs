@@ -1,0 +1,15 @@
+;; -*- scheme -*-
+
+(include "polyline3d-types.defs")
+
+;; just for the name, the code is overriten 
+
+(define-function extractelts_polyline3d
+  (c-name "nsp_extractelts_polyline3d")
+  (return-type "none")
+)
+(define-function setrowscols_polyline3d
+  (c-name "nsp_setrowscols_polyline3d")
+  (return-type "none")
+)
+

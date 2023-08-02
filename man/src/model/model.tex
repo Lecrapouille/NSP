@@ -1,0 +1,202 @@
+% -*- mode: latex -*-
+
+\mansection{grand}
+\begin{mandesc}
+  \short{f}{short description for f} \\
+  \short{g}{short description for g} \\
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+Y=f(m, n, dist_type [,p1,...,pk])  
+Y=f(X, dist_type [,p1,...,pk])  
+Y=g(n, dist_type [,p1,...,pk])  
+S=g(action [,q1,....,ql])  
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{m, n}: integers, size of the wanted matrix \verb!Y!
+    \vname{X}: a matrix whom only the dimensions (say \verb!m x n!) are used
+    \vname{dist\_type}: a string given the distribution which (independants) variates are to be 
+    generated (\verb+'bin'+, \verb+'nor'+, \verb+'poi'+, etc ...)
+    \vname{p1, ..., pk}: the parameters (reals or integers) required to define completly the distribution 
+    \verb!dist_type!
+    \vname{Y}: the resulting \verb!m x n! random matrix
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+  This function may be used to generate random numbers from various
+  distributions. In this case you must apply one of the \verb!three first forms!
+  of the possible calling sequences to get an \verb!m x n! matrix.  The two
+  firsts are equivalent if \verb!X! is a \verb!m x n! matrix, and the third form
+  corresponds to 'multivalued' distributions (e.g. multinomial, multivariate
+  gaussian, etc...) where a sample is a column vector (says of dim \verb!m!)
+  and you get then \verb!n! such random vectors (as an \verb! m x n! matrix).
+  \verb!The last form! is used to undertake various manipulations onto the base
+  generators like changing the base generator (since v 2.7 you may choose
+  between several base generators), changing or retrieving its internal state
+  (seeds), etc ... These base generators give random integers following a
+  uniform distribution on a large integer interval (lgi), all the others
+  distributions being gotten from it (in general via a scheme lgi -$>$ U([0,1))
+  -$>$ wanted distribution).
+
+  \begin{itemize}
+  \item first item 
+  \item second item 
+  \end{itemize}
+
+  \begin{description}
+  \item[first] desciption item 
+  \item[second] description item 
+  \end{description}
+
+  \begin{varlist}
+    \vname{m}: first varlist item 
+    \vname{n}: second varlist item
+  \end{varlist}
+
+% itemize without bullets 
+
+  \begin{nbitemize}
+    \item  first itemize without bullets 
+    \item  second itemize without bullets
+  \end{nbitemize}
+
+  \begin{nbitemize}
+    \coloritem{p}: first dlist item 
+    \coloritem{q}: second dlist item
+  \end{nbitemize}
+
+  Using web links in manual 
+  \href{http://en.wikipedia.org/wiki/Hankel_matrix}{Hankel Matrix}
+
+\end{mandescription}
+
+\begin{examples}
+
+a first example with $\int_0^\infty f(u)du$.
+
+\[
+\int_0^\infty f(u)du
+\]
+
+\begin{Verbatim}
+  \verb+// backslash in program \\+
+  \HCode{\Hnewline
+    u=prbs_a(50,10);\Hnewline
+    plot2d2("onn",(1:50)',u',1,"151",' ',[0,-1.5,50,1.5]);\Hnewline
+    \%z ;// a percent un verbatim 
+  }
+\end{Verbatim}
+
+\noindent a second example 
+
+\begin{mintednsp}{nspxxx}
+  // l'appel
+  u=prbs_a(50,10);
+  plot2d2("onn",(1:50)',u',1,"151",' ',[0,-1.5,50,1.5]);
+\end{mintednsp}
+
+\begin{mintednsp}{nspxxx}
+  [a,b]=regexp('pipopopopa','p(i[po]+)(pa)')
+  regsub('pipopopopa','p(i[po]+)(pa)','poo\\1')
+\end{mintednsp}
+
+\end{examples}
+
+\begin{manseealso}
+  \manlink{rand}{rand}  
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+  \paragraph{randlib} 
+  The codes to generate sequences following other distributions than def, unf, lgi,  uin and geom are
+  from "Library of Fortran Routines for Random Number  Generation", by Barry W. Brown 
+  and James Lovato, Department of Biomathematics, The University of Texas, Houston.  
+  \paragraph{mt} 
+  The code is the mt19937int.c by M. Matsumoto and  T. Nishimura, "Mersenne Twister: 
+  A 623-dimensionally equidistributed  uniform pseudorandom number generator", 
+  ACM Trans. on Modeling and  Computer Simulation Vol. 8, No. 1, January, pp.3-30 1998.
+  \paragraph{kiss} 
+  The code was given by G. Marsaglia at the end of a thread concerning RNG in C in several 
+  newsgroups (whom sci.math.num-analysis) "My offer of  RNG's for C was an invitation 
+  to dance..." only kiss have been included in Scilab (kiss is made of a combinaison of 
+  severals others which are not visible at the scilab level).
+  \paragraph{clcg2} 
+  The method is from P. L'Ecuyer but the C code is provided at the Luc  Devroye home page 
+  (http://cgm.cs.mcgill.ca/~luc/rng.html).
+  l'école est été à où
+\end{authors}
+
+
+\paragraph{Using VerbatimInput}
+
+\VerbatimInput{\mansrc model/model-verb.txt}
+
+% we can call macros in Verbatim using the commandchars arguments 
+% \def\redtext#1{{\textcolor{red}{#1}}}
+%\begin{mintednsp}{nsp}[commandchars=@\[\]]
+% @redtext[pooo] poo 
+%\end{mintednsp}
+
+\paragraph{Minted Nsp}
+
+\begin{mintednsp}{nsp}
+//	Verbatim code 
+//	to be inserted 
+//	in html
+[a,b]=regexp("pipopopopa","p(i[po]+)(pa)")
+regsub("pipopopopa","p(i[po]+)(pa)","poo\\1")
+a < b 
+a \ b  
+a / b 
+z.*x
+
+%inf + %nan 
+[poo # foo ]
+a & b 
+a | b 
+x = 'poo' // wrong conversion
+
+function y=f(x)
+  for i=1:10
+    c=567
+  end
+endfunction
+\end{mintednsp}
+
+
+\begin{mintednsp}{nsp}
+  function [a,u]=hermit(a)
+  //[A,U]=hermit(A)
+  //Hermite form: U is an unimodular matrix such that A*U is
+  //triangular. The output value of A is A*U.
+  [m,n]=size(a);if m<>n then error('square matrix only!'),end
+  [a,u]=htrianr(a)
+  for l=n-1: -1: 1 do
+    dl(l:n)=a(l,l:n).degree[];
+    for k=l+1:n do
+      if dl(k)>=dl(l) then
+        all=a(l,l);
+        if norm(coeff(all),1)>1.d-10 then
+          [r,q]=pdiv(a(l,k),a(l,l))
+          if l>1 then a(1:l-1,k)=a(1:l-1,k)-a(1:l-1,l)*q;end
+          a(l,k)=r
+          u(:,k)=u(:,k)-u(:,l)*q
+        end
+      end
+    end
+  end
+endfunction
+\end{mintednsp}
+
+\end{document}
+
+
+%\input{model/intepsilon_c.tex}
+

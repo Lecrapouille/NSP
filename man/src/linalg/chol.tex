@@ -1,0 +1,98 @@
+% -*- mode: latex -*-
+%% Nsp
+%% Copyright (C) 1998-2015 Jean-Philippe Chancelier Enpc/Cermics, Bruno Pinçon Esial/Iecn
+%%
+%% This library is free software; you can redistribute it and/or
+%% modify it under the terms of the GNU General Public
+%% License as published by the Free Software Foundation; either
+%% version 2 of the License, or (at your option) any later version.
+%%
+%% This library is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+%% General Public License for more details.
+%%
+%% You should have received a copy of the GNU General Public
+%% License along with this library; if not, write to the
+%% Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+%% Boston, MA 02111-1307, USA.
+%%
+ 
+
+\mansection{chol}
+\begin{mandesc}
+  \short{chol}{Cholesky factorization}
+\end{mandesc}
+
+% -- Calling sequence section
+\begin{calling_sequence}
+\begin{verbatim}
+[R]=chol(A)
+[R,p]=chol(A)
+\end{verbatim}
+\end{calling_sequence}
+% -- Parameters
+\begin{parameters}
+  \begin{varlist}
+    \vname{A}: a symmetric positive definite real or complex matrix. 
+    \vname{R}: an upper triangular matrix \verb+R+ such that \verb+R'*R = X+.
+    \vname{p}: an integer (0 or the order of the leading minor which is 
+not positive definite).
+  \end{varlist}
+\end{parameters}
+
+\begin{mandescription}
+This function computes the Cholesky factorization of a (full) symmetric positive 
+definite real or complex matrix, or a partial factorization if the matrix is not 
+positive definite (for Cholesky factorization of sparse matrices see  
+\manlink{cholmod\_create}{chomod_create}).
+
+When called as \verb+R = chol(A)+, if \verb+A+ is positive definite, an upper triangular 
+matrix \verb+R+ such that \verb+R'*R = X+ is returned, if not an error exception is 
+raised.
+
+When called as \verb+[R,p]= chol(A)+ if \verb+A+ is positive definite an upper triangular 
+matrix \verb+R+ such that \verb+R'*R = X+ is returned and \verb+p+ is set to zero. 
+If \verb+A+ is not positive definite the order of the leading minor which is 
+not positive definite is returned in \verb+p+ and the returned upper triangular matrix \verb+R+ is 
+of size \verb+qxq+ where \verb+q=p-1+ and is such that \verb+R'*R=A(1:q,1:q)+.
+
+Note that \verb+chol(A)+ only uses the the diagonal and upper triangle of $A$. 
+Cholesky decomposition is based on the Lapack routines \verb+dpotrf+ for real 
+matrices and \verb+zpotrf+ for the complex case.
+\end{mandescription}
+
+\begin{examples}
+\paragraph{example 1} with positive definite matrices 
+\begin{mintednsp}{nsp}
+A=rand(5,5);A=A*A';
+R = chol(A);
+norm(R'*R-A)
+A=rand(5,5)+%i*rand(5,5);
+A=A*A';
+R=chol(A);
+norm(R'*R-A)
+\end{mintednsp}
+
+\paragraph{example 2} Example with a not positive definite matrix
+\begin{mintednsp}{nsp}
+A=rand(5,3);A=A*A';
+[R,p] = chol(A);
+q=p-1;norm(R'*R-A(1:q,1:q))
+\end{mintednsp}
+\end{examples}
+
+\begin{manseealso}
+  \manlink{cholmod\_create}{chomod_create}, \manlink{lu}{lu},\manlink{qr}{qr},  \manlink{solve}{solve} 
+\end{manseealso}
+
+% -- Authors
+\begin{authors}
+   interface: Jean-Philippe Chancelier and Bruno Pincon. Internally lapack routines \verb+dpotrf+ for real matrices 
+   and \verb+zpotrf+ for the complex case.
+\end{authors}
+
+
+ 
+ 
+  
